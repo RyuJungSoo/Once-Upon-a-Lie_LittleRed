@@ -1,6 +1,8 @@
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using UnityEngine.Rendering;
+using UnityEngine.Rendering.Universal;
 using UnityEngine.UI;
 
 public class UIManager : Singleton<UIManager>
@@ -10,56 +12,48 @@ public class UIManager : Singleton<UIManager>
     [SerializeField] private Sprite highMentalIcon;
     [SerializeField] private Sprite mediumMentalIcon;
     [SerializeField] private Sprite lowMentalIcon;
-    [Header("Mental Gauge")]
     [SerializeField] private Image mentalGauge;
 
+    [Header("Mental Vignette")]
+    [SerializeField] private Volume mentalVolume;
 
-    [Header("Mental Screen Panels")]
-    [SerializeField] private Image topPanel;
-    [SerializeField] private Image bottomPanel;
-    [SerializeField] private Image leftPanel;
-    [SerializeField] private Image rightPanel;
+    [Tooltip("Mental이 최대일 때 비네트 강도")]
+    [SerializeField, Range(0f, 1f)]
+    private float minVignetteIntensity = 0f;
+
+    [Tooltip("Mental이 거의 없을 때 비네트 최대 강도")]
+    [SerializeField, Range(0f, 1f)]
+    private float maxVignetteIntensity = 0.55f;
 
     [Header("Reload Gauge")]
     [SerializeField] private Image reloadGauge;
 
     [Tooltip("재장전 중이 아닐 때 리로드 게이지를 숨깁니다.")]
-    [SerializeField] private bool hideReloadGaugeWhenIdle = true;
+    [SerializeField]
+    private bool hideReloadGaugeWhenIdle = true;
 
-    [Header("Mental Screen Size")]
-    [Tooltip("Mental이 높을 때 위·아래 패널의 높이")]
-    [SerializeField, Min(0f)]
-    private float minTopBottomSize = 150f;
+    [Header("Experience & Level")]
+    [Tooltip("Image Type이 Filled로 설정된 경험치 게이지")]
+    [SerializeField]
+    private Image experienceGauge;
 
-    [Tooltip("Mental이 낮을 때 위·아래 패널의 최대 높이")]
-    [SerializeField, Min(0f)]
-    private float maxTopBottomSize = 320f;
+    [Tooltip("현재 레벨을 표시하는 TMP 텍스트")]
+    [SerializeField]
+    private TMP_Text levelText;
 
-    [Tooltip("Mental이 높을 때 좌·우 패널의 너비")]
-    [SerializeField, Min(0f)]
-    private float minSideSize = 220f;
+    [Header("Game Timer")]
+    [Tooltip("플레이 시간을 표시하는 TMP 텍스트")]
+    [SerializeField]
+    private TMP_Text timerText;
 
-    [Tooltip("Mental이 낮을 때 좌·우 패널의 최대 너비")]
-    [SerializeField, Min(0f)]
-    private float maxSideSize = 470f;
-
-    [Header("Mental Screen Darkness")]
-    [Tooltip("Mental이 가장 낮을 때 패널의 최대 알파값")]
-    [SerializeField, Range(0f, 1f)]
-    private float maxDarkAlpha = 0.7f;
-
-    [Tooltip("패널 알파값이 변하는 속도")]
-    [SerializeField, Min(0f)]
-    private float alphaChangeSpeed = 1.5f;
-
-    [Tooltip("패널 크기가 변하는 속도")]
-    [SerializeField, Min(0f)]
-    private float sizeChangeSpeed = 500f;
+    [Tooltip("새로운 스테이지가 시작될 때 시간을 초기화합니다.")]
+    [SerializeField]
+    private bool resetTimerOnStageStart;
 
     [Header("Mental Text References")]
     [SerializeField] private Canvas canvas;
     [SerializeField] private RectTransform mentalTextLayer;
-    [SerializeField] private MentalText[] mentalTexts;
+    [SerializeField] private MentalTextPool mentalTextPool;
 
     [Header("Player Search")]
     [SerializeField] private string playerTag = "Player";
@@ -81,49 +75,56 @@ public class UIManager : Singleton<UIManager>
     [Header("Mental Text Interval")]
     [Tooltip("Mental이 비교적 높을 때 텍스트 출력 간격")]
     [SerializeField]
-    private Vector2 slowTextInterval = new Vector2(5f, 8f);
+    private Vector2 slowTextInterval =
+        new Vector2(5f, 8f);
 
     [Tooltip("Mental이 매우 낮을 때 텍스트 출력 간격")]
     [SerializeField]
-    private Vector2 fastTextInterval = new Vector2(1f, 2.5f);
+    private Vector2 fastTextInterval =
+        new Vector2(1f, 2.5f);
 
     [Header("Temporary Mental Text List")]
     [SerializeField]
-    private List<string> mediumMentalTexts = new List<string>
-    {
-        "숲이... 원래 이렇게 어두웠던가?",
-        "누군가 따라오고 있어.",
-        "뒤를 돌아보지 마."
-    };
+    private List<string> mediumMentalTexts =
+        new List<string>
+        {
+            "숲이... 원래 이렇게 어두웠던가?",
+            "누군가 따라오고 있어.",
+            "뒤를 돌아보지 마."
+        };
 
     [SerializeField]
-    private List<string> lowMentalTexts = new List<string>
-    {
-        "저건 동물이 아니야.",
-        "할머니의 목소리를 믿으면 안 돼.",
-        "전부 거짓말이야.",
-        "도망쳐."
-    };
+    private List<string> lowMentalTexts =
+        new List<string>
+        {
+            "저건 동물이 아니야.",
+            "할머니의 목소리를 믿으면 안 돼.",
+            "전부 거짓말이야.",
+            "도망쳐."
+        };
 
     [Header("Ammo")]
     [SerializeField] private TMP_Text ammoText;
 
     private Transform playerTransform;
+    private Vignette mentalVignette;
 
-    private float currentMental = 100;
-    private float maxMental = 100;
+    private GameManager gameManager;
+    private PlayerExperience playerExperience;
 
-    private EMentalState currentMentalState = EMentalState.High;
+    private bool isProgressUIBound;
+    private bool hasWarnedMissingPlayerExperience;
 
-    private float targetDarkAlpha;
-    private float targetTopBottomSize;
-    private float targetSideSize;
+    private float currentMental = 100f;
+    private float maxMental = 100f;
 
-    private float currentDarkAlpha;
-    private float currentTopBottomSize;
-    private float currentSideSize;
+    private EMentalState currentMentalState =
+        EMentalState.High;
 
     private float mentalTextTimer;
+
+    private float elapsedPlayTime;
+    private int displayedTimerSecond = -1;
 
     protected override void Awake()
     {
@@ -135,12 +136,15 @@ public class UIManager : Singleton<UIManager>
         }
 
         InitializeReferences();
+        InitializeVignette();
         InitializeMentalUI();
+        InitializeProgressUI();
     }
 
     private void Start()
     {
         TryFindPlayer();
+        TryBindProgressUI();
     }
 
     private void Update()
@@ -150,8 +154,18 @@ public class UIManager : Singleton<UIManager>
             return;
         }
 
-        UpdateMentalScreenEffect();
+        if (!isProgressUIBound)
+        {
+            TryBindProgressUI();
+        }
+
         UpdateMentalTextSpawner();
+        UpdateGameTimer();
+    }
+
+    private void OnDisable()
+    {
+        UnbindProgressUI();
     }
 
     private void InitializeReferences()
@@ -165,6 +179,58 @@ public class UIManager : Singleton<UIManager>
         {
             worldCamera = Camera.main;
         }
+
+        if (mentalTextPool == null &&
+            mentalTextLayer != null)
+        {
+            mentalTextPool =
+                mentalTextLayer
+                    .GetComponentInChildren<MentalTextPool>(
+                        true
+                    );
+        }
+    }
+
+    private void InitializeVignette()
+    {
+        if (mentalVolume == null)
+        {
+            Debug.LogWarning(
+                $"{nameof(UIManager)}에 " +
+                "Mental Volume이 연결되지 않았습니다.",
+                this
+            );
+
+            return;
+        }
+
+        VolumeProfile runtimeProfile =
+            mentalVolume.profile;
+
+        if (runtimeProfile == null)
+        {
+            Debug.LogWarning(
+                "Mental Volume에 Volume Profile이 없습니다.",
+                mentalVolume
+            );
+
+            return;
+        }
+
+        if (!runtimeProfile.TryGet(
+                out mentalVignette))
+        {
+            Debug.LogWarning(
+                "Mental Volume Profile에 Vignette가 없습니다.",
+                mentalVolume
+            );
+
+            return;
+        }
+
+        mentalVignette.intensity.Override(
+            minVignetteIntensity
+        );
     }
 
     private void InitializeMentalUI()
@@ -172,18 +238,12 @@ public class UIManager : Singleton<UIManager>
         currentMental = maxMental;
         currentMentalState = EMentalState.High;
 
-        currentDarkAlpha = 0f;
-        currentTopBottomSize = minTopBottomSize;
-        currentSideSize = minSideSize;
-
-        targetDarkAlpha = 0f;
-        targetTopBottomSize = minTopBottomSize;
-        targetSideSize = minSideSize;
-
         if (mentalGauge != null)
         {
             mentalGauge.fillAmount = 1f;
         }
+
+        UpdateMentalVignette(1f);
 
         if (reloadGauge != null)
         {
@@ -191,22 +251,251 @@ public class UIManager : Singleton<UIManager>
 
             if (hideReloadGaugeWhenIdle)
             {
-                reloadGauge.gameObject.SetActive(false);
+                reloadGauge.gameObject.SetActive(
+                    false
+                );
             }
         }
 
         UpdateMentalIcon();
-        ApplyPanelVisuals();
         ResetMentalTextTimer();
+    }
+
+    private void InitializeProgressUI()
+    {
+        if (experienceGauge != null)
+        {
+            experienceGauge.fillAmount = 0f;
+        }
+
+        UpdateLevel(1);
+        ResetGameTimer();
+    }
+
+    private void TryBindProgressUI()
+    {
+        if (isProgressUIBound ||
+            !GameManager.HasInstance)
+        {
+            return;
+        }
+
+        GameManager foundGameManager =
+            GameManager.Instance;
+
+        PlayerExperience foundPlayerExperience =
+            foundGameManager
+                .GetComponent<PlayerExperience>();
+
+        if (foundPlayerExperience == null)
+        {
+            if (!hasWarnedMissingPlayerExperience)
+            {
+                Debug.LogWarning(
+                    $"{nameof(UIManager)}: " +
+                    "GameManager 오브젝트에서 " +
+                    "PlayerExperience를 찾을 수 없습니다.",
+                    this
+                );
+
+                hasWarnedMissingPlayerExperience =
+                    true;
+            }
+
+            return;
+        }
+
+        gameManager = foundGameManager;
+        playerExperience =
+            foundPlayerExperience;
+
+        gameManager.OnPlayerLevelChanged +=
+            HandlePlayerLevelChanged;
+
+        gameManager.OnStageStarted +=
+            HandleStageStarted;
+
+        playerExperience.OnExperienceChanged +=
+            HandleExperienceChanged;
+
+        isProgressUIBound = true;
+        hasWarnedMissingPlayerExperience = false;
+
+        UpdateLevel(
+            gameManager.CurrentPlayerLevel
+        );
+
+        UpdateExperience(
+            playerExperience.CurrentExperience,
+            playerExperience.RequiredExperience
+        );
+    }
+
+    private void UnbindProgressUI()
+    {
+        if (!isProgressUIBound)
+        {
+            return;
+        }
+
+        if (gameManager != null)
+        {
+            gameManager.OnPlayerLevelChanged -=
+                HandlePlayerLevelChanged;
+
+            gameManager.OnStageStarted -=
+                HandleStageStarted;
+        }
+
+        if (playerExperience != null)
+        {
+            playerExperience.OnExperienceChanged -=
+                HandleExperienceChanged;
+        }
+
+        gameManager = null;
+        playerExperience = null;
+        isProgressUIBound = false;
+    }
+
+    private void HandleExperienceChanged(
+        int currentExperience,
+        int requiredExperience
+    )
+    {
+        UpdateExperience(
+            currentExperience,
+            requiredExperience
+        );
+    }
+
+    private void HandlePlayerLevelChanged(
+        int newLevel
+    )
+    {
+        UpdateLevel(newLevel);
+    }
+
+    private void HandleStageStarted(
+        int stageIndex
+    )
+    {
+        /*
+         * 첫 번째 스테이지는 새 게임 시작으로 간주해
+         * 항상 타이머를 초기화합니다.
+         */
+        if (stageIndex == 0 ||
+            resetTimerOnStageStart)
+        {
+            ResetGameTimer();
+        }
+    }
+
+    public void UpdateExperience(
+        int currentExperience,
+        int requiredExperience
+    )
+    {
+        if (experienceGauge == null)
+        {
+            return;
+        }
+
+        requiredExperience = Mathf.Max(
+            1,
+            requiredExperience
+        );
+
+        currentExperience = Mathf.Clamp(
+            currentExperience,
+            0,
+            requiredExperience
+        );
+
+        experienceGauge.fillAmount =
+            (float)currentExperience /
+            requiredExperience;
+    }
+
+    public void UpdateLevel(int level)
+    {
+        if (levelText == null)
+        {
+            return;
+        }
+
+        level = Mathf.Max(1, level);
+
+        levelText.text =
+            $"Lv. {level}";
+    }
+
+    private void UpdateGameTimer()
+    {
+        if (!GameManager.HasInstance ||
+            !GameManager.Instance.IsPlaying)
+        {
+            return;
+        }
+
+        elapsedPlayTime += Time.deltaTime;
+
+        int currentSecond =
+            Mathf.FloorToInt(
+                elapsedPlayTime
+            );
+
+        if (currentSecond ==
+            displayedTimerSecond)
+        {
+            return;
+        }
+
+        displayedTimerSecond =
+            currentSecond;
+
+        UpdateTimerText(currentSecond);
+    }
+
+    private void UpdateTimerText(
+        int totalSeconds
+    )
+    {
+        if (timerText == null)
+        {
+            return;
+        }
+
+        totalSeconds = Mathf.Max(
+            0,
+            totalSeconds
+        );
+
+        int minutes =
+            totalSeconds / 60;
+
+        int seconds =
+            totalSeconds % 60;
+
+        timerText.text =
+            $"{minutes:00} : {seconds:00}";
+    }
+
+    public void ResetGameTimer()
+    {
+        elapsedPlayTime = 0f;
+        displayedTimerSecond = 0;
+
+        UpdateTimerText(0);
     }
 
     /// <summary>
     /// Mental 수치가 변경되었을 때 호출합니다.
     /// </summary>
     public void UpdateMental(
-    float newCurrentMental,
-    float newMaxMental,
-    EMentalState newMentalState
+        float newCurrentMental,
+        float newMaxMental,
+        EMentalState newMentalState
     )
     {
         maxMental = Mathf.Max(
@@ -229,28 +518,10 @@ public class UIManager : Singleton<UIManager>
                 mentalRatio;
         }
 
-        float dangerRatio =
-            1f - mentalRatio;
+        UpdateMentalVignette(mentalRatio);
 
-        targetDarkAlpha = Mathf.Lerp(
-            0f,
-            maxDarkAlpha,
-            dangerRatio
-        );
-
-        targetTopBottomSize = Mathf.Lerp(
-            minTopBottomSize,
-            maxTopBottomSize,
-            dangerRatio
-        );
-
-        targetSideSize = Mathf.Lerp(
-            minSideSize,
-            maxSideSize,
-            dangerRatio
-        );
-
-        if (currentMentalState != newMentalState)
+        if (currentMentalState !=
+            newMentalState)
         {
             currentMentalState =
                 newMentalState;
@@ -258,6 +529,31 @@ public class UIManager : Singleton<UIManager>
             UpdateMentalIcon();
             ResetMentalTextTimer();
         }
+    }
+
+    private void UpdateMentalVignette(
+        float mentalRatio
+    )
+    {
+        if (mentalVignette == null)
+        {
+            return;
+        }
+
+        float dangerRatio =
+            1f - Mathf.Clamp01(
+                mentalRatio
+            );
+
+        float intensity = Mathf.Lerp(
+            minVignetteIntensity,
+            maxVignetteIntensity,
+            dangerRatio
+        );
+
+        mentalVignette.intensity.Override(
+            intensity
+        );
     }
 
     /// <summary>
@@ -273,7 +569,10 @@ public class UIManager : Singleton<UIManager>
             return;
         }
 
-        maxAmmo = Mathf.Max(0, maxAmmo);
+        maxAmmo = Mathf.Max(
+            0,
+            maxAmmo
+        );
 
         currentAmmo = Mathf.Clamp(
             currentAmmo,
@@ -284,8 +583,6 @@ public class UIManager : Singleton<UIManager>
         ammoText.text =
             $"{currentAmmo} / {maxAmmo}";
     }
-
-
 
     private void UpdateMentalIcon()
     {
@@ -313,172 +610,14 @@ public class UIManager : Singleton<UIManager>
         }
     }
 
-    private void UpdateMentalScreenEffect()
-    {
-        currentDarkAlpha = Mathf.MoveTowards(
-            currentDarkAlpha,
-            targetDarkAlpha,
-            alphaChangeSpeed * Time.deltaTime
-        );
-
-        currentTopBottomSize = Mathf.MoveTowards(
-            currentTopBottomSize,
-            targetTopBottomSize,
-            sizeChangeSpeed * Time.deltaTime
-        );
-
-        currentSideSize = Mathf.MoveTowards(
-            currentSideSize,
-            targetSideSize,
-            sizeChangeSpeed * Time.deltaTime
-        );
-
-        ApplyPanelVisuals();
-    }
-
-    private void ApplyPanelVisuals()
-    {
-        SetImageAlpha(
-            topPanel,
-            currentDarkAlpha
-        );
-
-        SetImageAlpha(
-            bottomPanel,
-            currentDarkAlpha
-        );
-
-        SetImageAlpha(
-            leftPanel,
-            currentDarkAlpha
-        );
-
-        SetImageAlpha(
-            rightPanel,
-            currentDarkAlpha
-        );
-
-        SetPanelHeight(
-            topPanel,
-            currentTopBottomSize
-        );
-
-        SetPanelHeight(
-            bottomPanel,
-            currentTopBottomSize
-        );
-
-        SetPanelWidth(
-            leftPanel,
-            currentSideSize
-        );
-
-        SetPanelWidth(
-            rightPanel,
-            currentSideSize
-        );
-
-        SetSidePanelVerticalPadding(
-            leftPanel,
-            currentTopBottomSize
-        );
-
-        SetSidePanelVerticalPadding(
-            rightPanel,
-            currentTopBottomSize
-        );
-    }
-
-    private void SetImageAlpha(
-        Image image,
-        float alpha
-    )
-    {
-        if (image == null)
-        {
-            return;
-        }
-
-        Color color = image.color;
-        color.a = alpha;
-        image.color = color;
-    }
-
-    private void SetPanelHeight(
-        Image panel,
-        float height
-    )
-    {
-        if (panel == null)
-        {
-            return;
-        }
-
-        RectTransform rectTransform =
-            panel.rectTransform;
-
-        Vector2 sizeDelta =
-            rectTransform.sizeDelta;
-
-        sizeDelta.y = height;
-
-        rectTransform.sizeDelta =
-            sizeDelta;
-    }
-
-    private void SetPanelWidth(
-        Image panel,
-        float width
-    )
-    {
-        if (panel == null)
-        {
-            return;
-        }
-
-        RectTransform rectTransform =
-            panel.rectTransform;
-
-        Vector2 sizeDelta =
-            rectTransform.sizeDelta;
-
-        sizeDelta.x = width;
-
-        rectTransform.sizeDelta =
-            sizeDelta;
-    }
-
-    private void SetSidePanelVerticalPadding(
-        Image panel,
-        float padding
-    )
-    {
-        if (panel == null)
-        {
-            return;
-        }
-
-        RectTransform rectTransform =
-            panel.rectTransform;
-
-        Vector2 offsetMin =
-            rectTransform.offsetMin;
-
-        Vector2 offsetMax =
-            rectTransform.offsetMax;
-
-        offsetMin.y = padding;
-        offsetMax.y = -padding;
-
-        rectTransform.offsetMin =
-            offsetMin;
-
-        rectTransform.offsetMax =
-            offsetMax;
-    }
-
     private void UpdateMentalTextSpawner()
     {
+        if (!GameManager.HasInstance ||
+            !GameManager.Instance.IsPlaying)
+        {
+            return;
+        }
+
         if (currentMentalState ==
             EMentalState.High)
         {
@@ -498,16 +637,20 @@ public class UIManager : Singleton<UIManager>
 
     private void TryShowMentalText()
     {
-        MentalText availableText =
-            GetAvailableMentalText();
+        if (mentalTextPool == null)
+        {
+            return;
+        }
 
-        if (availableText == null)
+        if (!mentalTextPool.TryGet(
+                out MentalText availableText))
         {
             return;
         }
 
         List<string> textList =
-            currentMentalState == EMentalState.Low
+            currentMentalState ==
+            EMentalState.Low
                 ? lowMentalTexts
                 : mediumMentalTexts;
 
@@ -523,9 +666,13 @@ public class UIManager : Singleton<UIManager>
             return;
         }
 
-        string message = textList[
-            Random.Range(0, textList.Count)
-        ];
+        string message =
+            textList[
+                Random.Range(
+                    0,
+                    textList.Count
+                )
+            ];
 
         RectTransform textRectTransform =
             availableText.transform
@@ -538,44 +685,6 @@ public class UIManager : Singleton<UIManager>
         }
 
         availableText.Show(message);
-    }
-
-    private MentalText GetAvailableMentalText()
-    {
-        if (mentalTexts == null ||
-            mentalTexts.Length == 0)
-        {
-            return null;
-        }
-
-        int startIndex =
-            Random.Range(0, mentalTexts.Length);
-
-        for (int i = 0;
-             i < mentalTexts.Length;
-             i++)
-        {
-            int index =
-                (startIndex + i) %
-                mentalTexts.Length;
-
-            MentalText mentalText =
-                mentalTexts[index];
-
-            if (mentalText == null)
-            {
-                continue;
-            }
-
-            if (!mentalText.gameObject.activeSelf)
-            {
-                return mentalText;
-            }
-        }
-
-        // 모든 MentalText가 표시 중이라면
-        // 이번 출력은 건너뜁니다.
-        return null;
     }
 
     private bool TryGetRandomTextPosition(
@@ -620,7 +729,8 @@ public class UIManager : Singleton<UIManager>
             canvas.renderMode !=
             RenderMode.ScreenSpaceOverlay)
         {
-            canvasCamera = canvas.worldCamera;
+            canvasCamera =
+                canvas.worldCamera;
         }
 
         bool converted =
@@ -735,7 +845,7 @@ public class UIManager : Singleton<UIManager>
     private void ResetMentalTextTimer()
     {
         float mentalPercent =
-            (float)currentMental /
+            currentMental /
             maxMental * 100f;
 
         float dangerRatio =
@@ -778,7 +888,6 @@ public class UIManager : Singleton<UIManager>
             );
     }
 
-
     /// <summary>
     /// 재장전을 시작할 때 호출합니다.
     /// </summary>
@@ -790,26 +899,29 @@ public class UIManager : Singleton<UIManager>
         }
 
         reloadGauge.fillAmount = 0f;
-        reloadGauge.gameObject.SetActive(true);
+        reloadGauge.gameObject.SetActive(
+            true
+        );
     }
-
 
     /// <summary>
     /// 재장전 진행률을 갱신합니다.
     /// normalizedProgress는 0~1 범위입니다.
     /// </summary>
-    public void UpdateReloadGauge(float normalizedProgress)
+    public void UpdateReloadGauge(
+        float normalizedProgress
+    )
     {
         if (reloadGauge == null)
         {
             return;
         }
 
-        reloadGauge.fillAmount = Mathf.Clamp01(
-            normalizedProgress
-        );
+        reloadGauge.fillAmount =
+            Mathf.Clamp01(
+                normalizedProgress
+            );
     }
-
 
     /// <summary>
     /// 재장전이 완료되거나 취소되었을 때 호출합니다.
@@ -825,7 +937,9 @@ public class UIManager : Singleton<UIManager>
 
         if (hideReloadGaugeWhenIdle)
         {
-            reloadGauge.gameObject.SetActive(false);
+            reloadGauge.gameObject.SetActive(
+                false
+            );
         }
     }
 }

@@ -5,7 +5,10 @@ using UnityEngine;
 [RequireComponent(typeof(PlayerLevelStats))]
 public class PlayerAmmo : MonoBehaviour
 {
+    [field: Header("Runtime Ammo")]
+    [field: SerializeField]
     public int CurrentAmmo { get; private set; }
+    [field: SerializeField]
     public int MaxAmmo { get; private set; }
 
     public bool HasAmmo => CurrentAmmo > 0;

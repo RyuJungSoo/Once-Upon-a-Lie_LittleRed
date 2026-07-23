@@ -3,48 +3,73 @@ using UnityEngine;
 public class UIToggleController : MonoBehaviour
 {
     [Header("Target UI")]
-    [SerializeField] private GameObject targetUI;
+    [SerializeField]
+    private GameObject targetUI;
 
     [Header("Pause Option")]
-    [SerializeField] private bool pauseFunction = false;
+    [Tooltip("활성화하면 UI를 열 때 게임을 일시정지합니다.")]
+    [SerializeField]
+    private bool pauseFunction;
 
     public void OpenUI()
     {
         if (targetUI == null)
         {
-            Debug.LogWarning($"{name}: Target UI가 연결되지 않았습니다.");
+            Debug.LogWarning(
+                $"{name}: Target UI가 연결되지 않았습니다.",
+                this
+            );
             return;
         }
 
         targetUI.SetActive(true);
 
-        if (pauseFunction)
+        if (!pauseFunction)
         {
-            Time.timeScale = 0f;
+            return;
         }
+
+        if (!GameManager.HasInstance)
+        {
+            Debug.LogWarning(
+                $"{name}: GameManager를 찾을 수 없습니다.",
+                this
+            );
+            return;
+        }
+
+        GameManager.Instance.PauseGame();
     }
 
     public void CloseUI()
     {
         if (targetUI == null)
         {
-            Debug.LogWarning($"{name}: Target UI가 연결되지 않았습니다.");
+            Debug.LogWarning(
+                $"{name}: Target UI가 연결되지 않았습니다.",
+                this
+            );
             return;
         }
 
-        targetUI.SetActive(false);
-
-        if (pauseFunction)
+        if (pauseFunction &&
+            GameManager.HasInstance &&
+            GameManager.Instance.IsPaused)
         {
-            Time.timeScale = 1f;
+            GameManager.Instance.ResumeGame();
         }
+
+        targetUI.SetActive(false);
     }
 
     public void ToggleUI()
     {
         if (targetUI == null)
         {
-            Debug.LogWarning($"{name}: Target UI가 연결되지 않았습니다.");
+            Debug.LogWarning(
+                $"{name}: Target UI가 연결되지 않았습니다.",
+                this
+            );
             return;
         }
 
@@ -60,10 +85,15 @@ public class UIToggleController : MonoBehaviour
 
     private void OnDisable()
     {
-        // Pause UI를 가진 오브젝트가 비활성화되면서 TimeScale이 0으로 남는 상황 방지
-        if (pauseFunction)
+        if (!pauseFunction)
         {
-            Time.timeScale = 1f;
+            return;
+        }
+
+        if (GameManager.HasInstance &&
+            GameManager.Instance.IsPaused)
+        {
+            GameManager.Instance.ResumeGame();
         }
     }
 }

@@ -12,7 +12,10 @@ public enum EMentalState
 [RequireComponent(typeof(PlayerLevelStats))]
 public class PlayerMental : MonoBehaviour
 {
+    [field: Header("Runtime Mental")]
+    [field: SerializeField]
     public float CurrentMental { get; private set; }
+    [field: SerializeField]
     public float MaxMental { get; private set; }
 
     /// 현재 정신력 비율입니다. 0~1 범위입니다.

@@ -7,6 +7,7 @@ public enum EGameState
     None,
     Prologue,
     Playing,
+    Paused,
     StageClear,
     GameOver,
     Victory
@@ -24,10 +25,18 @@ public class GameManager : Singleton<GameManager>
     [Header("Game State")]
     [SerializeField]
     private EGameState currentState = EGameState.None;
+    private EGameState stateBeforePause = EGameState.Playing;
 
     [Header("Stage")]
     [SerializeField]
     private int currentStageIndex;
+
+    [Header("Player Runtime Components")]
+    [SerializeField]
+    private PlayerExperience playerExperience;
+
+    public PlayerExperience PlayerExperience =>
+        playerExperience;
 
     [Header("Player Level")]
     [Tooltip("새 게임을 시작할 때의 플레이어 레벨입니다.")]
@@ -55,6 +64,10 @@ public class GameManager : Singleton<GameManager>
     /// 현재 정상적인 게임 진행 상태인지 여부.
     public bool IsPlaying =>
         currentState == EGameState.Playing;
+
+    /// 현재 일시정지 상태인지 여부.
+    public bool IsPaused =>
+    currentState == EGameState.Paused;
 
 
     /// 게임 상태가 변경되었을 때 호출됩니다.
@@ -88,6 +101,8 @@ public class GameManager : Singleton<GameManager>
         {
             return;
         }
+
+        InitializeRuntimeComponents();
 
         startPlayerLevel = Mathf.Max(
             1,
@@ -281,5 +296,48 @@ public class GameManager : Singleton<GameManager>
         currentState = newState;
 
         OnGameStateChanged?.Invoke(currentState);
+    }
+
+    /// Playing 상태의 게임을 일시정지합니다.
+    public void PauseGame()
+    {
+        if (currentState != EGameState.Playing)
+        {
+            return;
+        }
+
+        ChangeState(EGameState.Paused);
+        Time.timeScale = 0f;
+    }
+
+
+    /// 일시정지를 해제하고 Playing 상태로 돌아갑니다.
+    public void ResumeGame()
+    {
+        if (currentState != EGameState.Paused)
+        {
+            return;
+        }
+
+        Time.timeScale = 1f;
+        ChangeState(EGameState.Playing);
+    }
+
+    private void InitializeRuntimeComponents()
+    {
+        if (playerExperience == null)
+        {
+            playerExperience =
+                GetComponent<PlayerExperience>();
+        }
+
+        if (playerExperience == null)
+        {
+            Debug.LogError(
+                $"{nameof(GameManager)} 오브젝트에 " +
+                $"{nameof(PlayerExperience)} 컴포넌트가 없습니다.",
+                this
+            );
+        }
     }
 }
