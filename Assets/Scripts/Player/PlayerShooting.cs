@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.EventSystems;
 using UnityEngine.InputSystem;
 
 [DisallowMultipleComponent]
@@ -80,6 +81,18 @@ public sealed class PlayerShooting : MonoBehaviour
         }
 
         if (!fireAction.WasPressedThisFrame())
+        {
+            return;
+        }
+
+        if (EventSystem.current != null &&
+            EventSystem.current.IsPointerOverGameObject())
+        {
+            return;
+        }
+
+        if (GameManager.HasInstance &&
+            !GameManager.Instance.IsPlaying)
         {
             return;
         }

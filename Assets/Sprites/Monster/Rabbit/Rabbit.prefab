@@ -14,6 +14,8 @@ GameObject:
   - component: {fileID: 7259315248613731176}
   - component: {fileID: 1449547540826200558}
   - component: {fileID: 5423440773469164575}
+  - component: {fileID: 5780240396552144715}
+  - component: {fileID: 740372529918298222}
   m_Layer: 0
   m_Name: Rabbit
   m_TagString: Untagged
@@ -127,7 +129,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: e02f6eb9f1c85c046afb5efa5699bcb7, type: 3}
-  m_Name: 
+  m_Name:
   m_EditorClassIdentifier: Assembly-CSharp::MonsterSanityAppearance
   playerMental: {fileID: 0}
   fallbackMentalState: 0
@@ -190,6 +192,30 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 806bc246164ae76488f06f72fb47db95, type: 3}
-  m_Name: 
+  m_Name:
   m_EditorClassIdentifier: Assembly-CSharp::MonsterHealth
   stats: {fileID: 11400000, guid: b6e223b5fb927a74fb21f115423f22cb, type: 2}
+--- !u!114 &5780240396552144715
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6579557707755153181}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: daeb8170c50075d4183edddb06e0a33c, type: 3}
+  m_Name:
+  m_EditorClassIdentifier: Assembly-CSharp::MonsterKnockback
+--- !u!114 &740372529918298222
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6579557707755153181}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1b9d3ebe17c375d46bb9534421d7c17a, type: 3}
+  m_Name:
+  m_EditorClassIdentifier: Assembly-CSharp::MonsterHitFlash

@@ -14,6 +14,8 @@ GameObject:
   - component: {fileID: 5460281767697411859}
   - component: {fileID: 3199385791426978888}
   - component: {fileID: 7538806827766562464}
+  - component: {fileID: 8303893665046059493}
+  - component: {fileID: 6406740747202995536}
   m_Layer: 0
   m_Name: Pig
   m_TagString: Untagged
@@ -127,7 +129,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: e02f6eb9f1c85c046afb5efa5699bcb7, type: 3}
-  m_Name: 
+  m_Name:
   m_EditorClassIdentifier: Assembly-CSharp::MonsterSanityAppearance
   playerMental: {fileID: 0}
   fallbackMentalState: 0
@@ -190,6 +192,30 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 806bc246164ae76488f06f72fb47db95, type: 3}
-  m_Name: 
+  m_Name:
   m_EditorClassIdentifier: Assembly-CSharp::MonsterHealth
   stats: {fileID: 11400000, guid: f23d041b9b58b414b8b503e98b6ce4fd, type: 2}
+--- !u!114 &8303893665046059493
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6222643459820160562}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: daeb8170c50075d4183edddb06e0a33c, type: 3}
+  m_Name:
+  m_EditorClassIdentifier: Assembly-CSharp::MonsterKnockback
+--- !u!114 &6406740747202995536
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6222643459820160562}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1b9d3ebe17c375d46bb9534421d7c17a, type: 3}
+  m_Name:
+  m_EditorClassIdentifier: Assembly-CSharp::MonsterHitFlash

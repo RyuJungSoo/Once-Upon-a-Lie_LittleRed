@@ -12,6 +12,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2b4e0fc9f6d568f40bd55805b76697ea, type: 3}
   m_Name: BlanketStats
   m_EditorClassIdentifier: Assembly-CSharp::MonsterStats
-  maxHealth: 1
+  maxHealth: 5
   damage: 10
+  knockbackDistance: 0.3
+  knockbackDuration: 0.1
+  hitFlashColor: {r: 1, g: 0.15, b: 0.15, a: 1}
+  hitFlashDuration: 0.08
   moveSpeed: 2

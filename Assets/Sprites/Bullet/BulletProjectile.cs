@@ -48,6 +48,14 @@ public sealed class BulletProjectile : MonoBehaviour
         if (monster != null)
         {
             monster.TakeDamage(damage);
+
+            if (!monster.IsDead)
+            {
+                MonsterKnockback knockback =
+                    monster.GetComponent<MonsterKnockback>();
+
+                knockback?.Apply(body.linearVelocity);
+            }
         }
 
         Destroy(gameObject);

@@ -14,6 +14,8 @@ GameObject:
   - component: {fileID: 5581878017550646646}
   - component: {fileID: 1190287414062833189}
   - component: {fileID: 2484219406479751286}
+  - component: {fileID: 268440628515887891}
+  - component: {fileID: 4405582310756742208}
   m_Layer: 0
   m_Name: FlowerFairy
   m_TagString: Untagged
@@ -127,7 +129,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: e02f6eb9f1c85c046afb5efa5699bcb7, type: 3}
-  m_Name: 
+  m_Name:
   m_EditorClassIdentifier: Assembly-CSharp::MonsterSanityAppearance
   playerMental: {fileID: 0}
   fallbackMentalState: 0
@@ -190,6 +192,30 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 806bc246164ae76488f06f72fb47db95, type: 3}
-  m_Name: 
+  m_Name:
   m_EditorClassIdentifier: Assembly-CSharp::MonsterHealth
   stats: {fileID: 11400000, guid: 569831427d1018f4cab150ad9e87790a, type: 2}
+--- !u!114 &268440628515887891
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8560963249597590526}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: daeb8170c50075d4183edddb06e0a33c, type: 3}
+  m_Name:
+  m_EditorClassIdentifier: Assembly-CSharp::MonsterKnockback
+--- !u!114 &4405582310756742208
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8560963249597590526}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1b9d3ebe17c375d46bb9534421d7c17a, type: 3}
+  m_Name:
+  m_EditorClassIdentifier: Assembly-CSharp::MonsterHitFlash
