@@ -11,15 +11,29 @@ public class PlayerAmmo : MonoBehaviour
     [field: SerializeField]
     public int MaxAmmo { get; private set; }
 
+    [Header("Reload")]
+    [SerializeField, Min(0.01f)]
+    private float reloadDuration = 1.5f;
+
     public bool HasAmmo => CurrentAmmo > 0;
     public bool IsFull => CurrentAmmo >= MaxAmmo;
+    public bool IsReloading { get; private set; }
+    private float ReloadDuration => Mathf.Max(0.01f, reloadDuration);
+    public float ReloadProgress =>
+        IsReloading
+            ? Mathf.Clamp01(reloadElapsedTime / ReloadDuration)
+            : 0f;
 
     public event Action<int, int> OnAmmoChanged;
     public event Action OnAmmoEmpty;
+    public event Action OnReloadStarted;
+    public event Action<float> OnReloadProgressChanged;
     public event Action OnReloaded;
+    public event Action OnReloadCanceled;
 
     private PlayerLevelStats levelStats;
     private bool isInitialized;
+    private float reloadElapsedTime;
 
     private void Awake()
     {
@@ -48,12 +62,20 @@ public class PlayerAmmo : MonoBehaviour
         {
             levelStats.OnStatsChanged -= HandleStatsChanged;
         }
+
+        CancelReload();
+    }
+
+    private void Update()
+    {
+        AdvanceReload(Time.deltaTime);
     }
 
     public void ResetAmmo()
     {
         InitializeIfNeeded();
 
+        CancelReload();
         CurrentAmmo = MaxAmmo;
         NotifyAmmoChanged();
     }
@@ -62,7 +84,7 @@ public class PlayerAmmo : MonoBehaviour
     {
         InitializeIfNeeded();
 
-        if (amount <= 0)
+        if (amount <= 0 || IsReloading)
         {
             return false;
         }
@@ -85,17 +107,47 @@ public class PlayerAmmo : MonoBehaviour
 
     public void Reload()
     {
+        TryStartReload();
+    }
+
+    public bool TryStartReload()
+    {
         InitializeIfNeeded();
 
-        if (IsFull)
+        if (IsReloading || IsFull)
+        {
+            return false;
+        }
+
+        IsReloading = true;
+        reloadElapsedTime = 0f;
+
+        OnReloadStarted?.Invoke();
+
+        if (UIManager.HasInstance)
+        {
+            UIManager.Instance.StartReloadGauge();
+        }
+
+        return true;
+    }
+
+    public void CancelReload()
+    {
+        if (!IsReloading)
         {
             return;
         }
 
-        CurrentAmmo = MaxAmmo;
+        IsReloading = false;
+        reloadElapsedTime = 0f;
 
-        NotifyAmmoChanged();
-        OnReloaded?.Invoke();
+        if (UIManager.HasInstance)
+        {
+            UIManager.Instance.EndReloadGauge();
+        }
+
+        OnReloadCanceled?.Invoke();
     }
 
     public void SetAmmo(int amount)
@@ -114,6 +166,12 @@ public class PlayerAmmo : MonoBehaviour
         }
 
         CurrentAmmo = newAmmo;
+
+        if (IsFull)
+        {
+            CancelReload();
+        }
+
         NotifyAmmoChanged();
 
         if (CurrentAmmo <= 0)
@@ -175,6 +233,42 @@ public class PlayerAmmo : MonoBehaviour
         }
 
         NotifyAmmoChanged();
+    }
+
+    private void AdvanceReload(float deltaTime)
+    {
+        if (!IsReloading || deltaTime <= 0f)
+        {
+            return;
+        }
+
+        reloadElapsedTime += deltaTime;
+
+        float progress = ReloadProgress;
+        OnReloadProgressChanged?.Invoke(progress);
+
+        if (UIManager.HasInstance)
+        {
+            UIManager.Instance.UpdateReloadGauge(progress);
+        }
+
+        if (progress < 1f)
+        {
+            return;
+        }
+
+        IsReloading = false;
+        reloadElapsedTime = 0f;
+        CurrentAmmo = MaxAmmo;
+
+        NotifyAmmoChanged();
+
+        if (UIManager.HasInstance)
+        {
+            UIManager.Instance.EndReloadGauge();
+        }
+
+        OnReloaded?.Invoke();
     }
 
     private void NotifyAmmoChanged()

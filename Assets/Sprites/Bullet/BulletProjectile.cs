@@ -25,6 +25,11 @@ public sealed class BulletProjectile : MonoBehaviour
 
     public void Launch(Vector2 direction)
     {
+        if (body == null)
+        {
+            body = GetComponent<Rigidbody2D>();
+        }
+
         Vector2 normalizedDirection = direction.normalized;
         transform.right = normalizedDirection;
         body.linearVelocity = normalizedDirection * speed;

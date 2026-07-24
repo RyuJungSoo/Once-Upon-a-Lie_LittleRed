@@ -6,15 +6,18 @@ using UnityEngine.InputSystem;
 public sealed class PlayerShooting : MonoBehaviour
 {
     private const string FireActionPath = "PlayerInput/Fire";
+    private const string ReloadActionPath = "PlayerInput/Reload";
 
     [SerializeField] private InputActionAsset inputActions;
     [SerializeField] private BulletProjectile bulletPrefab;
     [SerializeField] private Camera aimCamera;
+    [SerializeField] private PlayerAmmo playerAmmo;
     [SerializeField, Min(0.01f)] private float fireCooldown = 0.25f;
     [SerializeField, Min(0f)] private float spawnOffset = 0.65f;
     [SerializeField, Min(0f)] private float attackAnimationDuration = 0.5f;
 
     private InputAction fireAction;
+    private InputAction reloadAction;
     private PlayerMovement playerMovement;
     private float nextFireTime;
 
@@ -27,7 +30,26 @@ public sealed class PlayerShooting : MonoBehaviour
             aimCamera = Camera.main;
         }
 
-        if (inputActions == null || bulletPrefab == null || aimCamera == null)
+        if (GameManager.HasInstance)
+        {
+            PlayerAmmo persistentAmmo =
+                GameManager.Instance.GetComponent<PlayerAmmo>();
+
+            if (persistentAmmo != null)
+            {
+                playerAmmo = persistentAmmo;
+            }
+        }
+
+        if (playerAmmo == null)
+        {
+            playerAmmo = FindFirstObjectByType<PlayerAmmo>();
+        }
+
+        if (inputActions == null ||
+            bulletPrefab == null ||
+            aimCamera == null ||
+            playerAmmo == null)
         {
             Debug.LogError("PlayerShooting references are not fully assigned.", this);
             enabled = false;
@@ -35,38 +57,61 @@ public sealed class PlayerShooting : MonoBehaviour
         }
 
         fireAction = inputActions.FindAction(FireActionPath, true);
+        reloadAction = inputActions.FindAction(ReloadActionPath, true);
     }
 
     private void OnEnable()
     {
         fireAction?.Enable();
+        reloadAction?.Enable();
     }
 
     private void OnDisable()
     {
         fireAction?.Disable();
+        reloadAction?.Disable();
     }
 
     private void Update()
     {
-        if (!fireAction.WasPressedThisFrame() || Time.time < nextFireTime)
+        if (reloadAction.WasPressedThisFrame())
+        {
+            playerAmmo.TryStartReload();
+        }
+
+        if (!fireAction.WasPressedThisFrame())
         {
             return;
         }
 
-        Vector2 aimDirection = GetAimDirection();
+        TryFire(GetAimDirection());
+    }
 
-        if (aimDirection.sqrMagnitude <= 0.0001f)
+    public bool TryFire(Vector2 aimDirection)
+    {
+        if (Time.time < nextFireTime ||
+            aimDirection.sqrMagnitude <= 0.0001f ||
+            !playerAmmo.TryUseAmmo())
         {
-            return;
+            return false;
         }
+
+        aimDirection.Normalize();
 
         Vector2 spawnPosition = (Vector2)transform.position + aimDirection * spawnOffset;
         BulletProjectile bullet = Instantiate(bulletPrefab, spawnPosition, Quaternion.identity);
         bullet.Launch(aimDirection);
 
-        playerMovement.PlayAttackAnimation(aimDirection, attackAnimationDuration);
+        if (playerMovement.isActiveAndEnabled)
+        {
+            playerMovement.PlayAttackAnimation(
+                aimDirection,
+                attackAnimationDuration
+            );
+        }
+
         nextFireTime = Time.time + fireCooldown;
+        return true;
     }
 
     private Vector2 GetAimDirection()

@@ -145,6 +145,7 @@ public class UIManager : Singleton<UIManager>
     {
         TryFindPlayer();
         TryBindProgressUI();
+        SynchronizeAmmoUI();
     }
 
     private void Update()
@@ -270,6 +271,33 @@ public class UIManager : Singleton<UIManager>
 
         UpdateLevel(1);
         ResetGameTimer();
+    }
+
+    private void SynchronizeAmmoUI()
+    {
+        PlayerAmmo playerAmmo =
+            FindFirstObjectByType<PlayerAmmo>();
+
+        if (playerAmmo == null)
+        {
+            return;
+        }
+
+        UpdateAmmo(
+            playerAmmo.CurrentAmmo,
+            playerAmmo.MaxAmmo
+        );
+
+        if (playerAmmo.IsReloading)
+        {
+            StartReloadGauge();
+            UpdateReloadGauge(
+                playerAmmo.ReloadProgress
+            );
+            return;
+        }
+
+        EndReloadGauge();
     }
 
     private void TryBindProgressUI()

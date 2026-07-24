@@ -204,6 +204,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::PlayerAmmo
   <CurrentAmmo>k__BackingField: 0
   <MaxAmmo>k__BackingField: 0
+  reloadDuration: 1.5
 --- !u!114 &18403769
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5727,6 +5728,7 @@ MonoBehaviour:
   inputActions: {fileID: -944628639613478452, guid: f41a8943376b5bc4289c41f9fcce2036, type: 3}
   bulletPrefab: {fileID: 6447383119479497306, guid: 150c9d4ed883dd3439dff4a3394300fc, type: 3}
   aimCamera: {fileID: 519420031}
+  playerAmmo: {fileID: 18403768}
   fireCooldown: 0.25
   spawnOffset: 0.65
   attackAnimationDuration: 0.5
