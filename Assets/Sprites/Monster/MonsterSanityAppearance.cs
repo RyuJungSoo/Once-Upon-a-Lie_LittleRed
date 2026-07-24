@@ -8,16 +8,16 @@ public sealed class MonsterSanityAppearance : MonoBehaviour
     private static readonly int SanityStageParameter = Animator.StringToHash("SanityStage");
     private static readonly int MotionStateParameter = Animator.StringToHash("MotionState");
 
-    private static PlayerSanity cachedPlayerSanity;
+    private static PlayerMental cachedPlayerMental;
 
-    [SerializeField] private PlayerSanity playerSanity;
-    [SerializeField] private PlayerSanity.SanityStage fallbackSanityStage = PlayerSanity.SanityStage.High;
+    [SerializeField] private PlayerMental playerMental;
+    [SerializeField] private EMentalState fallbackMentalState = EMentalState.High;
     [SerializeField] private MonsterMotionState motionState = MonsterMotionState.Idle;
     [SerializeField] private bool detectMovementAutomatically = true;
     [SerializeField, Min(0f)] private float movingSpeedThreshold = 0.01f;
 
     private Animator animator;
-    private bool isSubscribed;
+    private PlayerMental subscribedPlayerMental;
     private Vector3 previousPosition;
 
     public enum MonsterMotionState
@@ -27,8 +27,8 @@ public sealed class MonsterSanityAppearance : MonoBehaviour
         Attack = 2
     }
 
-    public PlayerSanity SanitySource => playerSanity;
-    public PlayerSanity.SanityStage CurrentSanityStage { get; private set; }
+    public PlayerMental MentalSource => playerMental;
+    public EMentalState CurrentMentalState { get; private set; }
     public MonsterMotionState CurrentMotionState => motionState;
 
     private void Awake()
@@ -38,20 +38,31 @@ public sealed class MonsterSanityAppearance : MonoBehaviour
 
     private void OnEnable()
     {
-        ResolvePlayerSanity();
-        SubscribeToSanity();
-        ApplySanityStage(playerSanity != null ? playerSanity.CurrentStage : fallbackSanityStage);
+        ResolvePlayerMental();
+        SubscribeToMental();
+        ApplyMentalState(playerMental != null ? playerMental.CurrentMentalState : fallbackMentalState);
         ApplyMotionState();
         previousPosition = transform.position;
     }
 
     private void OnDisable()
     {
-        UnsubscribeFromSanity();
+        UnsubscribeFromMental();
     }
 
     private void LateUpdate()
     {
+        if (playerMental == null)
+        {
+            ResolvePlayerMental();
+            SubscribeToMental();
+
+            if (playerMental != null)
+            {
+                ApplyMentalState(playerMental.CurrentMentalState);
+            }
+        }
+
         Vector3 currentPosition = transform.position;
 
         if (detectMovementAutomatically && motionState != MonsterMotionState.Attack)
@@ -65,19 +76,19 @@ public sealed class MonsterSanityAppearance : MonoBehaviour
         previousPosition = currentPosition;
     }
 
-    public void SetPlayerSanity(PlayerSanity source)
+    public void SetPlayerMental(PlayerMental source)
     {
-        if (playerSanity == source)
+        if (playerMental == source)
         {
             return;
         }
 
-        UnsubscribeFromSanity();
-        playerSanity = source;
+        UnsubscribeFromMental();
+        playerMental = source;
 
-        if (playerSanity != null)
+        if (playerMental != null)
         {
-            cachedPlayerSanity = playerSanity;
+            cachedPlayerMental = playerMental;
         }
 
         if (!isActiveAndEnabled)
@@ -85,8 +96,8 @@ public sealed class MonsterSanityAppearance : MonoBehaviour
             return;
         }
 
-        SubscribeToSanity();
-        ApplySanityStage(playerSanity != null ? playerSanity.CurrentStage : fallbackSanityStage);
+        SubscribeToMental();
+        ApplyMentalState(playerMental != null ? playerMental.CurrentMentalState : fallbackMentalState);
     }
 
     public void SetMotionState(MonsterMotionState state)
@@ -100,57 +111,78 @@ public sealed class MonsterSanityAppearance : MonoBehaviour
         SetMotionState(isMoving ? MonsterMotionState.Run : MonsterMotionState.Idle);
     }
 
-    private void ResolvePlayerSanity()
+    private void ResolvePlayerMental()
     {
-        if (playerSanity != null)
+        if (playerMental != null)
         {
-            cachedPlayerSanity = playerSanity;
+            cachedPlayerMental = playerMental;
             return;
         }
 
-        if (cachedPlayerSanity == null)
+        if (cachedPlayerMental == null)
         {
-            cachedPlayerSanity = FindFirstObjectByType<PlayerSanity>();
+            cachedPlayerMental = FindFirstObjectByType<PlayerMental>();
         }
 
-        playerSanity = cachedPlayerSanity;
+        playerMental = cachedPlayerMental;
     }
 
-    private void SubscribeToSanity()
+    private void SubscribeToMental()
     {
-        if (playerSanity == null || isSubscribed)
+        if (playerMental == null ||
+            subscribedPlayerMental == playerMental)
         {
             return;
         }
 
-        playerSanity.SanityStageChanged += HandleSanityStageChanged;
-        isSubscribed = true;
+        UnsubscribeFromMental();
+
+        playerMental.OnMentalStateChanged += HandleMentalStateChanged;
+        subscribedPlayerMental = playerMental;
     }
 
-    private void UnsubscribeFromSanity()
+    private void UnsubscribeFromMental()
     {
-        if (playerSanity != null && isSubscribed)
+        if (subscribedPlayerMental != null)
         {
-            playerSanity.SanityStageChanged -= HandleSanityStageChanged;
+            subscribedPlayerMental.OnMentalStateChanged -=
+                HandleMentalStateChanged;
         }
 
-        isSubscribed = false;
+        subscribedPlayerMental = null;
     }
 
-    private void HandleSanityStageChanged(
-        PlayerSanity.SanityStage previousStage,
-        PlayerSanity.SanityStage currentStage)
+    private void HandleMentalStateChanged(EMentalState mentalState)
     {
-        ApplySanityStage(currentStage);
+        ApplyMentalState(mentalState);
     }
 
-    private void ApplySanityStage(PlayerSanity.SanityStage stage)
+    private void ApplyMentalState(EMentalState mentalState)
     {
-        CurrentSanityStage = stage;
+        CurrentMentalState = mentalState;
 
         if (animator != null)
         {
-            animator.SetInteger(SanityStageParameter, (int)stage);
+            animator.SetInteger(
+                SanityStageParameter,
+                ToAnimatorStage(mentalState)
+            );
+        }
+    }
+
+    private static int ToAnimatorStage(EMentalState mentalState)
+    {
+        switch (mentalState)
+        {
+            case EMentalState.Low:
+                return 0;
+
+            case EMentalState.Medium:
+                return 1;
+
+            case EMentalState.High:
+            default:
+                return 2;
         }
     }
 

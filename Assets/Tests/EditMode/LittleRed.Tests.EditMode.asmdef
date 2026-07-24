@@ -1,0 +1,9 @@
+{
+    "name": "LittleRed.Tests.EditMode",
+    "optionalUnityReferences": [
+        "TestAssemblies"
+    ],
+    "includePlatforms": [
+        "Editor"
+    ]
+}

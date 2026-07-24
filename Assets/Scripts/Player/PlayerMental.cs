@@ -18,6 +18,13 @@ public class PlayerMental : MonoBehaviour
     [field: SerializeField]
     public float MaxMental { get; private set; }
 
+    [Header("Mental State Thresholds")]
+    [SerializeField, Range(0f, 100f)]
+    private float lowMentalThresholdPercent = 33f;
+
+    [SerializeField, Range(0f, 100f)]
+    private float highMentalThresholdPercent = 67f;
+
     /// 현재 정신력 비율입니다. 0~1 범위입니다.
     public float MentalRatio =>
         MaxMental > 0f
@@ -57,6 +64,21 @@ public class PlayerMental : MonoBehaviour
     private void Awake()
     {
         levelStats = GetComponent<PlayerLevelStats>();
+    }
+
+    private void OnValidate()
+    {
+        lowMentalThresholdPercent = Mathf.Clamp(
+            lowMentalThresholdPercent,
+            0f,
+            100f
+        );
+
+        highMentalThresholdPercent = Mathf.Clamp(
+            highMentalThresholdPercent,
+            lowMentalThresholdPercent,
+            100f
+        );
     }
 
     private void OnEnable()
@@ -157,6 +179,28 @@ public class PlayerMental : MonoBehaviour
         }
 
         SetMental(CurrentMental + amount);
+    }
+
+    /// <summary>
+    /// 정신력을 사용할 수 있으면 차감하고 true를 반환합니다.
+    /// 정신력이 부족하면 값을 변경하지 않고 false를 반환합니다.
+    /// </summary>
+    public bool TrySpendMental(float amount)
+    {
+        InitializeIfNeeded();
+
+        if (amount <= 0f)
+        {
+            return true;
+        }
+
+        if (CurrentMental < amount)
+        {
+            return false;
+        }
+
+        SetMental(CurrentMental - amount);
+        return true;
     }
 
     /// <summary>
@@ -363,12 +407,12 @@ public class PlayerMental : MonoBehaviour
         float mentalPercent =
             mentalRatio * 100f;
 
-        if (mentalPercent >= 67f)
+        if (mentalPercent >= highMentalThresholdPercent)
         {
             return EMentalState.High;
         }
 
-        if (mentalPercent >= 34f)
+        if (mentalPercent > lowMentalThresholdPercent)
         {
             return EMentalState.Medium;
         }

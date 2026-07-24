@@ -188,6 +188,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::PlayerMental
   <CurrentMental>k__BackingField: 0
   <MaxMental>k__BackingField: 0
+  lowMentalThresholdPercent: 33
+  highMentalThresholdPercent: 67
 --- !u!114 &18403768
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1127,10 +1129,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: Bird
       objectReference: {fileID: 0}
-    - target: {fileID: 4671276098844518904, guid: 464ecf9b4d25ddc4d9a13da88b9eca7c, type: 3}
-      propertyPath: playerSanity
-      value: 
-      objectReference: {fileID: 1664570138}
     - target: {fileID: 5734990780386804256, guid: 464ecf9b4d25ddc4d9a13da88b9eca7c, type: 3}
       propertyPath: m_LocalPosition.x
       value: 4.67
@@ -5569,7 +5567,6 @@ GameObject:
   - component: {fileID: 1664570136}
   - component: {fileID: 1664570135}
   - component: {fileID: 1664570137}
-  - component: {fileID: 1664570138}
   m_Layer: 0
   m_Name: Player
   m_TagString: Player
@@ -5733,21 +5730,6 @@ MonoBehaviour:
   fireCooldown: 0.25
   spawnOffset: 0.65
   attackAnimationDuration: 0.5
---- !u!114 &1664570138
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1664570131}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a51b27abadc0fc547810a2862658c4f8, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::PlayerSanity
-  currentSanity: 100
-  lowStageThreshold: 33
-  highStageThreshold: 67
 --- !u!1 &1670537664
 GameObject:
   m_ObjectHideFlags: 0

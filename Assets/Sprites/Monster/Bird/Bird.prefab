@@ -129,8 +129,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e02f6eb9f1c85c046afb5efa5699bcb7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::MonsterSanityAppearance
-  playerSanity: {fileID: 0}
-  fallbackSanityStage: 2
+  playerMental: {fileID: 0}
+  fallbackMentalState: 0
   motionState: 0
   detectMovementAutomatically: 1
   movingSpeedThreshold: 0.01
