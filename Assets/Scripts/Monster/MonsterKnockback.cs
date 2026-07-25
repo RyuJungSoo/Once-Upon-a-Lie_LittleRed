@@ -7,6 +7,7 @@ public sealed class MonsterKnockback : MonoBehaviour
 {
     private MonsterHealth monsterHealth;
     private Coroutine knockbackRoutine;
+    public bool IsActive => knockbackRoutine != null;
 
     private void Awake()
     {
