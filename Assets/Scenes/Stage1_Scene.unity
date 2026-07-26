@@ -2452,6 +2452,66 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 713779898}
   m_CullTransparentMesh: 1
+--- !u!1 &747868387 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 2968124903297333640, guid: f86d75512645440d9a2470efd1a5d781, type: 3}
+  m_PrefabInstance: {fileID: 1619565344}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &747868396
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 747868387}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e2dda1ad59ecef34d98fd1f5a4fb2c1d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::MonsterChaseAI
+  target: {fileID: 1664570134}
+  stopDistance: 0.1
+--- !u!114 &747868397
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 747868387}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 08fbfa84d3da1404d857db743e379109, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::MonsterContactAttack
+  attackCooldown: 0.75
+  attackAnimationDuration: 0.25
+--- !u!50 &747868398
+Rigidbody2D:
+  serializedVersion: 5
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 747868387}
+  m_BodyType: 0
+  m_Simulated: 1
+  m_UseFullKinematicContacts: 0
+  m_UseAutoMass: 0
+  m_Mass: 1
+  m_LinearDamping: 0
+  m_AngularDamping: 0.05
+  m_GravityScale: 0
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_Interpolate: 1
+  m_SleepingMode: 1
+  m_CollisionDetection: 1
+  m_Constraints: 4
 --- !u!1 &778398011
 GameObject:
   m_ObjectHideFlags: 0
@@ -6621,10 +6681,35 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 6377994555061898226, guid: f86d75512645440d9a2470efd1a5d781, type: 3}
+      propertyPath: m_Size.x
+      value: 0.62
+      objectReference: {fileID: 0}
+    - target: {fileID: 6377994555061898226, guid: f86d75512645440d9a2470efd1a5d781, type: 3}
+      propertyPath: m_Size.y
+      value: 0.7
+      objectReference: {fileID: 0}
+    - target: {fileID: 6377994555061898226, guid: f86d75512645440d9a2470efd1a5d781, type: 3}
+      propertyPath: m_Offset.y
+      value: -0.15
+      objectReference: {fileID: 0}
+    - target: {fileID: 6377994555061898226, guid: f86d75512645440d9a2470efd1a5d781, type: 3}
+      propertyPath: m_EdgeRadius
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 2968124903297333640, guid: f86d75512645440d9a2470efd1a5d781, type: 3}
+      insertIndex: 4
+      addedObject: {fileID: 747868398}
+    - targetCorrespondingSourceObject: {fileID: 2968124903297333640, guid: f86d75512645440d9a2470efd1a5d781, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 747868397}
+    - targetCorrespondingSourceObject: {fileID: 2968124903297333640, guid: f86d75512645440d9a2470efd1a5d781, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 747868396}
   m_SourcePrefab: {fileID: 100100000, guid: f86d75512645440d9a2470efd1a5d781, type: 3}
 --- !u!1 &1664570131
 GameObject:
@@ -6637,6 +6722,7 @@ GameObject:
   - component: {fileID: 1664570134}
   - component: {fileID: 1664570133}
   - component: {fileID: 1664570132}
+  - component: {fileID: 1664570138}
   - component: {fileID: 1664570136}
   - component: {fileID: 1664570135}
   - component: {fileID: 1664570137}
@@ -6804,6 +6890,43 @@ MonoBehaviour:
   fireCooldown: 0.25
   spawnOffset: 0.65
   attackAnimationDuration: 0.5
+--- !u!70 &1664570138
+CapsuleCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1664570131}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_ForceSendLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ForceReceiveLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ContactCaptureLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_CallbackLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_CompositeOperation: 0
+  m_CompositeOrder: 0
+  m_Offset: {x: 0, y: -0.12}
+  m_Size: {x: 0.63, y: 0.74}
+  m_Direction: 0
 --- !u!1 &1670537664
 GameObject:
   m_ObjectHideFlags: 0
