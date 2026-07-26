@@ -33,7 +33,7 @@ public sealed class MonsterAttack : MonoBehaviour
 
         attackAnimationEndTime = -1f;
 
-        appearance.SetMotionState(MonsterSanityAppearance.MonsterMotionState.Run);
+        appearance.RestoreMovementMotionState();
     }
 
     private void OnCollisionStay2D(Collision2D collision)
@@ -44,12 +44,12 @@ public sealed class MonsterAttack : MonoBehaviour
             return;
         }
 
-        if (GameManager.HasInstance && !GameManager.Instance.IsPlaying)
+        if (Time.time < nextAttackTime || monsterHealth == null || monsterHealth.IsDead)
         {
             return;
         }
 
-        if (Time.time < nextAttackTime || monsterHealth == null || monsterHealth.IsDead)
+        if (GameManager.HasInstance && !GameManager.Instance.IsPlaying)
         {
             return;
         }
@@ -62,6 +62,13 @@ public sealed class MonsterAttack : MonoBehaviour
         }
 
         playerMental.TakeMentalDamage(monsterHealth.Damage);
+
+        PlayerMovement playerMovement = collision.gameObject.GetComponentInParent<PlayerMovement>();
+
+        if (playerMovement != null)
+        {
+            playerMovement.ApplyKnockback(transform.position);
+        }
 
         nextAttackTime = Time.time + attackCooldown;
 

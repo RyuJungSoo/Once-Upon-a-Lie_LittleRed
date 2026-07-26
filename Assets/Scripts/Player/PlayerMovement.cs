@@ -16,6 +16,8 @@ public sealed class PlayerMovement : MonoBehaviour
 
     [SerializeField, Min(0f)] private float moveSpeed = 4f;
     [SerializeField] private InputActionAsset inputActions;
+    [SerializeField, Min(0f)] private float knockbackDistance = 0.7f;
+    [SerializeField, Min(0.01f)] private float knockbackDuration = 0.15f;
 
     private Rigidbody2D body;
     private Animator animator;
@@ -24,6 +26,8 @@ public sealed class PlayerMovement : MonoBehaviour
     private Vector2 moveInput;
     private FacingDirection facingDirection = FacingDirection.Front;
     private float attackAnimationEndTime;
+    private Vector2 knockbackDirection;
+    private float knockbackTimeRemaining;
 
     private enum FacingDirection
     {
@@ -95,8 +99,22 @@ public sealed class PlayerMovement : MonoBehaviour
 
     private void FixedUpdate()
     {
-        Vector2 nextPosition = body.position + moveInput * (moveSpeed * Time.fixedDeltaTime);
-        body.MovePosition(nextPosition);
+        if (knockbackTimeRemaining > 0f)
+        {
+            float stepTime = Mathf.Min(Time.fixedDeltaTime, knockbackTimeRemaining);
+
+            float knockbackSpeed = knockbackDistance / knockbackDuration;
+
+            Vector2 nextPosition = body.position + knockbackDirection * knockbackSpeed * stepTime;
+
+            body.MovePosition(nextPosition);
+            knockbackTimeRemaining -= Time.fixedDeltaTime;
+            return;
+        }
+
+        Vector2 movement = moveInput * (moveSpeed * Time.fixedDeltaTime);
+
+        body.MovePosition(body.position + movement);
     }
 
     private void UpdateAnimatorParameters()
@@ -148,5 +166,18 @@ public sealed class PlayerMovement : MonoBehaviour
         animator.ResetTrigger(AttackParameter);
         animator.SetTrigger(AttackParameter);
         attackAnimationEndTime = Time.time + Mathf.Max(0f, duration);
+    }
+
+    public void ApplyKnockback(Vector2 attackerPosition)
+    {
+        Vector2 direction = body.position - attackerPosition;
+
+        if (direction.sqrMagnitude <= 0.0001f)
+        {
+            direction = Vector2.down;
+        }
+
+        knockbackDirection = direction.normalized;
+        knockbackTimeRemaining = knockbackDuration;
     }
 }

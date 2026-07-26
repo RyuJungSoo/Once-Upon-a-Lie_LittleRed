@@ -1,5 +1,9 @@
 {
     "name": "LittleRed.Tests.EditMode",
+    "references": [
+        "Unity.RenderPipelines.Core.Runtime",
+        "Unity.RenderPipelines.Universal.Runtime"
+    ],
     "optionalUnityReferences": [
         "TestAssemblies"
     ],

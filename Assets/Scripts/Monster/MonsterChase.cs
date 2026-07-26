@@ -14,14 +14,24 @@ public sealed class MonsterChase : MonoBehaviour
     private Rigidbody2D body;
     private MonsterHealth monsterHealth;
     private MonsterKnockback knockback;
+    private MonsterSanityAppearance appearance;
     private SpriteRenderer spriteRenderer;
+    private bool isMoving;
+
+    public bool IsMoving => isMoving;
 
     private void Awake()
     {
         body = GetComponent<Rigidbody2D>();
         monsterHealth = GetComponent<MonsterHealth>();
         knockback = GetComponent<MonsterKnockback>();
+        appearance = GetComponent<MonsterSanityAppearance>();
         spriteRenderer = GetComponent<SpriteRenderer>();
+
+        if (appearance != null)
+        {
+            appearance.SetAutomaticMovementDetection(false);
+        }
 
         body.bodyType = RigidbodyType2D.Dynamic;
         body.gravityScale = 0f;
@@ -68,7 +78,7 @@ public sealed class MonsterChase : MonoBehaviour
         // 넉백 중에는 추적 이동을 잠시 중지한다.
         if (knockback != null && knockback.IsActive)
         {
-            StopMovement();
+            StopMovement(true);
             return;
         }
 
@@ -82,12 +92,17 @@ public sealed class MonsterChase : MonoBehaviour
 
         Vector2 direction = offset.normalized;
 
-        body.linearVelocity = direction * monsterHealth.MoveSpeed;
+        SetMovement(direction * monsterHealth.MoveSpeed);
 
         // 현재 몬스터 애니메이션이 Side 기반이므로 좌우 반전
         if (Mathf.Abs(direction.x) > 0.001f)
         {
-            spriteRenderer.flipX = direction.x < 0f;
+            bool shouldFlip = direction.x < 0f;
+
+            if (spriteRenderer.flipX != shouldFlip)
+            {
+                spriteRenderer.flipX = shouldFlip;
+            }
         }
     }
 
@@ -101,7 +116,7 @@ public sealed class MonsterChase : MonoBehaviour
 
         if (cachedPlayerTarget == null)
         {
-            PlayerMental player = FindFirstObjectByType<PlayerMental>();
+            GameObject player = GameObject.FindGameObjectWithTag("Player");
 
             if (player != null)
             {
@@ -112,11 +127,38 @@ public sealed class MonsterChase : MonoBehaviour
         target = cachedPlayerTarget;
     }
 
-    private void StopMovement()
+    private void SetMovement(Vector2 velocity)
     {
-        if (body != null)
+        SetVelocity(velocity);
+        ReportMovement(velocity.sqrMagnitude > 0f);
+    }
+
+    private void StopMovement(bool preserveVisualMovement = false)
+    {
+        SetVelocity(Vector2.zero);
+        ReportMovement(preserveVisualMovement);
+    }
+
+    private void SetVelocity(Vector2 velocity)
+    {
+        if (body != null && body.linearVelocity != velocity)
         {
-            body.linearVelocity = Vector2.zero;
+            body.linearVelocity = velocity;
+        }
+    }
+
+    private void ReportMovement(bool moving)
+    {
+        if (isMoving == moving)
+        {
+            return;
+        }
+
+        isMoving = moving;
+
+        if (appearance != null)
+        {
+            appearance.SetMoving(isMoving);
         }
     }
 }

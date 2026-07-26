@@ -1,8 +1,6 @@
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
-using UnityEngine.Rendering;
-using UnityEngine.Rendering.Universal;
 using UnityEngine.UI;
 
 public class UIManager : Singleton<UIManager>
@@ -13,17 +11,6 @@ public class UIManager : Singleton<UIManager>
     [SerializeField] private Sprite mediumMentalIcon;
     [SerializeField] private Sprite lowMentalIcon;
     [SerializeField] private Image mentalGauge;
-
-    [Header("Mental Vignette")]
-    [SerializeField] private Volume mentalVolume;
-
-    [Tooltip("Mental이 최대일 때 비네트 강도")]
-    [SerializeField, Range(0f, 1f)]
-    private float minVignetteIntensity = 0f;
-
-    [Tooltip("Mental이 거의 없을 때 비네트 최대 강도")]
-    [SerializeField, Range(0f, 1f)]
-    private float maxVignetteIntensity = 0.55f;
 
     [Header("Reload Gauge")]
     [SerializeField] private Image reloadGauge;
@@ -107,7 +94,6 @@ public class UIManager : Singleton<UIManager>
     [SerializeField] private TMP_Text ammoText;
 
     private Transform playerTransform;
-    private Vignette mentalVignette;
 
     private GameManager gameManager;
     private PlayerExperience playerExperience;
@@ -136,7 +122,6 @@ public class UIManager : Singleton<UIManager>
         }
 
         InitializeReferences();
-        InitializeVignette();
         InitializeMentalUI();
         InitializeProgressUI();
     }
@@ -192,48 +177,6 @@ public class UIManager : Singleton<UIManager>
         }
     }
 
-    private void InitializeVignette()
-    {
-        if (mentalVolume == null)
-        {
-            Debug.LogWarning(
-                $"{nameof(UIManager)}에 " +
-                "Mental Volume이 연결되지 않았습니다.",
-                this
-            );
-
-            return;
-        }
-
-        VolumeProfile runtimeProfile =
-            mentalVolume.profile;
-
-        if (runtimeProfile == null)
-        {
-            Debug.LogWarning(
-                "Mental Volume에 Volume Profile이 없습니다.",
-                mentalVolume
-            );
-
-            return;
-        }
-
-        if (!runtimeProfile.TryGet(
-                out mentalVignette))
-        {
-            Debug.LogWarning(
-                "Mental Volume Profile에 Vignette가 없습니다.",
-                mentalVolume
-            );
-
-            return;
-        }
-
-        mentalVignette.intensity.Override(
-            minVignetteIntensity
-        );
-    }
-
     private void InitializeMentalUI()
     {
         currentMental = maxMental;
@@ -243,8 +186,6 @@ public class UIManager : Singleton<UIManager>
         {
             mentalGauge.fillAmount = 1f;
         }
-
-        UpdateMentalVignette(1f);
 
         if (reloadGauge != null)
         {
@@ -546,8 +487,6 @@ public class UIManager : Singleton<UIManager>
                 mentalRatio;
         }
 
-        UpdateMentalVignette(mentalRatio);
-
         if (currentMentalState !=
             newMentalState)
         {
@@ -557,31 +496,6 @@ public class UIManager : Singleton<UIManager>
             UpdateMentalIcon();
             ResetMentalTextTimer();
         }
-    }
-
-    private void UpdateMentalVignette(
-        float mentalRatio
-    )
-    {
-        if (mentalVignette == null)
-        {
-            return;
-        }
-
-        float dangerRatio =
-            1f - Mathf.Clamp01(
-                mentalRatio
-            );
-
-        float intensity = Mathf.Lerp(
-            minVignetteIntensity,
-            maxVignetteIntensity,
-            dangerRatio
-        );
-
-        mentalVignette.intensity.Override(
-            intensity
-        );
     }
 
     /// <summary>

@@ -19,6 +19,7 @@ public sealed class MonsterSanityAppearance : MonoBehaviour
     private Animator animator;
     private PlayerMental subscribedPlayerMental;
     private Vector3 previousPosition;
+    private bool isMoving;
 
     public enum MonsterMotionState
     {
@@ -41,6 +42,7 @@ public sealed class MonsterSanityAppearance : MonoBehaviour
         ResolvePlayerMental();
         SubscribeToMental();
         ApplyMentalState(playerMental != null ? playerMental.CurrentMentalState : fallbackMentalState);
+        isMoving = motionState == MonsterMotionState.Run;
         ApplyMotionState();
         previousPosition = transform.position;
     }
@@ -63,9 +65,14 @@ public sealed class MonsterSanityAppearance : MonoBehaviour
             }
         }
 
+        if (!detectMovementAutomatically)
+        {
+            return;
+        }
+
         Vector3 currentPosition = transform.position;
 
-        if (detectMovementAutomatically && motionState != MonsterMotionState.Attack)
+        if (motionState != MonsterMotionState.Attack)
         {
             float minimumDistance = movingSpeedThreshold * Time.deltaTime;
             bool isMoving = (currentPosition - previousPosition).sqrMagnitude
@@ -102,13 +109,41 @@ public sealed class MonsterSanityAppearance : MonoBehaviour
 
     public void SetMotionState(MonsterMotionState state)
     {
+        if (state != MonsterMotionState.Attack)
+        {
+            isMoving = state == MonsterMotionState.Run;
+        }
+
+        if (motionState == state)
+        {
+            return;
+        }
+
         motionState = state;
         ApplyMotionState();
     }
 
     public void SetMoving(bool isMoving)
     {
+        this.isMoving = isMoving;
+
+        if (motionState == MonsterMotionState.Attack)
+        {
+            return;
+        }
+
         SetMotionState(isMoving ? MonsterMotionState.Run : MonsterMotionState.Idle);
+    }
+
+    public void RestoreMovementMotionState()
+    {
+        SetMotionState(isMoving ? MonsterMotionState.Run : MonsterMotionState.Idle);
+    }
+
+    public void SetAutomaticMovementDetection(bool shouldDetect)
+    {
+        detectMovementAutomatically = shouldDetect;
+        previousPosition = transform.position;
     }
 
     private void ResolvePlayerMental()
