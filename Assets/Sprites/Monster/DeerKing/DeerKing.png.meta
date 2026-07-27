@@ -1,0 +1,1076 @@
+fileFormatVersion: 2
+guid: 9be3992ebeac383449173ab6819c83c7
+TextureImporter:
+  internalIDToNameTable:
+  - first:
+      213: 894242342157369268
+    second: DeerKing_0
+  - first:
+      213: -3188315461852793673
+    second: DeerKing_1
+  - first:
+      213: 6079994329824147418
+    second: DeerKing_2
+  - first:
+      213: 2717789468022851032
+    second: DeerKing_3
+  - first:
+      213: -5435494978441718713
+    second: DeerKing_4
+  - first:
+      213: 2500940151347096624
+    second: DeerKing_5
+  - first:
+      213: 6584909783451790093
+    second: DeerKing_6
+  - first:
+      213: -159011320159921020
+    second: DeerKing_7
+  - first:
+      213: 5469057407454825610
+    second: DeerKing_8
+  - first:
+      213: 4560989982409452488
+    second: DeerKing_9
+  - first:
+      213: -5072371943131382581
+    second: DeerKing_10
+  - first:
+      213: -1564756486851507917
+    second: DeerKing_11
+  - first:
+      213: -1785933054659172636
+    second: DeerKing_12
+  - first:
+      213: 7099427141756128458
+    second: DeerKing_13
+  - first:
+      213: -4085841582644666581
+    second: DeerKing_14
+  - first:
+      213: -2173073231684707741
+    second: DeerKing_15
+  - first:
+      213: 4318590978063252735
+    second: DeerKing_16
+  - first:
+      213: 185211652246247836
+    second: DeerKing_17
+  - first:
+      213: -1390213982272562374
+    second: DeerKing_18
+  - first:
+      213: -8432251211431517523
+    second: DeerKing_19
+  - first:
+      213: -4685620382099183596
+    second: DeerKing_20
+  - first:
+      213: 2591534403764297785
+    second: DeerKing_21
+  - first:
+      213: -2381808911262551465
+    second: DeerKing_22
+  - first:
+      213: 3732920483638386132
+    second: DeerKing_23
+  - first:
+      213: -5947889486962335511
+    second: DeerKing_24
+  - first:
+      213: 1737947117193311802
+    second: DeerKing_25
+  - first:
+      213: 3340458144653387147
+    second: DeerKing_26
+  - first:
+      213: 2730575203055526211
+    second: DeerKing_27
+  - first:
+      213: -960609166600704995
+    second: DeerKing_28
+  - first:
+      213: 4414131303151806292
+    second: DeerKing_29
+  - first:
+      213: 3350591152613120453
+    second: DeerKing_30
+  - first:
+      213: -6629308152447801046
+    second: DeerKing_31
+  - first:
+      213: 6977700244460526111
+    second: DeerKing_32
+  - first:
+      213: 6244782411833865835
+    second: DeerKing_33
+  - first:
+      213: -1198887984932634776
+    second: DeerKing_34
+  externalObjects: {}
+  serializedVersion: 13
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    sRGBTexture: 1
+    linearTexture: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapsPreserveCoverage: 0
+    alphaTestReferenceValue: 0.5
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+    flipGreenChannel: 0
+  isReadable: 0
+  streamingMipmaps: 0
+  streamingMipmapsPriority: 0
+  vTOnly: 0
+  ignoreMipmapLimit: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 6
+  cubemapConvolution: 0
+  seamlessCubemap: 0
+  textureFormat: 1
+  maxTextureSize: 2048
+  textureSettings:
+    serializedVersion: 2
+    filterMode: 0
+    aniso: 1
+    mipBias: 0
+    wrapU: 1
+    wrapV: 1
+    wrapW: 1
+  nPOTScale: 0
+  lightmap: 0
+  compressionQuality: 50
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spritePixelsToUnits: 100
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spriteGenerateFallbackPhysicsShape: 1
+  alphaUsage: 1
+  alphaIsTransparency: 1
+  spriteTessellationDetail: -1
+  textureType: 8
+  textureShape: 1
+  singleChannelComponent: 0
+  flipbookRows: 1
+  flipbookColumns: 1
+  maxTextureSizeSet: 0
+  compressionQualitySet: 0
+  textureFormatSet: 0
+  ignorePngGamma: 0
+  applyGammaDecoding: 0
+  swizzle: 50462976
+  cookieLightType: 0
+  platformSettings:
+  - serializedVersion: 4
+    buildTarget: DefaultTexturePlatform
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: Android
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: WebGL
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  spriteSheet:
+    serializedVersion: 2
+    sprites:
+    - serializedVersion: 2
+      name: DeerKing_0
+      rect:
+        serializedVersion: 2
+        x: 119
+        y: 733
+        width: 98
+        height: 189
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 4bf376b1cacf86c00800000000000000
+      internalID: 894242342157369268
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: DeerKing_1
+      rect:
+        serializedVersion: 2
+        x: 227
+        y: 733
+        width: 97
+        height: 183
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 7b4f068daf3d0c3d0800000000000000
+      internalID: -3188315461852793673
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: DeerKing_2
+      rect:
+        serializedVersion: 2
+        x: 330
+        y: 733
+        width: 97
+        height: 183
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: ad7be8931aa706450800000000000000
+      internalID: 6079994329824147418
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: DeerKing_3
+      rect:
+        serializedVersion: 2
+        x: 435
+        y: 732
+        width: 101
+        height: 184
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 8d5ccc72f1787b520800000000000000
+      internalID: 2717789468022851032
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: DeerKing_4
+      rect:
+        serializedVersion: 2
+        x: 575
+        y: 735
+        width: 101
+        height: 178
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 744df879d1e3194b0800000000000000
+      internalID: -5435494978441718713
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: DeerKing_5
+      rect:
+        serializedVersion: 2
+        x: 683
+        y: 733
+        width: 96
+        height: 179
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 03c2e8d21df15b220800000000000000
+      internalID: 2500940151347096624
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: DeerKing_6
+      rect:
+        serializedVersion: 2
+        x: 781
+        y: 732
+        width: 97
+        height: 179
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: d0b63a84f8c426b50800000000000000
+      internalID: 6584909783451790093
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: DeerKing_7
+      rect:
+        serializedVersion: 2
+        x: 874
+        y: 731
+        width: 105
+        height: 175
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 48c1a9afb041bcdf0800000000000000
+      internalID: -159011320159921020
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: DeerKing_8
+      rect:
+        serializedVersion: 2
+        x: 1003
+        y: 732
+        width: 103
+        height: 178
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: a8c409b5cbef5eb40800000000000000
+      internalID: 5469057407454825610
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: DeerKing_9
+      rect:
+        serializedVersion: 2
+        x: 1110
+        y: 731
+        width: 105
+        height: 171
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 8cb61ad4934eb4f30800000000000000
+      internalID: 4560989982409452488
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: DeerKing_10
+      rect:
+        serializedVersion: 2
+        x: 1209
+        y: 729
+        width: 110
+        height: 178
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: bccfef0a7905b99b0800000000000000
+      internalID: -5072371943131382581
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: DeerKing_11
+      rect:
+        serializedVersion: 2
+        x: 1320
+        y: 731
+        width: 100
+        height: 179
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 3394a31044ed84ae0800000000000000
+      internalID: -1564756486851507917
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: DeerKing_12
+      rect:
+        serializedVersion: 2
+        x: 119
+        y: 445
+        width: 98
+        height: 183
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 4e6696c59571737e0800000000000000
+      internalID: -1785933054659172636
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: DeerKing_13
+      rect:
+        serializedVersion: 2
+        x: 227
+        y: 445
+        width: 97
+        height: 181
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: acc042dfe5b368260800000000000000
+      internalID: 7099427141756128458
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: DeerKing_14
+      rect:
+        serializedVersion: 2
+        x: 329
+        y: 444
+        width: 99
+        height: 181
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: b2fd1f17abc2c47c0800000000000000
+      internalID: -4085841582644666581
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: DeerKing_15
+      rect:
+        serializedVersion: 2
+        x: 438
+        y: 444
+        width: 97
+        height: 182
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 36ad582c861b7d1e0800000000000000
+      internalID: -2173073231684707741
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: DeerKing_16
+      rect:
+        serializedVersion: 2
+        x: 575
+        y: 448
+        width: 102
+        height: 170
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: ffcbaa91d97beeb30800000000000000
+      internalID: 4318590978063252735
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: DeerKing_17
+      rect:
+        serializedVersion: 2
+        x: 681
+        y: 445
+        width: 100
+        height: 174
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: c9996643401029200800000000000000
+      internalID: 185211652246247836
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: DeerKing_18
+      rect:
+        serializedVersion: 2
+        x: 774
+        y: 444
+        width: 112
+        height: 172
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: a3bdcd0bfb7f4bce0800000000000000
+      internalID: -1390213982272562374
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: DeerKing_19
+      rect:
+        serializedVersion: 2
+        x: 873
+        y: 443
+        width: 110
+        height: 173
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: da264cdf230aafa80800000000000000
+      internalID: -8432251211431517523
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: DeerKing_20
+      rect:
+        serializedVersion: 2
+        x: 1000
+        y: 444
+        width: 101
+        height: 175
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 418e5a4861559feb0800000000000000
+      internalID: -4685620382099183596
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: DeerKing_21
+      rect:
+        serializedVersion: 2
+        x: 1110
+        y: 443
+        width: 102
+        height: 169
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 93023974fcaf6f320800000000000000
+      internalID: 2591534403764297785
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: DeerKing_22
+      rect:
+        serializedVersion: 2
+        x: 1208
+        y: 441
+        width: 111
+        height: 172
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 752f5512a6d12fed0800000000000000
+      internalID: -2381808911262551465
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: DeerKing_23
+      rect:
+        serializedVersion: 2
+        x: 1321
+        y: 444
+        width: 100
+        height: 166
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 4dd9b0ae66ffdc330800000000000000
+      internalID: 3732920483638386132
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: DeerKing_24
+      rect:
+        serializedVersion: 2
+        x: 109
+        y: 150
+        width: 109
+        height: 191
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 9e0645e560ad47da0800000000000000
+      internalID: -5947889486962335511
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: DeerKing_25
+      rect:
+        serializedVersion: 2
+        x: 226
+        y: 151
+        width: 103
+        height: 184
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: a36b8bee1bd6e1810800000000000000
+      internalID: 1737947117193311802
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: DeerKing_26
+      rect:
+        serializedVersion: 2
+        x: 330
+        y: 151
+        width: 100
+        height: 181
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: b85202bebf0bb5e20800000000000000
+      internalID: 3340458144653387147
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: DeerKing_27
+      rect:
+        serializedVersion: 2
+        x: 433
+        y: 151
+        width: 105
+        height: 186
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 3416d921ea3f4e520800000000000000
+      internalID: 2730575203055526211
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: DeerKing_28
+      rect:
+        serializedVersion: 2
+        x: 569
+        y: 153
+        width: 115
+        height: 138
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: d1ce7c07d0b3ba2f0800000000000000
+      internalID: -960609166600704995
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: DeerKing_29
+      rect:
+        serializedVersion: 2
+        x: 676
+        y: 152
+        width: 108
+        height: 139
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 457ab4c7805224d30800000000000000
+      internalID: 4414131303151806292
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: DeerKing_30
+      rect:
+        serializedVersion: 2
+        x: 790
+        y: 152
+        width: 91
+        height: 139
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 5c9521fa6e0bf7e20800000000000000
+      internalID: 3350591152613120453
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: DeerKing_32
+      rect:
+        serializedVersion: 2
+        x: 1004
+        y: 153
+        width: 106
+        height: 162
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: a296fb2eb57fff3a0800000000000000
+      internalID: -6629308152447801046
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: DeerKing_33
+      rect:
+        serializedVersion: 2
+        x: 1108
+        y: 152
+        width: 107
+        height: 153
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: f1ad9342765c5d060800000000000000
+      internalID: 6977700244460526111
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: DeerKing_34
+      rect:
+        serializedVersion: 2
+        x: 1209
+        y: 150
+        width: 111
+        height: 158
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: b66f6fc648ce9a650800000000000000
+      internalID: 6244782411833865835
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: DeerKing_35
+      rect:
+        serializedVersion: 2
+        x: 1319
+        y: 153
+        width: 109
+        height: 159
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 86f3b9ccab1bc5fe0800000000000000
+      internalID: -1198887984932634776
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: DeerKing_31
+      rect:
+        serializedVersion: 2
+        x: 888
+        y: 152
+        width: 99
+        height: 136
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 3f702bf19bf29dc42aff298430a3f1a7
+      internalID: -273383513
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    outline: []
+    customData: 
+    physicsShape: []
+    bones: []
+    spriteID: af470bcb7c27da5439a9125bba8ed569
+    internalID: 0
+    vertices: []
+    indices: 
+    edges: []
+    weights: []
+    secondaryTextures: []
+    spriteCustomMetadata:
+      entries: []
+    nameFileIdTable:
+      DeerKing_0: 894242342157369268
+      DeerKing_1: -3188315461852793673
+      DeerKing_10: -5072371943131382581
+      DeerKing_11: -1564756486851507917
+      DeerKing_12: -1785933054659172636
+      DeerKing_13: 7099427141756128458
+      DeerKing_14: -4085841582644666581
+      DeerKing_15: -2173073231684707741
+      DeerKing_16: 4318590978063252735
+      DeerKing_17: 185211652246247836
+      DeerKing_18: -1390213982272562374
+      DeerKing_19: -8432251211431517523
+      DeerKing_2: 6079994329824147418
+      DeerKing_20: -4685620382099183596
+      DeerKing_21: 2591534403764297785
+      DeerKing_22: -2381808911262551465
+      DeerKing_23: 3732920483638386132
+      DeerKing_24: -5947889486962335511
+      DeerKing_25: 1737947117193311802
+      DeerKing_26: 3340458144653387147
+      DeerKing_27: 2730575203055526211
+      DeerKing_28: -960609166600704995
+      DeerKing_29: 4414131303151806292
+      DeerKing_3: 2717789468022851032
+      DeerKing_30: 3350591152613120453
+      DeerKing_31: -273383513
+      DeerKing_32: -6629308152447801046
+      DeerKing_33: 6977700244460526111
+      DeerKing_34: 6244782411833865835
+      DeerKing_35: -1198887984932634776
+      DeerKing_4: -5435494978441718713
+      DeerKing_5: 2500940151347096624
+      DeerKing_6: 6584909783451790093
+      DeerKing_7: -159011320159921020
+      DeerKing_8: 5469057407454825610
+      DeerKing_9: 4560989982409452488
+  mipmapLimitGroupName: 
+  pSDRemoveMatte: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
