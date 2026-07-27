@@ -165,7 +165,10 @@ public sealed class MonsterChaseTests
 
     [TestCase("Bird")]
     [TestCase("Blanket")]
+    [TestCase("DeerKing")]
     [TestCase("FlowerFairy")]
+    [TestCase("Grandma")]
+    [TestCase("Hunter")]
     [TestCase("Pig")]
     [TestCase("Rabbit")]
     [TestCase("RedString")]
@@ -189,6 +192,43 @@ public sealed class MonsterChaseTests
         Assert.That(prefab.GetComponent<Rigidbody2D>(), Is.Not.Null);
         Assert.That(prefab.GetComponent(MonsterChaseType), Is.Not.Null);
         Assert.That(prefab.GetComponent(MonsterAttackType), Is.Not.Null);
+        Assert.That(
+            prefab.GetComponent<Animator>().runtimeAnimatorController,
+            Is.SameAs(controller)
+        );
+
+        SerializedObject health = new SerializedObject(
+            prefab.GetComponent(MonsterHealthType)
+        );
+        Assert.That(
+            health.FindProperty("stats").objectReferenceValue,
+            Is.Not.Null
+        );
+
+        Assert.That(
+            Array.Exists(
+                controller.parameters,
+                parameter =>
+                    parameter.name == "SanityStage" &&
+                    parameter.type ==
+                        AnimatorControllerParameterType.Int
+            ),
+            Is.True
+        );
+        Assert.That(
+            Array.Exists(
+                controller.parameters,
+                parameter =>
+                    parameter.name == "MotionState" &&
+                    parameter.type ==
+                        AnimatorControllerParameterType.Int
+            ),
+            Is.True
+        );
+        Assert.That(
+            controller.layers[0].stateMachine.anyStateTransitions.Length,
+            Is.EqualTo(9)
+        );
 
         string[] motionNames = { "idle", "run", "attack" };
         string[] sanityNames = { "high", "medium", "low" };
