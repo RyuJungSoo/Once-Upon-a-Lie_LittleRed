@@ -135,7 +135,7 @@ GameObject:
   - component: {fileID: 18403770}
   m_Layer: 0
   m_Name: GameManager
-  m_TagString: Untagged
+  m_TagString: GameController
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1224,7 +1224,7 @@ GameObject:
   - component: {fileID: 343313099}
   m_Layer: 0
   m_Name: SoundManager
-  m_TagString: Untagged
+  m_TagString: GameController
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1248,6 +1248,9 @@ MonoBehaviour:
   bgmClips:
   - {fileID: 8300000, guid: e58777f45ca3ead4d8e773ac22cc7f0c, type: 3}
   - {fileID: 8300000, guid: 274680b56f61d974fb8d1a6124f8f93a, type: 3}
+  - {fileID: 8300000, guid: 83e7917cf5ad362459222485cec10597, type: 3}
+  - {fileID: 8300000, guid: e011cc4a2cc6c824cb9ee921b0df7c2b, type: 3}
+  - {fileID: 8300000, guid: e423b2985bb1a9a43b3e9ebb704e2952, type: 3}
   sfxClips: []
 --- !u!4 &343313100
 Transform:
@@ -1523,7 +1526,7 @@ GameObject:
   - component: {fileID: 561196513}
   m_Layer: 0
   m_Name: GlobalVolumeManager
-  m_TagString: Untagged
+  m_TagString: GameController
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -2962,7 +2965,7 @@ GameObject:
   - component: {fileID: 920624401}
   m_Layer: 0
   m_Name: UIManager
-  m_TagString: Untagged
+  m_TagString: GameController
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0

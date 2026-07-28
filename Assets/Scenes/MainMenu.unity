@@ -1566,7 +1566,7 @@ GameObject:
   - component: {fileID: 723622221}
   m_Layer: 0
   m_Name: SoundManager
-  m_TagString: Untagged
+  m_TagString: GameController
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1607,6 +1607,9 @@ MonoBehaviour:
   bgmClips:
   - {fileID: 8300000, guid: e58777f45ca3ead4d8e773ac22cc7f0c, type: 3}
   - {fileID: 8300000, guid: 274680b56f61d974fb8d1a6124f8f93a, type: 3}
+  - {fileID: 8300000, guid: 83e7917cf5ad362459222485cec10597, type: 3}
+  - {fileID: 8300000, guid: e011cc4a2cc6c824cb9ee921b0df7c2b, type: 3}
+  - {fileID: 8300000, guid: e423b2985bb1a9a43b3e9ebb704e2952, type: 3}
   sfxClips: []
 --- !u!1 &730820013
 GameObject:
@@ -2177,7 +2180,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.Image
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Color: {r: 1, g: 1, b: 1, a: 0}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -2214,7 +2217,7 @@ GameObject:
   - component: {fileID: 1152968367}
   m_Layer: 0
   m_Name: DialogueManager
-  m_TagString: Untagged
+  m_TagString: GameController
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -3027,6 +3030,7 @@ MonoBehaviour:
   - groupId: s4
     sprite: {fileID: 7418641446168068062, guid: 4af3fbf7b2f273549b59318513467210, type: 3}
   backgroundFadeDuration: 1
+  cutsceneFadeInDuration: 0.8
   characterInterval: 0.035
   inputCooldown: 0.15
   onPrologueSkipped:

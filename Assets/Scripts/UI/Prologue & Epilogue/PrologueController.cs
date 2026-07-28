@@ -12,6 +12,7 @@ public enum EPrologueState
 {
     None,
     BackgroundFadeIn,
+    CutsceneFadeIn,
     Typing,
     WaitingForInput,
     Completed
@@ -37,6 +38,10 @@ public sealed class PrologueController : MonoBehaviour
     [Header("Background Fade")]
     [SerializeField, Min(0.01f)]
     private float backgroundFadeDuration = 1f;
+
+    [Header("Cutscene Fade")]
+    [SerializeField, Min(0.01f)]
+    private float cutsceneFadeInDuration = 0.8f;
 
     [Header("Typewriter")]
     [SerializeField, Min(0.001f)]
@@ -72,6 +77,7 @@ public sealed class PrologueController : MonoBehaviour
             new List<RaycastResult>();
 
     private Coroutine backgroundFadeCoroutine;
+    private Coroutine cutsceneFadeCoroutine;
     private Coroutine typewriterCoroutine;
 
     private string currentFullText = string.Empty;
@@ -133,6 +139,10 @@ public sealed class PrologueController : MonoBehaviour
 
     private void Update()
     {
+        /*
+         * 배경 또는 컷신 페이드 중에는
+         * 일반 진행 입력을 받지 않습니다.
+         */
         if (currentState != EPrologueState.Typing &&
             currentState != EPrologueState.WaitingForInput)
         {
@@ -162,11 +172,11 @@ public sealed class PrologueController : MonoBehaviour
         }
 
         /*
-         * 마우스로 Skip 또는 Next 버튼을 누른 경우에는
-         * 버튼 이벤트만 실행합니다.
+         * Skip 또는 Next 버튼 클릭은 버튼 이벤트만 처리하고,
+         * 같은 클릭으로 대사가 진행되는 것을 막습니다.
          *
-         * 배경, 컷신 이미지, 텍스트 등 다른 UI를 클릭하면
-         * 정상적으로 대사가 진행됩니다.
+         * 컷신, 배경, 텍스트 영역 클릭은
+         * 정상적인 대사 진행 입력으로 사용됩니다.
          */
         if (mousePressed &&
             IsPointerOverPrologueButton())
@@ -237,10 +247,15 @@ public sealed class PrologueController : MonoBehaviour
             Time.unscaledTime + inputCooldown;
 
         backgroundImage.gameObject.SetActive(true);
-        SetBackgroundAlpha(0f);
+        SetGraphicAlpha(backgroundImage, 0f);
 
+        /*
+         * 첫 컷신이 잠깐 보이는 현상을 막기 위해
+         * 활성화 전에 알파를 0으로 초기화합니다.
+         */
         cutsceneImage.gameObject.SetActive(false);
         cutsceneImage.sprite = null;
+        SetGraphicAlpha(cutsceneImage, 0f);
 
         dialogueText.gameObject.SetActive(true);
         dialogueText.text = string.Empty;
@@ -260,36 +275,34 @@ public sealed class PrologueController : MonoBehaviour
             elapsedTime +=
                 Time.unscaledDeltaTime;
 
-            float alpha = Mathf.Clamp01(
-                elapsedTime /
-                backgroundFadeDuration
-            );
+            float progress =
+                Mathf.Clamp01(
+                    elapsedTime /
+                    backgroundFadeDuration
+                );
 
-            SetBackgroundAlpha(alpha);
+            SetGraphicAlpha(
+                backgroundImage,
+                progress
+            );
 
             yield return null;
         }
 
-        SetBackgroundAlpha(1f);
+        SetGraphicAlpha(
+            backgroundImage,
+            1f
+        );
 
         backgroundFadeCoroutine = null;
 
         skipButton.gameObject.SetActive(true);
-        cutsceneImage.gameObject.SetActive(true);
 
+        /*
+         * ShowCurrentEntry에서 첫 Sprite를 적용하고
+         * 컷신 페이드인을 시작합니다.
+         */
         ShowCurrentEntry();
-    }
-
-    private void SetBackgroundAlpha(float alpha)
-    {
-        Color backgroundColor =
-            backgroundImage.color;
-
-        backgroundColor.a =
-            Mathf.Clamp01(alpha);
-
-        backgroundImage.color =
-            backgroundColor;
     }
 
     private void ShowCurrentEntry()
@@ -317,17 +330,158 @@ public sealed class PrologueController : MonoBehaviour
             currentGroupId =
                 currentEntry.GroupId;
 
-            ChangeCutsceneImage(
-                currentGroupId
-            );
+            /*
+             * 이전 대사가 새 컷신 위에 남지 않도록
+             * 컷신 전환 전에 텍스트를 비웁니다.
+             */
+            dialogueText.text =
+                string.Empty;
+
+            dialogueText.maxVisibleCharacters = 0;
+
+            bool imageChanged =
+                TryApplyCutsceneImage(
+                    currentGroupId
+                );
+
+            if (imageChanged)
+            {
+                StartCutsceneFadeIn(
+                    currentEntry.Text
+                );
+
+                return;
+            }
         }
 
+        /*
+         * 같은 그룹의 다음 대사는
+         * 컷신을 다시 페이드인하지 않습니다.
+         */
         StartTypewriter(
             currentEntry.Text
         );
     }
 
-    private void StartTypewriter(string text)
+    private bool TryApplyCutsceneImage(
+        string groupId)
+    {
+        if (string.IsNullOrWhiteSpace(groupId))
+        {
+            return false;
+        }
+
+        string normalizedGroupId =
+            NormalizeGroupId(groupId);
+
+        bool spriteFound =
+            cutsceneSpriteByGroupId.TryGetValue(
+                normalizedGroupId,
+                out Sprite cutsceneSprite
+            );
+
+        if (!spriteFound)
+        {
+            Debug.LogWarning(
+                $"[{nameof(PrologueController)}] " +
+                $"컷신 이미지를 찾지 못했습니다: {groupId}",
+                this
+            );
+
+            return false;
+        }
+
+        /*
+         * 새 Sprite가 잠깐 완전 불투명하게 나타나는 것을
+         * 막기 위해 알파를 먼저 0으로 설정합니다.
+         */
+        SetGraphicAlpha(
+            cutsceneImage,
+            0f
+        );
+
+        cutsceneImage.sprite =
+            cutsceneSprite;
+
+        /*
+         * AI 컷신 이미지마다 원본 비율과 크기가 다르므로
+         * Sprite 변경 시 Native Size를 다시 적용합니다.
+         */
+        cutsceneImage.SetNativeSize();
+        cutsceneImage.gameObject.SetActive(true);
+
+        return true;
+    }
+
+    private void StartCutsceneFadeIn(
+        string dialogue)
+    {
+        if (cutsceneFadeCoroutine != null)
+        {
+            StopCoroutine(
+                cutsceneFadeCoroutine
+            );
+
+            cutsceneFadeCoroutine = null;
+        }
+
+        cutsceneFadeCoroutine =
+            StartCoroutine(
+                FadeInCutsceneThenTypeRoutine(
+                    dialogue
+                )
+            );
+    }
+
+    private IEnumerator FadeInCutsceneThenTypeRoutine(
+        string dialogue)
+    {
+        currentState =
+            EPrologueState.CutsceneFadeIn;
+
+        SetGraphicAlpha(
+            cutsceneImage,
+            0f
+        );
+
+        float elapsedTime = 0f;
+
+        while (elapsedTime <
+               cutsceneFadeInDuration)
+        {
+            elapsedTime +=
+                Time.unscaledDeltaTime;
+
+            float progress =
+                Mathf.Clamp01(
+                    elapsedTime /
+                    cutsceneFadeInDuration
+                );
+
+            SetGraphicAlpha(
+                cutsceneImage,
+                progress
+            );
+
+            yield return null;
+        }
+
+        SetGraphicAlpha(
+            cutsceneImage,
+            1f
+        );
+
+        cutsceneFadeCoroutine = null;
+
+        /*
+         * 컷신 이미지가 완전히 나타난 다음
+         * 해당 그룹의 첫 대사를 출력합니다.
+         */
+        StartTypewriter(dialogue);
+    }
+
+    private void StartTypewriter(
+        string text)
     {
         if (typewriterCoroutine != null)
         {
@@ -341,6 +495,7 @@ public sealed class PrologueController : MonoBehaviour
         currentFullText =
             text ?? string.Empty;
 
+        dialogueText.gameObject.SetActive(true);
         dialogueText.text =
             currentFullText;
 
@@ -390,6 +545,9 @@ public sealed class PrologueController : MonoBehaviour
 
             yield return null;
         }
+
+        dialogueText.maxVisibleCharacters =
+            int.MaxValue;
 
         typewriterCoroutine = null;
 
@@ -464,48 +622,6 @@ public sealed class PrologueController : MonoBehaviour
         }
 
         ShowCurrentEntry();
-    }
-
-    private bool ChangeCutsceneImage(
-        string groupId)
-    {
-        if (string.IsNullOrWhiteSpace(groupId))
-        {
-            return false;
-        }
-
-        string normalizedGroupId =
-            NormalizeGroupId(groupId);
-
-        bool spriteFound =
-            cutsceneSpriteByGroupId.TryGetValue(
-                normalizedGroupId,
-                out Sprite cutsceneSprite
-            );
-
-        if (!spriteFound)
-        {
-            Debug.LogWarning(
-                $"[{nameof(PrologueController)}] " +
-                $"컷신 이미지를 찾지 못했습니다: {groupId}",
-                this
-            );
-
-            return false;
-        }
-
-        cutsceneImage.sprite =
-            cutsceneSprite;
-
-        /*
-         * 컷신 이미지마다 비율과 원본 크기가 다르므로
-         * Sprite가 변경될 때마다 Native Size를 적용합니다.
-         */
-        cutsceneImage.SetNativeSize();
-
-        cutsceneImage.gameObject.SetActive(true);
-
-        return true;
     }
 
     private void CompletePrologue()
@@ -816,6 +932,15 @@ public sealed class PrologueController : MonoBehaviour
             backgroundFadeCoroutine = null;
         }
 
+        if (cutsceneFadeCoroutine != null)
+        {
+            StopCoroutine(
+                cutsceneFadeCoroutine
+            );
+
+            cutsceneFadeCoroutine = null;
+        }
+
         if (typewriterCoroutine != null)
         {
             StopCoroutine(
@@ -824,6 +949,25 @@ public sealed class PrologueController : MonoBehaviour
 
             typewriterCoroutine = null;
         }
+    }
+
+    private static void SetGraphicAlpha(
+        Graphic graphic,
+        float alpha)
+    {
+        if (graphic == null)
+        {
+            return;
+        }
+
+        Color color =
+            graphic.color;
+
+        color.a =
+            Mathf.Clamp01(alpha);
+
+        graphic.color =
+            color;
     }
 
     private static string NormalizeGroupId(
