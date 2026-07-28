@@ -249,10 +249,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0285a3ba9540fac43ae60724a2199f0d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerExperience
-  baseRequiredExperience: 10
-  requiredExperienceIncreasePerLevel: 5
   <CurrentExperience>k__BackingField: 0
-  <RequiredExperience>k__BackingField: 10
+  <RequiredExperience>k__BackingField: 100
 --- !u!1 &18578504
 GameObject:
   m_ObjectHideFlags: 0

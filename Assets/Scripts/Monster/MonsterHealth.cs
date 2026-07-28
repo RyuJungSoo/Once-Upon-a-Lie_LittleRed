@@ -41,6 +41,69 @@ public sealed class MonsterHealth : MonoBehaviour
 
         IsDead = true;
         Died?.Invoke(this);
+        DropExperienceCrystal();
+        DropRecoveryItems();
         Destroy(gameObject);
+    }
+
+    private void DropExperienceCrystal()
+    {
+        if (stats == null ||
+            stats.ExperienceCrystalDropPrefab == null)
+        {
+            return;
+        }
+
+        Instantiate(
+            stats.ExperienceCrystalDropPrefab,
+            transform.position,
+            Quaternion.identity
+        );
+    }
+
+    private void DropRecoveryItems()
+    {
+        if (stats == null)
+        {
+            return;
+        }
+
+        TryDropItem(
+            stats.RedBerryDropPrefab,
+            stats.RedBerryDropChancePercent
+        );
+        TryDropItem(
+            stats.StarCandyDropPrefab,
+            stats.StarCandyDropChancePercent
+        );
+        TryDropItem(
+            stats.PieDropPrefab,
+            stats.PieDropChancePercent
+        );
+    }
+
+    private void TryDropItem(
+        GameObject itemPrefab,
+        float dropChancePercent
+    )
+    {
+        if (itemPrefab == null ||
+            dropChancePercent <= 0f)
+        {
+            return;
+        }
+
+        if (dropChancePercent < 100f &&
+            UnityEngine.Random.value * 100f >=
+            dropChancePercent)
+        {
+            return;
+        }
+
+        Instantiate(
+            itemPrefab,
+            transform.position,
+            Quaternion.identity
+        );
     }
 }

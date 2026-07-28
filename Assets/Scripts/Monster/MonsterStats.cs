@@ -19,6 +19,35 @@ public sealed class MonsterStats : ScriptableObject
     [Header("Movement")]
     [SerializeField, Min(0f)] private float moveSpeed = 2f;
 
+    [Header("Experience Crystal Drop")]
+    [SerializeField]
+    private GameObject experienceCrystalDropPrefab;
+
+    [Header("Recovery Item Drops")]
+    [Tooltip("RedBerry prefab dropped by this monster.")]
+    [SerializeField]
+    private GameObject redBerryDropPrefab;
+
+    [Tooltip("Independent RedBerry drop chance in percent.")]
+    [SerializeField, Range(0f, 100f)]
+    private float redBerryDropChancePercent = 10f;
+
+    [Tooltip("StarCandy prefab dropped by this monster.")]
+    [SerializeField]
+    private GameObject starCandyDropPrefab;
+
+    [Tooltip("Independent StarCandy drop chance in percent.")]
+    [SerializeField, Range(0f, 100f)]
+    private float starCandyDropChancePercent = 20f;
+
+    [Tooltip("Pie prefab dropped by this monster.")]
+    [SerializeField]
+    private GameObject pieDropPrefab;
+
+    [Tooltip("Independent Pie drop chance in percent.")]
+    [SerializeField, Range(0f, 100f)]
+    private float pieDropChancePercent = 3f;
+
     public int MaxHealth => maxHealth;
     public float Damage => damage;
     public float KnockbackDistance => knockbackDistance;
@@ -26,6 +55,20 @@ public sealed class MonsterStats : ScriptableObject
     public Color HitFlashColor => hitFlashColor;
     public float HitFlashDuration => hitFlashDuration;
     public float MoveSpeed => moveSpeed;
+    public GameObject ExperienceCrystalDropPrefab =>
+        experienceCrystalDropPrefab;
+    public GameObject RedBerryDropPrefab =>
+        redBerryDropPrefab;
+    public float RedBerryDropChancePercent =>
+        redBerryDropChancePercent;
+    public GameObject StarCandyDropPrefab =>
+        starCandyDropPrefab;
+    public float StarCandyDropChancePercent =>
+        starCandyDropChancePercent;
+    public GameObject PieDropPrefab =>
+        pieDropPrefab;
+    public float PieDropChancePercent =>
+        pieDropChancePercent;
 
     private void OnValidate()
     {
@@ -35,5 +78,20 @@ public sealed class MonsterStats : ScriptableObject
         knockbackDuration = Mathf.Max(0.01f, knockbackDuration);
         hitFlashDuration = Mathf.Max(0f, hitFlashDuration);
         moveSpeed = Mathf.Max(0f, moveSpeed);
+        redBerryDropChancePercent = Mathf.Clamp(
+            redBerryDropChancePercent,
+            0f,
+            100f
+        );
+        starCandyDropChancePercent = Mathf.Clamp(
+            starCandyDropChancePercent,
+            0f,
+            100f
+        );
+        pieDropChancePercent = Mathf.Clamp(
+            pieDropChancePercent,
+            0f,
+            100f
+        );
     }
 }

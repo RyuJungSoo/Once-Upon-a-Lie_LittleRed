@@ -4,21 +4,15 @@ using UnityEngine;
 [DisallowMultipleComponent]
 public class PlayerExperience : MonoBehaviour
 {
-    [Header("Experience Growth")]
-    [Tooltip("레벨 1에서 다음 레벨까지 필요한 경험치입니다.")]
-    [SerializeField, Min(1)]
-    private int baseRequiredExperience = 10;
-
-    [Tooltip("레벨이 오를 때마다 증가하는 필요 경험치입니다.")]
-    [SerializeField, Min(0)]
-    private int requiredExperienceIncreasePerLevel = 5;
+    public const int ExperienceRequiredPerLevel = 100;
 
     [field: Header("Runtime Experience")]
     [field: SerializeField, Min(0)]
     public int CurrentExperience { get; private set; }
 
     [field: SerializeField, Min(1)]
-    public int RequiredExperience { get; private set; } = 10;
+    public int RequiredExperience { get; private set; } =
+        ExperienceRequiredPerLevel;
 
     /// <summary>
     /// 현재 경험치 게이지 비율입니다.
@@ -40,6 +34,8 @@ public class PlayerExperience : MonoBehaviour
     /// </summary>
     public event Action<int> OnExperienceAdded;
 
+    public event Action<int> OnLevelGained;
+
     private GameManager gameManager;
 
     private bool isSubscribed;
@@ -47,24 +43,13 @@ public class PlayerExperience : MonoBehaviour
 
     private void Awake()
     {
-        baseRequiredExperience = Mathf.Max(
-            1,
-            baseRequiredExperience
-        );
-
-        requiredExperienceIncreasePerLevel =
-            Mathf.Max(
-                0,
-                requiredExperienceIncreasePerLevel
-            );
-
         CurrentExperience = Mathf.Max(
             0,
             CurrentExperience
         );
 
         RequiredExperience =
-            CalculateRequiredExperience(1);
+            ExperienceRequiredPerLevel;
     }
 
     private void OnEnable()
@@ -93,9 +78,7 @@ public class PlayerExperience : MonoBehaviour
         CurrentExperience = 0;
 
         RequiredExperience =
-            CalculateRequiredExperience(
-                GetCurrentPlayerLevel()
-            );
+            ExperienceRequiredPerLevel;
 
         NotifyExperienceChanged();
     }
@@ -157,9 +140,7 @@ public class PlayerExperience : MonoBehaviour
         TrySubscribeGameManager();
 
         RequiredExperience =
-            CalculateRequiredExperience(
-                GetCurrentPlayerLevel()
-            );
+            ExperienceRequiredPerLevel;
 
         CurrentExperience = Mathf.Clamp(
             CurrentExperience,
@@ -213,44 +194,12 @@ public class PlayerExperience : MonoBehaviour
             }
 
             RequiredExperience =
-                CalculateRequiredExperience(
-                    currentLevel
-                );
+                ExperienceRequiredPerLevel;
+
+            OnLevelGained?.Invoke(
+                currentLevel
+            );
         }
-    }
-
-    /// <summary>
-    /// 해당 레벨에서 다음 레벨까지 필요한 경험치를 계산합니다.
-    /// </summary>
-    private int CalculateRequiredExperience(
-        int currentLevel
-    )
-    {
-        currentLevel = Mathf.Max(
-            1,
-            currentLevel
-        );
-
-        int levelOffset =
-            currentLevel - 1;
-
-        return Mathf.Max(
-            1,
-            baseRequiredExperience +
-            requiredExperienceIncreasePerLevel *
-            levelOffset
-        );
-    }
-
-    private int GetCurrentPlayerLevel()
-    {
-        if (!GameManager.HasInstance)
-        {
-            return 1;
-        }
-
-        return GameManager.Instance
-            .CurrentPlayerLevel;
     }
 
     private void TrySubscribeGameManager()
@@ -294,9 +243,7 @@ public class PlayerExperience : MonoBehaviour
     )
     {
         RequiredExperience =
-            CalculateRequiredExperience(
-                newLevel
-            );
+            ExperienceRequiredPerLevel;
 
         NotifyExperienceChanged();
     }
