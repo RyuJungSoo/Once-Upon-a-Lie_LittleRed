@@ -17,8 +17,8 @@ GameObject:
   - component: {fileID: 7568815936413441326}
   - component: {fileID: 1978886243422937312}
   - component: {fileID: 1341941468075458884}
-  - component: {fileID: 7367584111945381519}
   - component: {fileID: 2009874486335486763}
+  - component: {fileID: 3195730765329972230}
   m_Layer: 0
   m_Name: Sign
   m_TagString: Untagged
@@ -249,20 +249,6 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 1
   m_Constraints: 4
---- !u!114 &7367584111945381519
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6785587294209071062}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 08fbfa84d3da1404d857db743e379109, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::MonsterAttack
-  attackCooldown: 0.75
-  attackAnimationDuration: 0.25
 --- !u!114 &2009874486335486763
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -277,3 +263,21 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::MonsterChase
   target: {fileID: 0}
   stopDistance: 0.1
+--- !u!114 &3195730765329972230
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6785587294209071062}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 50e20b93b4685ab4e816db53870a6763, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::SignZigzagAttack
+  speedMultiplier: 1.75
+  zigzagInterval: 0.18
+  zigzagStrength: 0.65
+  attackCooldown: 0.75
+  attackAnimationDuration: 0.25
+  target: {fileID: 0}

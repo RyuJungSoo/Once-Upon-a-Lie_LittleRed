@@ -17,8 +17,8 @@ GameObject:
   - component: {fileID: 8303893665046059493}
   - component: {fileID: 6406740747202995536}
   - component: {fileID: 3319573988001393939}
-  - component: {fileID: 1437142534452294840}
   - component: {fileID: 8385991293954401932}
+  - component: {fileID: 559195283552175466}
   m_Layer: 0
   m_Name: Pig
   m_TagString: Untagged
@@ -249,20 +249,6 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 1
   m_Constraints: 4
---- !u!114 &1437142534452294840
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6222643459820160562}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 08fbfa84d3da1404d857db743e379109, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::MonsterAttack
-  attackCooldown: 0.75
-  attackAnimationDuration: 0.25
 --- !u!114 &8385991293954401932
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -277,3 +263,22 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::MonsterChase
   target: {fileID: 0}
   stopDistance: 0.1
+--- !u!114 &559195283552175466
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6222643459820160562}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d2afad098eb196f449ccfc2e7ad85a15, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::PigChargeAttack
+  chargeRange: 4
+  aimDuration: 0.65
+  chargeSpeed: 8
+  chargeDuration: 0.75
+  recoveryDuration: 0.65
+  chargeCooldown: 1.5
+  target: {fileID: 0}

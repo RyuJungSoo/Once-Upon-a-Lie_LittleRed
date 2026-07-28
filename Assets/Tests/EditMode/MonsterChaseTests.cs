@@ -13,6 +13,14 @@ public sealed class MonsterChaseTests
     private static readonly Type MonsterAttackType =
         Type.GetType("MonsterAttack, Assembly-CSharp");
 
+    private static readonly Type PigChargeAttackType =
+        Type.GetType("PigChargeAttack, Assembly-CSharp");
+
+    private static readonly Type SignAttackType =
+        Type.GetType(
+            "SignZigzagAttack, Assembly-CSharp"
+        );
+
     private static readonly Type MonsterAppearanceType =
         Type.GetType("MonsterSanityAppearance, Assembly-CSharp");
 
@@ -30,6 +38,8 @@ public sealed class MonsterChaseTests
     {
         Assert.That(MonsterChaseType, Is.Not.Null);
         Assert.That(MonsterAttackType, Is.Not.Null);
+        Assert.That(PigChargeAttackType, Is.Not.Null);
+        Assert.That(SignAttackType, Is.Not.Null);
         Assert.That(MonsterAppearanceType, Is.Not.Null);
         Assert.That(MonsterHealthType, Is.Not.Null);
 
@@ -174,7 +184,7 @@ public sealed class MonsterChaseTests
     [TestCase("RedString")]
     [TestCase("Sign")]
     [TestCase("TeaCup")]
-    public void MonsterPrefabHasChaseAttackAndCompleteAnimator(
+    public void MonsterPrefabHasAttackPatternAndCompleteAnimator(
         string monsterName
     )
     {
@@ -191,7 +201,37 @@ public sealed class MonsterChaseTests
         Assert.That(controller, Is.Not.Null);
         Assert.That(prefab.GetComponent<Rigidbody2D>(), Is.Not.Null);
         Assert.That(prefab.GetComponent(MonsterChaseType), Is.Not.Null);
-        Assert.That(prefab.GetComponent(MonsterAttackType), Is.Not.Null);
+
+        if (monsterName == "Pig")
+        {
+            Assert.That(
+                prefab.GetComponent(MonsterAttackType),
+                Is.Null
+            );
+            Assert.That(
+                prefab.GetComponent(PigChargeAttackType),
+                Is.Not.Null
+            );
+        }
+        else if (monsterName == "Sign")
+        {
+            Assert.That(
+                prefab.GetComponent(MonsterAttackType),
+                Is.Null
+            );
+            Assert.That(
+                prefab.GetComponent(SignAttackType),
+                Is.Not.Null
+            );
+        }
+        else
+        {
+            Assert.That(
+                prefab.GetComponent(MonsterAttackType),
+                Is.Not.Null
+            );
+        }
+
         Assert.That(
             prefab.GetComponent<Animator>().runtimeAnimatorController,
             Is.SameAs(controller)
