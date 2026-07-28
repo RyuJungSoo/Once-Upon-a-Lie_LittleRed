@@ -39,6 +39,12 @@ public class PlayerMental : MonoBehaviour
     public bool IsDepleted =>
         CurrentMental <= 0f;
 
+    public bool IsPassiveMentalDrainPaused =>
+        Time.time < passiveMentalDrainPausedUntil;
+
+    public bool IsIncomingMentalDamageBlocked =>
+        Time.time < incomingMentalDamageBlockedUntil;
+
     /// 현재 정신력 상태에 따른 공격력 배율입니다.
     /// Low 상태일 때 정신력 강화 효과가 적용됩니다.
     public float CurrentAttackPowerMultiplier =>
@@ -60,6 +66,8 @@ public class PlayerMental : MonoBehaviour
     private EMentalState previousMentalState;
     private bool isInitialized;
     private bool hasDepleted;
+    private float passiveMentalDrainPausedUntil;
+    private float incomingMentalDamageBlockedUntil;
 
     private void Awake()
     {
@@ -122,6 +130,8 @@ public class PlayerMental : MonoBehaviour
 
         hasDepleted = false;
         CurrentMental = MaxMental;
+        passiveMentalDrainPausedUntil = 0f;
+        incomingMentalDamageBlockedUntil = 0f;
 
         NotifyMentalChanged(true);
     }
@@ -134,7 +144,9 @@ public class PlayerMental : MonoBehaviour
     {
         InitializeIfNeeded();
 
-        if (baseDamage <= 0f || IsDepleted)
+        if (baseDamage <= 0f ||
+            IsDepleted ||
+            IsIncomingMentalDamageBlocked)
         {
             return;
         }
@@ -179,6 +191,44 @@ public class PlayerMental : MonoBehaviour
         }
 
         SetMental(CurrentMental + amount);
+    }
+
+    public void RestoreMentalByMaxRatio(float ratio)
+    {
+        InitializeIfNeeded();
+
+        if (ratio <= 0f)
+        {
+            return;
+        }
+
+        RestoreMental(MaxMental * Mathf.Clamp01(ratio));
+    }
+
+    public void PausePassiveMentalDrain(float duration)
+    {
+        if (duration <= 0f)
+        {
+            return;
+        }
+
+        passiveMentalDrainPausedUntil = Mathf.Max(
+            passiveMentalDrainPausedUntil,
+            Time.time + duration
+        );
+    }
+
+    public void BlockIncomingMentalDamage(float duration)
+    {
+        if (duration <= 0f)
+        {
+            return;
+        }
+
+        incomingMentalDamageBlockedUntil = Mathf.Max(
+            incomingMentalDamageBlockedUntil,
+            Time.time + duration
+        );
     }
 
     /// <summary>
@@ -332,6 +382,11 @@ public class PlayerMental : MonoBehaviour
 
         if (!GameManager.HasInstance ||
             !GameManager.Instance.IsPlaying)
+        {
+            return;
+        }
+
+        if (IsPassiveMentalDrainPaused)
         {
             return;
         }
