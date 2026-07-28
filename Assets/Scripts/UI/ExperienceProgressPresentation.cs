@@ -254,7 +254,7 @@ public sealed class ExperienceProgressPresentation
         segmentReachesFull = segmentTarget >= requiredExperience;
         segmentElapsed = 0f;
         segmentDuration = Max(
-            MinimumSegmentDuration,
+            minimumSegmentDuration,
             fullBarDuration * segmentExperience /
             requiredExperience
         );
