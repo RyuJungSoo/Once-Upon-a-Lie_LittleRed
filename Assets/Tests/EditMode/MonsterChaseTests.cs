@@ -21,6 +21,11 @@ public sealed class MonsterChaseTests
             "SignZigzagAttack, Assembly-CSharp"
         );
 
+    private static readonly Type BlanketAttackType =
+        Type.GetType(
+            "BlanketContactRestraint, Assembly-CSharp"
+        );
+
     private static readonly Type MonsterAppearanceType =
         Type.GetType("MonsterSanityAppearance, Assembly-CSharp");
 
@@ -40,6 +45,7 @@ public sealed class MonsterChaseTests
         Assert.That(MonsterAttackType, Is.Not.Null);
         Assert.That(PigChargeAttackType, Is.Not.Null);
         Assert.That(SignAttackType, Is.Not.Null);
+        Assert.That(BlanketAttackType, Is.Not.Null);
         Assert.That(MonsterAppearanceType, Is.Not.Null);
         Assert.That(MonsterHealthType, Is.Not.Null);
 
@@ -202,7 +208,30 @@ public sealed class MonsterChaseTests
         Assert.That(prefab.GetComponent<Rigidbody2D>(), Is.Not.Null);
         Assert.That(prefab.GetComponent(MonsterChaseType), Is.Not.Null);
 
-        if (monsterName == "Pig")
+        if (monsterName == "Blanket")
+        {
+            Assert.That(
+                prefab.GetComponent(MonsterAttackType),
+                Is.Null
+            );
+            Assert.That(
+                prefab.GetComponent(BlanketAttackType),
+                Is.Not.Null
+            );
+
+            SerializedObject blanketAttack =
+                new SerializedObject(
+                    prefab.GetComponent(BlanketAttackType)
+                );
+
+            Assert.That(
+                blanketAttack.FindProperty(
+                    "restraintDuration"
+                ).floatValue,
+                Is.EqualTo(1.5f)
+            );
+        }
+        else if (monsterName == "Pig")
         {
             Assert.That(
                 prefab.GetComponent(MonsterAttackType),
