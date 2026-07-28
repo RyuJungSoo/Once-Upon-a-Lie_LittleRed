@@ -1,0 +1,8 @@
+﻿
+
+FullName         : C:\Users\User\Desktop\Once-Upon-a-Lie_LittleRed\Assets\Scenes\Stage1_Scene.unity
+Length           : 374459
+LastWriteTimeUtc : 2026-07-28 오후 11:09:23
+
+
+

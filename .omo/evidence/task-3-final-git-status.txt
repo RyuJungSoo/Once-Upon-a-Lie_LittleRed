@@ -1,0 +1,13 @@
+﻿ M .omo/drafts/experience-gauge-level-ui.md
+ M Assets/Scenes/Stage1_Scene.unity
+ M Assets/Tests/EditMode/ExperienceCrystalTests.cs
+?? .omo/boulder.json
+?? .omo/evidence/
+?? .omo/plans/experience-gauge-level-ui.md
+?? .omo/start-work/
+?? Assets/Scripts/UI/ExperienceProgressPresentation.cs
+?? Assets/Scripts/UI/ExperienceProgressPresentation.cs.meta
+?? Assets/Tests/EditMode/ExperienceProgressPresentationTests.cs
+?? Assets/Tests/EditMode/ExperienceProgressPresentationTests.cs.meta
+?? Assets/Tests/EditMode/ExperienceProgressSceneTests.cs
+?? Assets/Tests/EditMode/ExperienceProgressSceneTests.cs.meta

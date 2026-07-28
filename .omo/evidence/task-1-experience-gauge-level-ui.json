@@ -1,0 +1,70 @@
+{
+  "task": "Todo 1 - deterministic XP presentation state",
+  "status": "passed",
+  "unity_instance": "Once-Upon-a-Lie_LittleRed@3aedf8e3e3535f72",
+  "unity_version": "6000.3.8f1",
+  "resource_checks": {
+    "custom_tools": "mcpforunity://custom-tools read before Unity tool use; tool_count=35",
+    "instances": "mcpforunity://instances read; instance_count=1",
+    "editor_state": "mcpforunity://editor/state read; ready_for_tools=true, is_compiling=false, is_domain_reload_pending=false"
+  },
+  "baseline_first": {
+    "invocation": "run_tests(mode=\"EditMode\", assembly_names=[\"LittleRed.Tests.EditMode\"], test_names=[\"ExperienceCrystalTests.ExperienceUsesFixedOneHundredPerLevel\"], include_details=true, include_failed_tests=true)",
+    "job_id": "fd913a3fbafe4582876ce444c782715b",
+    "observable": "status=succeeded, total=1, passed=1, failed=0, skipped=0",
+    "test": "ExperienceCrystalTests.ExperienceUsesFixedOneHundredPerLevel"
+  },
+  "final_tests": [
+    {
+      "scenario": "ExperienceProgressPresentationTests targeted suite, first pass",
+      "invocation": "run_tests(mode=\"EditMode\", assembly_names=[\"LittleRed.Tests.EditMode\"], test_names=[full test names], include_details=true, include_failed_tests=true)",
+      "job_id": "5e15d920a1204051b1bc64d05c92e9f3",
+      "observable": "status=succeeded, progress completed=6 total=6, failures_so_far=[]; result payload was null so this was not used alone"
+    },
+    {
+      "scenario": "ExperienceProgressPresentationTests targeted suite, flaky probe",
+      "invocation": "run_tests(mode=\"EditMode\", assembly_names=[\"LittleRed.Tests.EditMode\"], test_names=[full test names], include_details=true, include_failed_tests=true)",
+      "job_id": "fc418c7b5930499983eeca9e572d7fb1",
+      "observable": "status=succeeded, total=6, passed=6, failed=0, skipped=0",
+      "tests": [
+        "ExperienceProgressPresentationTests.ExactThresholdAppliesLevelOnlyAtFullThenResets",
+        "ExperienceProgressPresentationTests.InvalidProjectedLevelCancelsToLatestAuthoritativeState",
+        "ExperienceProgressPresentationTests.MultipleLevelsReachFullAndApplyLevelsInOrder",
+        "ExperienceProgressPresentationTests.OverflowFillsOnlyAfterFullHold",
+        "ExperienceProgressPresentationTests.ResetSynchronizesSnapshotAndIgnoresMalformedInput",
+        "ExperienceProgressPresentationTests.SameFrameAndActiveGainsAreQueued"
+      ]
+    },
+    {
+      "scenario": "Requested short fixture filter",
+      "invocation": "run_tests(mode=\"EditMode\", assembly_names=[\"LittleRed.Tests.EditMode\"], test_names=[\"ExperienceProgressPresentationTests\"], include_details=true, include_failed_tests=true)",
+      "job_id": "b358aa48d9e542888727ec279449c0d5",
+      "observable": "status=succeeded, total=6, passed=6, failed=0, skipped=0"
+    }
+  ],
+  "manual_qa": {
+    "scenario": "Unity MCP execute_code runtime reflection of compiled product type",
+    "invocation": "execute_code action=execute; Activator.CreateInstance(ExperienceProgressPresentation); Reset(95,100,1); EnqueueExperience(17); EnqueueLevel(2); Advance explicit deltas",
+    "cleanup": "execute_code(action=\"clear_history\") returned success=true and cleared 1 history entry; no temporary GameObjects were created",
+    "steps": [
+      { "label": "after reset", "phase": "Idle", "level": 1, "fill": 0.9500 },
+      { "label": "after enqueue", "phase": "Filling", "level": 1, "fill": 0.9500 },
+      { "label": "pre-full 0.079s", "phase": "Filling", "level": 1, "fill": 0.9994 },
+      { "label": "full threshold +0.001s", "phase": "HoldingFull", "level": 2, "fill": 1.0000 },
+      { "label": "holding full +0.099s", "phase": "HoldingFull", "level": 2, "fill": 1.0000 },
+      { "label": "hold complete reset +0.001s", "phase": "Filling", "level": 2, "fill": 0.0000 },
+      { "label": "overflow final +0.080s", "phase": "Idle", "level": 2, "fill": 0.1200 }
+    ],
+    "assertions": [
+      "level stays 1 below full",
+      "level becomes 2 at fill 1.0",
+      "final overflow fill is 0.12"
+    ],
+    "result": "passed"
+  },
+  "console": {
+    "post_compile_errors": "read_console(types=[\"error\"], count=20) returned 0 entries",
+    "post_test_errors_warnings": "read_console(types=[\"error\",\"warning\"], count=100) returned Unity Test Framework prebuild/cleanup warnings and TestResults.xml save messages typed as Exception; no compile diagnostics from validate_script",
+    "validate_script": "Assets/Scripts/UI/ExperienceProgressPresentation.cs warnings=0 errors=0"
+  }
+}

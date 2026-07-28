@@ -1,0 +1,140 @@
+{
+  "task": "Todo 2 - XP/level event contract test coverage",
+  "difficulty": "LOW",
+  "production_behavior_changed": false,
+  "changed_files": [
+    "Assets/Tests/EditMode/ExperienceCrystalTests.cs"
+  ],
+  "evidence_recorded_at": "2026-07-29T07:37:34+09:00",
+  "static_review": {
+    "invocation": "git diff -- Assets/Tests/EditMode/ExperienceCrystalTests.cs",
+    "observable": "Diff only adds focused NUnit tests and one reflection event helper in ExperienceCrystalTests.cs.",
+    "existing_312_test_preserved": true,
+    "production_files_touched": false
+  },
+  "unity_context": {
+    "custom_tools_resource": {
+      "uri": "mcpforunity://custom-tools",
+      "tool_count": 35,
+      "contains": [
+        "run_tests",
+        "get_test_job",
+        "execute_code",
+        "read_console"
+      ]
+    },
+    "instances_resource": {
+      "uri": "mcpforunity://instances",
+      "instance": "Once-Upon-a-Lie_LittleRed@3aedf8e3e3535f72",
+      "unity_version": "6000.3.8f1"
+    },
+    "editor_state_resource": {
+      "uri": "mcpforunity://editor/state",
+      "ready_for_tools": true,
+      "is_compiling": false,
+      "is_domain_reload_pending": false,
+      "active_scene": "Assets/Scenes/Stage1_Scene.unity",
+      "stale": false
+    },
+    "refresh": {
+      "invocation": "refresh_unity(scope=scripts, mode=force, compile=request, wait_for_ready=true)",
+      "observable": "Unity entered compiling, then editor_state returned ready_for_tools=true with is_compiling=false."
+    },
+    "pre_test_console_errors": {
+      "invocation": "read_console(action=get, types=[error], count=20, format=detailed, include_stacktrace=true)",
+      "observable": "Retrieved 0 log entries."
+    }
+  },
+  "test_runs": [
+    {
+      "scenario": "Targeted EditMode ExperienceCrystalTests class run with details",
+      "invocation": "run_tests(mode=EditMode, test_names=[ExperienceCrystalTests], include_details=true, include_failed_tests=true, init_timeout=120000); get_test_job(job_id=95e5a72b8899422e9e76ba80d482465b, wait_timeout=60, include_details=true, include_failed_tests=true)",
+      "job_id": "95e5a72b8899422e9e76ba80d482465b",
+      "binary_observable": {
+        "status": "succeeded",
+        "total": 10,
+        "passed": 10,
+        "failed": 0,
+        "skipped": 0,
+        "result_state": "Passed",
+        "duration_seconds": 0.4975735
+      },
+      "key_tests": {
+        "ExperienceCrystalTests.AddExperienceRaisesAddedBeforeLevelChangedAndLevelGained": "Passed",
+        "ExperienceCrystalTests.ExperienceUsesFixedOneHundredPerLevel": "Passed",
+        "ExperienceCrystalTests.NonPositiveExperienceDoesNotRaiseExperienceOrLevelEvents(0)": "Passed",
+        "ExperienceCrystalTests.NonPositiveExperienceDoesNotRaiseExperienceOrLevelEvents(-5)": "Passed"
+      }
+    },
+    {
+      "scenario": "Repeated EditMode ExperienceCrystalTests class run for flaky-test guard",
+      "invocation": "run_tests(mode=EditMode, test_names=[ExperienceCrystalTests], include_details=true, include_failed_tests=true, init_timeout=120000); get_test_job(job_id=df245024c1c14cc9846f8946bcf739ee, wait_timeout=60, include_details=true, include_failed_tests=true)",
+      "job_id": "df245024c1c14cc9846f8946bcf739ee",
+      "binary_observable": {
+        "status": "succeeded",
+        "total": 10,
+        "passed": 10,
+        "failed": 0,
+        "skipped": 0,
+        "result_state": "Passed",
+        "duration_seconds": 0.3995955
+      },
+      "key_tests": {
+        "ExperienceCrystalTests.AddExperienceRaisesAddedBeforeLevelChangedAndLevelGained": "Passed",
+        "ExperienceCrystalTests.ExperienceUsesFixedOneHundredPerLevel": "Passed",
+        "ExperienceCrystalTests.NonPositiveExperienceDoesNotRaiseExperienceOrLevelEvents(0)": "Passed",
+        "ExperienceCrystalTests.NonPositiveExperienceDoesNotRaiseExperienceOrLevelEvents(-5)": "Passed"
+      }
+    }
+  ],
+  "manual_execute_code": {
+    "scenario": "Temporary GameManager + PlayerExperience object contract probe",
+    "invocation": "execute_code(action=execute, compiler=auto, safety_checks=true) created inactive GameObject named 'Task2 ExecuteCode XP Contract', added PlayerExperience and GameManager, invoked Awake via reflection, activated object, subscribed to OnExperienceAdded / OnPlayerLevelChanged / OnLevelGained, ran SetExperience(95) then AddExperience(17), destroyed temporary object in finally.",
+    "binary_observable": {
+      "success": true,
+      "compiler": "codedom",
+      "temporary_objects_before": 0,
+      "had_pre_existing_game_manager": false,
+      "event_order": [
+        "added:17:level:1:xp:112",
+        "levelChanged:2:current:2:xp:12",
+        "levelGained:2:current:2:xp:12"
+      ],
+      "final_level": 2,
+      "final_current_experience": 12,
+      "final_required_experience": 100,
+      "expected_order_observed": true,
+      "temporary_objects_after_cleanup": 0,
+      "game_manager_has_instance_after_cleanup": false
+    }
+  },
+  "console": {
+    "post_test_error_filter_before_clear": {
+      "invocation": "read_console(action=get, types=[error], count=20, format=detailed, include_stacktrace=true)",
+      "observable": "Retrieved 3 Exception-type Unity Test Runner result-save entries: 'Saving results to: C:/Users/User/AppData/LocalLow/DefaultCompany/Once Upon a Lie - Little Red/TestResults.xml'."
+    },
+    "cleanup_invocation": "read_console(action=clear, types=[all])",
+    "final_error_check": {
+      "invocation": "read_console(action=get, types=[error], count=20, format=detailed, include_stacktrace=true)",
+      "observable": "Retrieved 0 log entries."
+    }
+  },
+  "success_criteria": {
+    "OnExperienceAdded_before_GameManager_OnPlayerLevelChanged": true,
+    "OnLevelGained_after_authoritative_level_changed": true,
+    "SetExperience_95_AddExperience_17_sync_final_level_2_xp_12": true,
+    "AddExperience_312_level_4_remainder_12_gained_2_3_4": true,
+    "AddExperience_0_and_negative_no_added_level_gained_events": true,
+    "OnExperienceChanged_complete_sequence_not_pinned": true
+  },
+  "cleanup": {
+    "temporary_execute_code_gameobjects_after_cleanup": 0,
+    "unity_console_final_error_entries": 0,
+    "committed": false
+  },
+  "risks": [
+    "Coverage intentionally locks only the authoritative XP/level event contract requested; it does not duplicate the full OnExperienceChanged sequence.",
+    "Unity Test Runner emitted result-save Exception-type console entries after test runs; they were captured, console was cleared, and final error check returned 0 entries."
+  ],
+  "failure_evidence": ".omo/evidence/task-2-experience-gauge-level-ui-failure.json"
+}

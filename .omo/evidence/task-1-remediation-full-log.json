@@ -1,0 +1,85 @@
+{
+  "task": "Todo 1 remediation",
+  "status": "passed",
+  "owned_files": [
+    "Assets/Scripts/UI/ExperienceProgressPresentation.cs",
+    "Assets/Scripts/UI/ExperienceProgressPresentation.cs.meta",
+    "Assets/Tests/EditMode/ExperienceProgressPresentationTests.cs",
+    "Assets/Tests/EditMode/ExperienceProgressPresentationTests.cs.meta"
+  ],
+  "resources_checked": {
+    "custom_tools": "mcpforunity://custom-tools read; tool_count=35",
+    "instances": "mcpforunity://instances read; instance=Once-Upon-a-Lie_LittleRed@3aedf8e3e3535f72",
+    "editor_state": "mcpforunity://editor/state read before testing; stale/playmode states were observed and handled by stopping Play Mode only"
+  },
+  "tdd_red": {
+    "test_added": "ExperienceProgressPresentationTests.LargeDeltaCarriesAcrossFillHoldAndOverflow",
+    "public_behavior": "Advance(0.26f) should carry one large deterministic delta through 0.08s fill-to-full, 0.10s full hold, and 0.08s overflow after Reset(95,100,1), EnqueueExperience(17), EnqueueLevel(2)",
+    "invocation": "run_tests(mode=\"EditMode\", assembly_names=[\"LittleRed.Tests.EditMode\"], test_names=[\"ExperienceProgressPresentationTests.LargeDeltaCarriesAcrossFillHoldAndOverflow\"], include_details=true, include_failed_tests=true)",
+    "job_id": "651add71f80e40e2939e18dfdb6b0f4a",
+    "observable": "status=failed, completed=1 total=1",
+    "failure": "Expected fill 0.12 +/- 0.0001 but was 1.0"
+  },
+  "green_single_test": {
+    "invocation": "run_tests(mode=\"EditMode\", assembly_names=[\"LittleRed.Tests.EditMode\"], test_names=[\"ExperienceProgressPresentationTests.LargeDeltaCarriesAcrossFillHoldAndOverflow\"], include_details=true, include_failed_tests=true)",
+    "job_id": "1b35fe9ddcf54302bd8ca42d0f54841a",
+    "observable": "status=succeeded, total=1, passed=1, failed=0, skipped=0"
+  },
+  "targeted_tests": [
+    {
+      "invocation": "run_tests(mode=\"EditMode\", assembly_names=[\"LittleRed.Tests.EditMode\"], test_names=[\"ExperienceProgressPresentationTests\"], include_details=true, include_failed_tests=true)",
+      "job_id": "3a172c8ca2e64f5eb4d32f0fc7596c35",
+      "observable": "status=succeeded, total=7, passed=7, failed=0, skipped=0"
+    },
+    {
+      "invocation": "run_tests(mode=\"EditMode\", assembly_names=[\"LittleRed.Tests.EditMode\"], test_names=[\"ExperienceProgressPresentationTests\"], include_details=true, include_failed_tests=true)",
+      "job_id": "7b7e39391cd846039e13a44b39b3a9f0",
+      "observable": "status=failed before test execution, completed=0",
+      "error": "Cannot start a test run while the Editor is in or entering Play Mode. Stop Play Mode and try again.",
+      "disposition": "environment/startup failure, not counted as targeted pass"
+    },
+    {
+      "invocation": "run_tests(mode=\"EditMode\", assembly_names=[\"LittleRed.Tests.EditMode\"], test_names=[\"ExperienceProgressPresentationTests\"], include_details=true, include_failed_tests=true)",
+      "job_id": "1d5b134eaab94e4cba1f8db87b1e123c",
+      "observable": "status=succeeded, total=7, passed=7, failed=0, skipped=0"
+    }
+  ],
+  "regression_tests": {
+    "invocation": "run_tests(mode=\"EditMode\", assembly_names=[\"LittleRed.Tests.EditMode\"], test_names=[\"ExperienceCrystalTests\"], include_details=true, include_failed_tests=true)",
+    "job_id": "9e3ed3befff54bd1ad90906a88cd4b8a",
+    "observable": "status=succeeded, total=10, passed=10, failed=0, skipped=0"
+  },
+  "script_validation": [
+    {
+      "uri": "Assets/Scripts/UI/ExperienceProgressPresentation.cs",
+      "observable": "validate_script level=standard diagnostics=[], warnings=0, errors=0"
+    },
+    {
+      "uri": "Assets/Tests/EditMode/ExperienceProgressPresentationTests.cs",
+      "observable": "validate_script level=standard diagnostics=[], warnings=0, errors=0"
+    }
+  ],
+  "console": {
+    "invocation": "read_console(action=\"get\", types=[\"error\",\"warning\"], count=100, format=\"detailed\", include_stacktrace=true)",
+    "entries": [
+      "MCP-FOR-UNITY warning: WebSocket unexpected receive error, WebSocket is not initialised",
+      "Unity Test Framework warning: Executing IPrebuildSetup for Unity.PerformanceTesting.Editor.TestRunBuilder",
+      "Unity Test Framework message typed as Exception: Saving results to TestResults.xml",
+      "Unity Test Framework warning: Executing IPostBuildCleanup for Unity.PerformanceTesting.Editor.TestRunBuilder"
+    ],
+    "assessment": "No validate_script diagnostics and no failed terminal test results after remediation; console entries are MCP/Test Framework infrastructure logs"
+  },
+  "loc": {
+    "Assets/Scripts/UI/ExperienceProgressPresentation.cs": 242,
+    "Assets/Tests/EditMode/ExperienceProgressPresentationTests.cs": 240
+  },
+  "scope_check": {
+    "observed_unrelated_dirty_file": "Assets/Scenes/Stage1_Scene.unity was already dirty/out of scope and was not edited by this remediation",
+    "not_touched": [
+      "UIManager",
+      "Camera",
+      "Cinemachine",
+      "MentalCameraShake"
+    ]
+  }
+}

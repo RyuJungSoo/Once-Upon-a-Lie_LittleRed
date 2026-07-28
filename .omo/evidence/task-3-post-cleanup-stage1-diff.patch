@@ -1,0 +1,61 @@
+﻿diff --git a/Assets/Scenes/Stage1_Scene.unity b/Assets/Scenes/Stage1_Scene.unity
+index 8e07931..4f8613d 100644
+--- a/Assets/Scenes/Stage1_Scene.unity
++++ b/Assets/Scenes/Stage1_Scene.unity
+@@ -1504,11 +1504,11 @@ Transform:
+   m_GameObject: {fileID: 519420028}
+   serializedVersion: 2
+   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+-  m_LocalPosition: {x: 0, y: 0, z: -10}
++  m_LocalPosition: {x: 0.82577, y: -0.35315794, z: -10}
+   m_LocalScale: {x: 1, y: 1, z: 1}
+   m_ConstrainProportionsScale: 0
+   m_Children: []
+-  m_Father: {fileID: 1664570134}
++  m_Father: {fileID: 0}
+   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+ --- !u!1 &561196510
+ GameObject:
+@@ -6505,8 +6505,7 @@ Transform:
+   m_LocalPosition: {x: 0.82577, y: -0.35315794, z: 0}
+   m_LocalScale: {x: 1, y: 1, z: 1}
+   m_ConstrainProportionsScale: 0
+-  m_Children:
+-  - {fileID: 519420032}
++  m_Children: []
+   m_Father: {fileID: 0}
+   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+ --- !u!114 &1664570135
+@@ -12423,17 +12422,21 @@ PrefabInstance:
+       propertyPath: m_Name
+       value: Bar_1
+       objectReference: {fileID: 0}
++    - target: {fileID: 114361196886809056, guid: ad84c37a896f54e1180d600bd7746b95, type: 3}
++      propertyPath: m_Color.a
++      value: 1
++      objectReference: {fileID: 0}
+     - target: {fileID: 114361196886809056, guid: ad84c37a896f54e1180d600bd7746b95, type: 3}
+       propertyPath: m_Color.b
+-      value: 0.988742
++      value: 0.2901961
+       objectReference: {fileID: 0}
+     - target: {fileID: 114361196886809056, guid: ad84c37a896f54e1180d600bd7746b95, type: 3}
+       propertyPath: m_Color.g
+-      value: 1
++      value: 0.772549
+       objectReference: {fileID: 0}
+     - target: {fileID: 114361196886809056, guid: ad84c37a896f54e1180d600bd7746b95, type: 3}
+       propertyPath: m_Color.r
+-      value: 0.2924527
++      value: 0.5568628
+       objectReference: {fileID: 0}
+     - target: {fileID: 114361196886809056, guid: ad84c37a896f54e1180d600bd7746b95, type: 3}
+       propertyPath: m_FillAmount
+@@ -12623,6 +12626,7 @@ CanvasRenderer:
+ SceneRoots:
+   m_ObjectHideFlags: 0
+   m_Roots:
++  - {fileID: 519420032}
+   - {fileID: 1664570134}
+   - {fileID: 1452828802}
+   - {fileID: 2015049146}

@@ -1,0 +1,15 @@
+﻿-  m_Father: {fileID: 1664570134}
++  m_Father: {fileID: 0}
+-  - {fileID: 519420032}
+   m_Father: {fileID: 0}
++    - target: {fileID: 114361196886809056, guid: ad84c37a896f54e1180d600bd7746b95, type: 3}
++      propertyPath: m_Color.a
+     - target: {fileID: 114361196886809056, guid: ad84c37a896f54e1180d600bd7746b95, type: 3}
+       propertyPath: m_Color.b
+     - target: {fileID: 114361196886809056, guid: ad84c37a896f54e1180d600bd7746b95, type: 3}
+       propertyPath: m_Color.g
+     - target: {fileID: 114361196886809056, guid: ad84c37a896f54e1180d600bd7746b95, type: 3}
+       propertyPath: m_Color.r
+     - target: {fileID: 114361196886809056, guid: ad84c37a896f54e1180d600bd7746b95, type: 3}
+   m_Roots:
++  - {fileID: 519420032}

@@ -338,7 +338,6 @@ GameObject:
   - component: {fileID: 83248640}
   - component: {fileID: 83248639}
   - component: {fileID: 83248641}
-  - component: {fileID: 83248642}
   m_Layer: 0
   m_Name: CinemachineCamera
   m_TagString: Untagged
@@ -397,12 +396,12 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 83248636}
   serializedVersion: 2
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -0.82577, y: 0.35315794, z: -10}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: -10}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 1664570134}
+  m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &83248641
 MonoBehaviour:
@@ -416,31 +415,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 68bb026fafb42b14791938953eaace77, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Unity.Cinemachine::Unity.Cinemachine.CinemachineBasicMultiChannelPerlin
-  NoiseProfile: {fileID: 11400000, guid: 69ce8388f6785dd4c8c39915efece2f4, type: 2}
+  NoiseProfile: {fileID: 0}
   PivotOffset: {x: 0, y: 0, z: 0}
-  AmplitudeGain: 0
+  AmplitudeGain: 1
   FrequencyGain: 1
   m_NoiseOffsets: {x: 0, y: 0, z: 0}
---- !u!114 &83248642
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 83248636}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f5c5bd82e57b9784581083e576d40745, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::MentalCameraShake
-  playerMental: {fileID: 18403767}
-  highAmplitude: 0
-  highFrequency: 1
-  mediumAmplitude: 0.5
-  mediumFrequency: 0.8
-  lowAmplitude: 1
-  lowFrequency: 1.2
-  transitionSpeed: 1.5
 --- !u!1 &135503068
 GameObject:
   m_ObjectHideFlags: 0
@@ -901,7 +880,7 @@ AudioSource:
   m_audioClip: {fileID: 0}
   m_Resource: {fileID: 8300000, guid: 274680b56f61d974fb8d1a6124f8f93a, type: 3}
   m_PlayOnAwake: 1
-  m_Volume: 0
+  m_Volume: 0.5
   m_Pitch: 1
   Loop: 1
   Mute: 0
@@ -1619,11 +1598,11 @@ Transform:
   m_GameObject: {fileID: 519420028}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -0.82577, y: 0.35315794, z: -10}
+  m_LocalPosition: {x: 0, y: 0, z: -10}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 1664570134}
+  m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &519420033
 MonoBehaviour:
@@ -6652,9 +6631,7 @@ Transform:
   m_LocalPosition: {x: 0.82577, y: -0.35315794, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
-  m_Children:
-  - {fileID: 519420032}
-  - {fileID: 83248640}
+  m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &1664570135
@@ -7159,63 +7136,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1001 &1878672161
-PrefabInstance:
-  m_ObjectHideFlags: 0
-  serializedVersion: 2
-  m_Modification:
-    serializedVersion: 3
-    m_TransformParent: {fileID: 0}
-    m_Modifications:
-    - target: {fileID: 1808918902371905508, guid: 464ecf9b4d25ddc4d9a13da88b9eca7c, type: 3}
-      propertyPath: m_Name
-      value: Bird
-      objectReference: {fileID: 0}
-    - target: {fileID: 5734990780386804256, guid: 464ecf9b4d25ddc4d9a13da88b9eca7c, type: 3}
-      propertyPath: m_LocalPosition.x
-      value: 8.8
-      objectReference: {fileID: 0}
-    - target: {fileID: 5734990780386804256, guid: 464ecf9b4d25ddc4d9a13da88b9eca7c, type: 3}
-      propertyPath: m_LocalPosition.y
-      value: -2.56
-      objectReference: {fileID: 0}
-    - target: {fileID: 5734990780386804256, guid: 464ecf9b4d25ddc4d9a13da88b9eca7c, type: 3}
-      propertyPath: m_LocalPosition.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5734990780386804256, guid: 464ecf9b4d25ddc4d9a13da88b9eca7c, type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 5734990780386804256, guid: 464ecf9b4d25ddc4d9a13da88b9eca7c, type: 3}
-      propertyPath: m_LocalRotation.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5734990780386804256, guid: 464ecf9b4d25ddc4d9a13da88b9eca7c, type: 3}
-      propertyPath: m_LocalRotation.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5734990780386804256, guid: 464ecf9b4d25ddc4d9a13da88b9eca7c, type: 3}
-      propertyPath: m_LocalRotation.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5734990780386804256, guid: 464ecf9b4d25ddc4d9a13da88b9eca7c, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5734990780386804256, guid: 464ecf9b4d25ddc4d9a13da88b9eca7c, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5734990780386804256, guid: 464ecf9b4d25ddc4d9a13da88b9eca7c, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.z
-      value: 0
-      objectReference: {fileID: 0}
-    m_RemovedComponents: []
-    m_RemovedGameObjects: []
-    m_AddedGameObjects: []
-    m_AddedComponents: []
-  m_SourcePrefab: {fileID: 100100000, guid: 464ecf9b4d25ddc4d9a13da88b9eca7c, type: 3}
 --- !u!1 &1905340262
 GameObject:
   m_ObjectHideFlags: 0
@@ -12832,6 +12752,7 @@ CanvasRenderer:
 SceneRoots:
   m_ObjectHideFlags: 0
   m_Roots:
+  - {fileID: 519420032}
   - {fileID: 1664570134}
   - {fileID: 1452828802}
   - {fileID: 2015049146}
@@ -12848,4 +12769,4 @@ SceneRoots:
   - {fileID: 682374349}
   - {fileID: 1275758710}
   - {fileID: 1714913410}
-  - {fileID: 1878672161}
+  - {fileID: 83248640}

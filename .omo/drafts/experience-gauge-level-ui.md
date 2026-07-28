@@ -1,9 +1,9 @@
 ---
 slug: experience-gauge-level-ui
-status: drafting
+status: plan-complete
 intent: clear
 review_required: false
-pending-action: write .omo/plans/experience-gauge-level-ui.md
+pending-action: user chooses start-work or high-accuracy review
 approach: Preserve the authoritative XP/level rules, add a UI-only presentation sequencer that visibly fills to 100% before changing Level Text and then carries overflow into the next bar, tint only the Stage1 Filler green, and verify event ordering with deterministic EditMode tests plus Play Mode QA.
 ---
 
@@ -78,8 +78,8 @@ Test strategy | Deterministic EditMode ordering tests followed by Unity Play Mod
 None blocking. The announced timing defaults are reversible and can be vetoed at approval.
 
 ## Approval gate
-status: awaiting-approval
+status: approved-and-planned
 brief: Preserve gameplay XP logic, add a UI-only sequencer for fill-to-100% then Level Text then overflow, queue multi-level and rapid pickups, recolor only the Stage1 Filler override to opaque #8EC54A, and verify exact visual ordering with deterministic EditMode tests plus real Play Mode QA.
-next_action: On explicit approval, create .omo/plans/experience-gauge-level-ui.md; do not implement.
+next_action: Plan created at .omo/plans/experience-gauge-level-ui.md. User chooses separate execution via $start-work or optional high-accuracy plan review; do not implement in this planning session.
 <!-- When exploration is exhausted and unknowns are answered, set status: awaiting-approval. -->
 <!-- That durable record is the loop guard: on a later turn read it and resume at the gate instead of re-running exploration. -->

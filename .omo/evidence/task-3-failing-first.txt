@@ -1,0 +1,6 @@
+﻿Scenario: failing-first targeted EditMode scene regression before scene edit
+Invocation: Unity MCP run_tests EditMode ExperienceProgressSceneTests.Stage1ExperienceGaugeUsesOpaqueGreenFilledImage
+Job: 431500eb38a44567a70e16b0c8e9c9cf
+Observable: status=failed, completed=1/1
+Failure: Expected color.r 0.556862772 +/- 0.00100000005 but was 0.292452693
+Baseline live artifact: .omo/evidence/task-3-live-baseline-filler.txt

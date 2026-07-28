@@ -1,0 +1,3 @@
+﻿Console checks:
+- After TMP/reflection compile fix and Assets/Refresh: Unity MCP read_console types=[error] returned 0 entries.
+- After final targeted EditMode runs and Play Mode stop: Unity MCP read_console types=[error] returned 0 entries.

@@ -1,0 +1,43 @@
+﻿SNAPSHOT toggleA-reload-idle
+timestamp_utc=2026-07-28T23:12:53.1074764Z
+before.scene.isDirty=False
+before.scene.rootCount=18
+opened.path=Assets/Scenes/Stage1_Scene.unity
+scene.path=Assets/Scenes/Stage1_Scene.unity
+scene.isLoaded=True
+scene.isDirty=False
+scene.rootCount=18
+application.isPlaying=False
+ROOTS
+root==========CANVAS============ active=True id=130408 pos=(1.059280,-0.015730,0.000000) local=(1.059280,-0.015730,0.000000) parent=<null>
+root==========MANAGER============ active=True id=129906 pos=(1.059280,-0.015730,0.000000) local=(1.059280,-0.015730,0.000000) parent=<null>
+root=========GLOBAL VOLUME======== active=True id=130380 pos=(1.059280,-0.015730,0.000000) local=(1.059280,-0.015730,0.000000) parent=<null>
+root=========MAP============== active=True id=130360 pos=(0.892540,-0.288850,0.000000) local=(0.892540,-0.288850,0.000000) parent=<null>
+root=Blanket active=True id=-128568 pos=(6.640000,-2.200000,0.000000) local=(6.640000,-2.200000,0.000000) parent=<null>
+root=Canvas active=True id=129952 pos=(593.500000,265.500000,0.000000) local=(593.500000,265.500000,0.000000) parent=<null>
+root=CinemachineCamera active=True id=129830 pos=(0.000000,0.000000,-10.000000) local=(0.000000,0.000000,-10.000000) parent=<null>
+root=EventSystem active=True id=130210 pos=(0.000000,0.000000,0.000000) local=(0.000000,0.000000,0.000000) parent=<null>
+root=GameManager active=True id=129808 pos=(0.000000,0.000000,0.000000) local=(0.000000,0.000000,0.000000) parent=<null>
+root=Global Light 2D active=True id=129970 pos=(0.000000,0.000000,0.000000) local=(0.000000,0.000000,0.000000) parent=<null>
+root=Global Volume active=True id=129858 pos=(2.164677,-0.743732,0.000000) local=(2.164677,-0.743732,0.000000) parent=<null>
+root=GlobalVolumeManager active=True id=129930 pos=(0.000000,0.000000,0.000000) local=(0.000000,0.000000,0.000000) parent=<null>
+root=Grid active=False id=129976 pos=(0.000000,0.000000,0.000000) local=(0.000000,0.000000,0.000000) parent=<null>
+root=Main Camera active=True id=129918 pos=(0.000000,0.000000,-10.000000) local=(0.000000,0.000000,-10.000000) parent=<null>
+root=Map_Background active=True id=130170 pos=(0.000000,0.000000,1.000000) local=(0.000000,0.000000,1.000000) parent=<null>
+root=Player active=True id=130308 pos=(0.825770,-0.353158,0.000000) local=(0.825770,-0.353158,0.000000) parent=<null>
+root=SoundManager active=True id=129900 pos=(0.000000,0.000000,0.000000) local=(0.000000,0.000000,0.000000) parent=<null>
+root=UIManager active=True id=130046 pos=(0.000000,0.000000,0.000000) local=(0.000000,0.000000,0.000000) parent=<null>
+CAMERA_AND_CINEMACHINE_OBJECTS
+go=CinemachineCamera path=CinemachineCamera scene=Assets/Scenes/Stage1_Scene.unity active=True id=129830
+  transform parent=<null> pos=(0.000000,0.000000,-10.000000) local=(0.000000,0.000000,-10.000000) rot=(0.000000,0.000000,0.000000,1.000000) localRot=(0.000000,0.000000,0.000000,1.000000)
+  component=UnityEngine.Transform
+  component=Unity.Cinemachine.CinemachineCamera
+  component=Unity.Cinemachine.CinemachineBasicMultiChannelPerlin
+go=Main Camera path=Main Camera scene=Assets/Scenes/Stage1_Scene.unity active=True id=129918
+  transform parent=<null> pos=(0.000000,0.000000,-10.000000) local=(0.000000,0.000000,-10.000000) rot=(0.000000,0.000000,0.000000,1.000000) localRot=(0.000000,0.000000,0.000000,1.000000)
+  component=UnityEngine.Transform
+  component=UnityEngine.Camera
+    Camera.enabled=True orthographic=True orthographicSize=6.3 fieldOfView=34
+  component=UnityEngine.AudioListener
+  component=UnityEngine.Rendering.Universal.UniversalAdditionalCameraData
+  component=Unity.Cinemachine.CinemachineBrain

@@ -28,6 +28,15 @@ public class UIManager : Singleton<UIManager>
     [SerializeField]
     private TMP_Text levelText;
 
+    [SerializeField, Min(0.0001f)]
+    private float fullBarDuration = 0.35f;
+
+    [SerializeField, Min(0.0001f)]
+    private float minimumSegmentDuration = 0.08f;
+
+    [SerializeField, Min(0.0001f)]
+    private float fullHoldDuration = 0.10f;
+
     [Header("Game Timer")]
     [Tooltip("플레이 시간을 표시하는 TMP 텍스트")]
     [SerializeField]
@@ -97,9 +106,18 @@ public class UIManager : Singleton<UIManager>
 
     private GameManager gameManager;
     private PlayerExperience playerExperience;
+    private ExperienceProgressPresentation experiencePresentation;
 
     private bool isProgressUIBound;
     private bool hasWarnedMissingPlayerExperience;
+    private bool isExperiencePresentationActive;
+
+    private int authoritativeExperience;
+    private int authoritativeRequiredExperience = 1;
+    private int authoritativeLevel = 1;
+    private int expectedExperience;
+    private int expectedRequiredExperience = 1;
+    private int expectedLevel = 1;
 
     private float currentMental = 100f;
     private float maxMental = 100f;
@@ -145,6 +163,9 @@ public class UIManager : Singleton<UIManager>
             TryBindProgressUI();
         }
 
+        AdvanceExperiencePresentation(
+            Time.unscaledDeltaTime
+        );
         UpdateMentalTextSpawner();
         UpdateGameTimer();
     }
@@ -205,12 +226,13 @@ public class UIManager : Singleton<UIManager>
 
     private void InitializeProgressUI()
     {
-        if (experienceGauge != null)
-        {
-            experienceGauge.fillAmount = 0f;
-        }
-
-        UpdateLevel(1);
+        EnsureExperiencePresentation();
+        experiencePresentation.Reset(
+            0,
+            PlayerExperience.ExperienceRequiredPerLevel,
+            1
+        );
+        ApplyExperiencePresentation();
         ResetGameTimer();
     }
 
@@ -287,17 +309,16 @@ public class UIManager : Singleton<UIManager>
         playerExperience.OnExperienceChanged +=
             HandleExperienceChanged;
 
+        playerExperience.OnExperienceAdded +=
+            HandleExperienceAdded;
+
+        playerExperience.OnLevelGained +=
+            HandleLevelGained;
+
         isProgressUIBound = true;
         hasWarnedMissingPlayerExperience = false;
 
-        UpdateLevel(
-            gameManager.CurrentPlayerLevel
-        );
-
-        UpdateExperience(
-            playerExperience.CurrentExperience,
-            playerExperience.RequiredExperience
-        );
+        SynchronizeExperiencePresentation();
     }
 
     private void UnbindProgressUI()
@@ -306,6 +327,8 @@ public class UIManager : Singleton<UIManager>
         {
             return;
         }
+
+        SynchronizeExperiencePresentation();
 
         if (gameManager != null)
         {
@@ -320,6 +343,12 @@ public class UIManager : Singleton<UIManager>
         {
             playerExperience.OnExperienceChanged -=
                 HandleExperienceChanged;
+
+            playerExperience.OnExperienceAdded -=
+                HandleExperienceAdded;
+
+            playerExperience.OnLevelGained -=
+                HandleLevelGained;
         }
 
         gameManager = null;
@@ -332,23 +361,90 @@ public class UIManager : Singleton<UIManager>
         int requiredExperience
     )
     {
-        UpdateExperience(
+        CaptureAuthoritativeSnapshot(
             currentExperience,
-            requiredExperience
+            requiredExperience,
+            gameManager != null
+                ? gameManager.CurrentPlayerLevel
+                : authoritativeLevel
         );
+
+        if (!isExperiencePresentationActive)
+        {
+            SynchronizeExperiencePresentation();
+        }
     }
 
     private void HandlePlayerLevelChanged(
         int newLevel
     )
     {
-        UpdateLevel(newLevel);
+        authoritativeLevel = Mathf.Max(1, newLevel);
+
+        if (!isExperiencePresentationActive)
+        {
+            SynchronizeExperiencePresentation();
+        }
+    }
+
+    private void HandleExperienceAdded(int amount)
+    {
+        if (amount <= 0)
+        {
+            return;
+        }
+
+        EnsureExperiencePresentation();
+
+        if (!isExperiencePresentationActive)
+        {
+            expectedExperience =
+                authoritativeExperience;
+            expectedRequiredExperience =
+                authoritativeRequiredExperience;
+            expectedLevel = authoritativeLevel;
+            isExperiencePresentationActive = true;
+        }
+
+        long combinedExperience =
+            (long)expectedExperience + amount;
+        int requiredExperience = Mathf.Max(
+            1,
+            expectedRequiredExperience
+        );
+        long gainedLevels =
+            combinedExperience / requiredExperience;
+
+        expectedExperience = (int)(
+            combinedExperience % requiredExperience
+        );
+        expectedLevel = gainedLevels >=
+                        int.MaxValue - expectedLevel
+            ? int.MaxValue
+            : expectedLevel + (int)gainedLevels;
+
+        experiencePresentation.EnqueueExperience(
+            amount
+        );
+    }
+
+    private void HandleLevelGained(int newLevel)
+    {
+        if (!isExperiencePresentationActive)
+        {
+            SynchronizeExperiencePresentation();
+            return;
+        }
+
+        experiencePresentation.EnqueueLevel(newLevel);
     }
 
     private void HandleStageStarted(
         int stageIndex
     )
     {
+        SynchronizeExperiencePresentation();
+
         /*
          * 첫 번째 스테이지는 새 게임 시작으로 간주해
          * 항상 타이머를 초기화합니다.
@@ -358,6 +454,125 @@ public class UIManager : Singleton<UIManager>
         {
             ResetGameTimer();
         }
+    }
+
+    private void AdvanceExperiencePresentation(
+        float deltaTime
+    )
+    {
+        if (experiencePresentation == null)
+        {
+            return;
+        }
+
+        if (isExperiencePresentationActive &&
+            !AuthoritativeSnapshotMatchesExpected())
+        {
+            SynchronizeExperiencePresentation();
+            return;
+        }
+
+        experiencePresentation.Advance(
+            Mathf.Max(0f, deltaTime)
+        );
+        ApplyExperiencePresentation();
+
+        if (!isExperiencePresentationActive ||
+            experiencePresentation.IsAnimating)
+        {
+            return;
+        }
+
+        SynchronizeExperiencePresentation();
+    }
+
+    private void SynchronizeExperiencePresentation()
+    {
+        EnsureExperiencePresentation();
+
+        if (playerExperience != null &&
+            gameManager != null)
+        {
+            CaptureAuthoritativeSnapshot(
+                playerExperience.CurrentExperience,
+                playerExperience.RequiredExperience,
+                gameManager.CurrentPlayerLevel
+            );
+        }
+
+        expectedExperience =
+            authoritativeExperience;
+        expectedRequiredExperience =
+            authoritativeRequiredExperience;
+        expectedLevel = authoritativeLevel;
+
+        experiencePresentation.Configure(
+            fullBarDuration,
+            minimumSegmentDuration,
+            fullHoldDuration
+        );
+        experiencePresentation.Reset(
+            authoritativeExperience,
+            authoritativeRequiredExperience,
+            authoritativeLevel
+        );
+        isExperiencePresentationActive = false;
+        ApplyExperiencePresentation();
+    }
+
+    private void CaptureAuthoritativeSnapshot(
+        int currentExperience,
+        int requiredExperience,
+        int level
+    )
+    {
+        authoritativeRequiredExperience =
+            Mathf.Max(1, requiredExperience);
+        authoritativeExperience = Mathf.Clamp(
+            currentExperience,
+            0,
+            authoritativeRequiredExperience - 1
+        );
+        authoritativeLevel = Mathf.Max(1, level);
+    }
+
+    private bool AuthoritativeSnapshotMatchesExpected()
+    {
+        return authoritativeExperience ==
+               expectedExperience &&
+               authoritativeRequiredExperience ==
+               expectedRequiredExperience &&
+               authoritativeLevel == expectedLevel;
+    }
+
+    private void EnsureExperiencePresentation()
+    {
+        if (experiencePresentation != null)
+        {
+            return;
+        }
+
+        experiencePresentation =
+            new ExperienceProgressPresentation(
+                fullBarDuration,
+                minimumSegmentDuration,
+                fullHoldDuration
+            );
+    }
+
+    private void ApplyExperiencePresentation()
+    {
+        if (experienceGauge != null)
+        {
+            experienceGauge.fillAmount =
+                Mathf.Clamp01(
+                    experiencePresentation.FillAmount
+                );
+        }
+
+        UpdateLevel(
+            experiencePresentation.DisplayedLevel
+        );
     }
 
     public void UpdateExperience(

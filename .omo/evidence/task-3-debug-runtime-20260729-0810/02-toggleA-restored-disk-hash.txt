@@ -1,0 +1,8 @@
+﻿
+
+Algorithm : SHA256
+Hash      : 877300EA1C9FB71AE37C9025FA315B564D8C6F8A492E3432503835E66DBC310A
+Path      : C:\Users\User\Desktop\Once-Upon-a-Lie_LittleRed\Assets\Scenes\Stage1_Scene.unity
+
+
+

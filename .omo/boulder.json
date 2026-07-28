@@ -1,0 +1,16 @@
+{
+  "schema_version": 2,
+  "active_work_id": "experience-gauge-level-ui-20260729",
+  "works": {
+    "experience-gauge-level-ui-20260729": {
+      "work_id": "experience-gauge-level-ui-20260729",
+      "active_plan": ".omo/plans/experience-gauge-level-ui.md",
+      "plan_name": "experience-gauge-level-ui",
+      "session_ids": [
+        "codex:019faabb-9b22-76c3-af62-6a622a13ae7c"
+      ],
+      "status": "active",
+      "worktree_path": null
+    }
+  }
+}

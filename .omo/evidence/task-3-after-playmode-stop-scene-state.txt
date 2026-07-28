@@ -1,0 +1,8 @@
+playMode=False
+activeScene=Assets/Scenes/Stage1_Scene.unity
+sceneDirty=False
+serializedFillAmountAfterStop=0.0000000
+color=(0.5568628,0.7725490,0.2901961,1.0000000)
+type=Filled
+fillMethod=Horizontal
+fillOrigin=0

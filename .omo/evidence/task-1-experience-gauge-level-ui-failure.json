@@ -1,0 +1,28 @@
+{
+  "task": "Todo 1 - failing-first and repair evidence",
+  "status": "recorded",
+  "failing_first": {
+    "test_file_added_before_product_class": "Assets/Tests/EditMode/ExperienceProgressPresentationTests.cs",
+    "invocation": "run_tests(mode=\"EditMode\", assembly_names=[\"LittleRed.Tests.EditMode\"], test_names=[\"ExperienceProgressPresentationTests.ResetSynchronizesSnapshotAndIgnoresMalformedInput\"], include_details=true, include_failed_tests=true)",
+    "job_id": "9876704159124080a70529a4b7dac3fd",
+    "observable": "status=failed, completed=1 total=1",
+    "failure": "ExperienceProgressPresentationTests.ResetSynchronizesSnapshotAndIgnoresMalformedInput: Expected not null, But was null",
+    "reason": "production type ExperienceProgressPresentation was intentionally missing"
+  },
+  "non_evidence_probe": {
+    "invocation": "run_tests(... test_names=[\"ExperienceProgressPresentationTests\"] ...) before product type existed",
+    "job_id": "5d47c28564694debb607f94813bb6de2",
+    "observable": "status=succeeded but total=0",
+    "disposition": "discarded as misleading success output; followed by full-name failing-first job above"
+  },
+  "repair_iteration": {
+    "job_id": "cf0604858e1c46f8ba385bb7533bf521",
+    "observable": "status=failed, completed=6 total=6, failures_so_far had one failure",
+    "failure": "ExactThresholdAppliesLevelOnlyAtFullThenResets expected fill 0 after 0.10s hold but was 1.0",
+    "fix": "added TimingEpsilon to fill and hold boundary checks in ExperienceProgressPresentation"
+  },
+  "malformed_input_coverage": [
+    "ResetSynchronizesSnapshotAndIgnoresMalformedInput covers EnqueueExperience(0), EnqueueExperience(-5), and Advance(-1f)",
+    "InvalidProjectedLevelCancelsToLatestAuthoritativeState covers unexpected authoritative level token cancellation to latest authoritative state"
+  ]
+}

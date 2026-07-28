@@ -1,0 +1,33 @@
+﻿SNAPSHOT h3-repeatA-openScene-single
+timestamp_utc=2026-07-28T23:17:34.8572770Z
+before.scene.path=Assets/Scenes/Stage1_Scene.unity
+before.scene.isDirty=True
+before.scene.rootCount=18
+before.application.isPlaying=False
+before.editor.isPlaying=False
+before.editor.isCompiling=False
+before.editor.isUpdating=False
+opened.path=Assets/Scenes/Stage1_Scene.unity
+after.scene.path=Assets/Scenes/Stage1_Scene.unity
+after.scene.isDirty=False
+after.scene.rootCount=18
+after.application.isPlaying=False
+after.editor.isPlaying=False
+root==========CANVAS============ id=132752
+root==========MANAGER============ id=132250
+root=========GLOBAL VOLUME======== id=132724
+root=========MAP============== id=132704
+root=Blanket id=-132564
+root=Canvas id=132296
+root=CinemachineCamera id=132174
+root=EventSystem id=132554
+root=GameManager id=132152
+root=Global Light 2D id=132314
+root=Global Volume id=132202
+root=GlobalVolumeManager id=132274
+root=Grid id=132320
+root=Main Camera id=132262
+root=Map_Background id=132514
+root=Player id=132652
+root=SoundManager id=132244
+root=UIManager id=132390

@@ -1,0 +1,9 @@
+﻿Scenario: final targeted EditMode scene regression run 1
+Invocation: Unity MCP run_tests EditMode ExperienceProgressSceneTests.Stage1ExperienceGaugeUsesOpaqueGreenFilledImage
+Job: a67a8bb118e34ea7a7d4f1262018a07f
+Observable: status=succeeded, total=1, passed=1, failed=0, durationSeconds=0.4981447
+
+Scenario: final targeted EditMode scene regression run 2
+Invocation: Unity MCP run_tests EditMode ExperienceProgressSceneTests.Stage1ExperienceGaugeUsesOpaqueGreenFilledImage
+Job: e30c3bf65b14403f8edc3f7722bad196
+Observable: status=succeeded, total=1, passed=1, failed=0, durationSeconds=0.520255

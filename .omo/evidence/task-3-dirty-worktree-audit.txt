@@ -1,0 +1,5 @@
+﻿Dirty worktree audit:
+Pre-existing unrelated dirty files preserved: .omo/drafts/experience-gauge-level-ui.md, Assets/Tests/EditMode/ExperienceCrystalTests.cs, .omo/boulder.json, .omo/plans/experience-gauge-level-ui.md, .omo/start-work/, Assets/Scripts/UI/ExperienceProgressPresentation.cs(+meta), Assets/Tests/EditMode/ExperienceProgressPresentationTests.cs(+meta).
+Pre-existing Stage1 camera hierarchy diff preserved: camera Transform fileID 519420032 remains scene root with preserved world position; parent 1664570134 children remain empty; SceneRoots includes 519420032 before 1664570134.
+Task-owned final files: Assets/Scenes/Stage1_Scene.unity, Assets/Tests/EditMode/ExperienceProgressSceneTests.cs, Assets/Tests/EditMode/ExperienceProgressSceneTests.cs.meta, .omo/evidence/task-3-*.
+Source prefab unchanged: Assets/Free UI build package/Prefabs/Gray/Bars/Bar_1.prefab has empty git diff artifact.

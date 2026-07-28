@@ -1,0 +1,5 @@
+﻿Manual QA: Play Mode game view XP filler half-fill
+Invocation: Unity MCP manage_editor(play), execute_code set Canvas/Exp_UI/Bar_1/Filler Image.fillAmount=0.5, manage_camera screenshot capture_source=game_view include_image=true
+Binary observable: screenshot file exists and is non-empty; runtime state file shows fillAmount=0.5000000, opaque green color, Filled/Horizontal/Left; after stop sceneDirty=False and serialized fillAmount=0.0000000
+Artifact: .omo/evidence/task-3-playmode-filler-half.png
+Visual observation: bottom XP bar is opaque green and filled from the left to roughly half width.

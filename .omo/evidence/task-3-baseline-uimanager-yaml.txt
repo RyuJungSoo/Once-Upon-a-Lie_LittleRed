@@ -1,0 +1,36 @@
+﻿  m_Name: UIManager
+  m_TagString: GameController
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &920624401
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 920624400}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 20c699ae494aef3489aaed6f89f3f1c7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::UIManager
+  dontDestroyOnLoad: 0
+  redMentalIcon: {fileID: 1484393190}
+  highMentalIcon: {fileID: 6198999950410654748, guid: a80203aad690da54bb3fc4abf093d2b9, type: 3}
+  mediumMentalIcon: {fileID: -4015543285472720185, guid: a80203aad690da54bb3fc4abf093d2b9, type: 3}
+  lowMentalIcon: {fileID: -954050644246021584, guid: a80203aad690da54bb3fc4abf093d2b9, type: 3}
+  mentalGauge: {fileID: 1086258383}
+  reloadGauge: {fileID: 713779900}
+  hideReloadGaugeWhenIdle: 1
+  experienceGauge: {fileID: 2048241590}
+  levelText: {fileID: 1996472141}
+  timerText: {fileID: 591508912}
+  resetTimerOnStageStart: 1
+  canvas: {fileID: 586901385}
+  mentalTextLayer: {fileID: 244686612}
+  mentalTextPool: {fileID: 244686614}
+  playerTag: Player
+  worldCamera: {fileID: 519420031}
+  minTextDistance: 130

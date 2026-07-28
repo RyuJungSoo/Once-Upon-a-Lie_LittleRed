@@ -1,0 +1,8 @@
+path=Canvas/Exp_UI/Bar_1/Filler
+sourceFileId=344381920
+color=(0.2924527,1.0000000,0.9887420,0.4823529)
+type=Filled
+fillMethod=Horizontal
+fillOrigin=0
+fillAmount=0.0000000
+sourcePrefabPath=Assets/Free UI build package/Prefabs/Gray/Bars/Bar_1.prefab

@@ -1,0 +1,10 @@
+﻿SNAPSHOT h3-ready-repeatA-live-readiness
+timestamp_utc=2026-07-28T23:17:23.9344772Z
+scene.path=Assets/Scenes/Stage1_Scene.unity
+scene.isDirty=True
+scene.rootCount=18
+application.isPlaying=False
+editor.isPlaying=False
+editor.isCompiling=False
+editor.isUpdating=False
+activeSelection=BGM

@@ -1,0 +1,7 @@
+playMode=True
+path=Canvas/Exp_UI/Bar_1/Filler
+runtimeFillAmount=0.5000000
+color=(0.5568628,0.7725490,0.2901961,1.0000000)
+type=Filled
+fillMethod=Horizontal
+fillOrigin=0

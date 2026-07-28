@@ -1,0 +1,8 @@
+path=Canvas/Exp_UI/Bar_1/Filler
+sourceFileId=114361196886809056
+color=(0.5568628,0.7725490,0.2901961,1.0000000)
+type=Filled
+fillMethod=Horizontal
+fillOrigin=0
+fillAmount=0.0000000
+sceneDirty=True
