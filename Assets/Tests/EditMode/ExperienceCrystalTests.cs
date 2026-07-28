@@ -118,6 +118,128 @@ public sealed class ExperienceCrystalTests
         );
     }
 
+    [Test]
+    public void AddExperienceRaisesAddedBeforeLevelChangedAndLevelGained()
+    {
+        List<string> eventOrder =
+            new List<string>();
+
+        AddEventHandler<int>(
+            PlayerExperienceType,
+            playerExperience,
+            "OnExperienceAdded",
+            amount => eventOrder.Add(
+                $"added:{amount}"
+            )
+        );
+        AddEventHandler<int>(
+            GameManagerType,
+            gameManager,
+            "OnPlayerLevelChanged",
+            level => eventOrder.Add(
+                $"levelChanged:{level}:current:" +
+                GetProperty<int>(
+                    gameManager,
+                    "CurrentPlayerLevel"
+                )
+            )
+        );
+        AddEventHandler<int>(
+            PlayerExperienceType,
+            playerExperience,
+            "OnLevelGained",
+            level => eventOrder.Add(
+                $"levelGained:{level}:current:" +
+                GetProperty<int>(
+                    gameManager,
+                    "CurrentPlayerLevel"
+                )
+            )
+        );
+
+        Invoke(playerExperience, "SetExperience", 95);
+        Invoke(playerExperience, "AddExperience", 17);
+
+        Assert.That(
+            GetProperty<int>(
+                gameManager,
+                "CurrentPlayerLevel"
+            ),
+            Is.EqualTo(2)
+        );
+        Assert.That(
+            GetProperty<int>(
+                playerExperience,
+                "CurrentExperience"
+            ),
+            Is.EqualTo(12)
+        );
+        Assert.That(
+            eventOrder,
+            Is.EqualTo(
+                new[]
+                {
+                    "added:17",
+                    "levelChanged:2:current:2",
+                    "levelGained:2:current:2"
+                }
+            )
+        );
+    }
+
+    [TestCase(0)]
+    [TestCase(-5)]
+    public void NonPositiveExperienceDoesNotRaiseExperienceOrLevelEvents(
+        int amount
+    )
+    {
+        List<string> eventOrder =
+            new List<string>();
+
+        AddEventHandler<int>(
+            PlayerExperienceType,
+            playerExperience,
+            "OnExperienceAdded",
+            value => eventOrder.Add(
+                $"added:{value}"
+            )
+        );
+        AddEventHandler<int>(
+            GameManagerType,
+            gameManager,
+            "OnPlayerLevelChanged",
+            level => eventOrder.Add(
+                $"levelChanged:{level}"
+            )
+        );
+        AddEventHandler<int>(
+            PlayerExperienceType,
+            playerExperience,
+            "OnLevelGained",
+            level => eventOrder.Add(
+                $"levelGained:{level}"
+            )
+        );
+
+        Invoke(playerExperience, "AddExperience", amount);
+
+        Assert.That(eventOrder, Is.Empty);
+        Assert.That(
+            GetProperty<int>(
+                gameManager,
+                "CurrentPlayerLevel"
+            ),
+            Is.EqualTo(1)
+        );
+        Assert.That(
+            GetProperty<int>(
+                playerExperience,
+                "CurrentExperience"
+            ),
+            Is.Zero
+        );
+    }
+
     [TestCase("ExpCrystal_low", 5)]
     [TestCase("ExpCrystal_medium", 8)]
     [TestCase("ExpCrystal_high", 12)]
@@ -304,6 +426,21 @@ public sealed class ExperienceCrystalTests
 
         Assert.That(property, Is.Not.Null);
         return (T)property.GetValue(target);
+    }
+
+    private static void AddEventHandler<T>(
+        Type targetType,
+        object target,
+        string eventName,
+        Action<T> handler
+    )
+    {
+        EventInfo eventInfo = targetType.GetEvent(
+            eventName
+        );
+
+        Assert.That(eventInfo, Is.Not.Null);
+        eventInfo.AddEventHandler(target, handler);
     }
 
     private static object Invoke(
