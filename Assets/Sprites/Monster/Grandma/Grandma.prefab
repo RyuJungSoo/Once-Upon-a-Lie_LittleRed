@@ -19,6 +19,9 @@ GameObject:
   - component: {fileID: 5800249845055601277}
   - component: {fileID: 2021312413947639377}
   - component: {fileID: 8660536281551660277}
+  - component: {fileID: 9196102376857752645}
+  - component: {fileID: 5985712396989476933}
+  - component: {fileID: 1828138081717305332}
   m_Layer: 0
   m_Name: Grandma
   m_TagString: Untagged
@@ -274,3 +277,44 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::MonsterChase
   target: {fileID: 0}
+--- !u!114 &9196102376857752645
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3192719920758087752}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: db8ec27d0b75a0d4982210f1aa483fd4, type: 3}
+  m_Name:
+  m_EditorClassIdentifier: Assembly-CSharp::TeaCupBarrageAttack
+  fireInterval: 0.18
+  sweepAngle: 30
+  sweepLaneCount: 5
+--- !u!114 &5985712396989476933
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3192719920758087752}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0b9d271387e94e342a64e14869c7f2ef, type: 3}
+  m_Name:
+  m_EditorClassIdentifier: Assembly-CSharp::GrandmaRestraintAttack
+  profile: {fileID: 11400000, guid: 36b6a68dd9aaab141934cb8099afa8f1, type: 2}
+--- !u!114 &1828138081717305332
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3192719920758087752}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2c34f845a1a810e4898d0cf1a3b222c7, type: 3}
+  m_Name:
+  m_EditorClassIdentifier: Assembly-CSharp::GrandmaDirector
+  profile: {fileID: 11400000, guid: 36b6a68dd9aaab141934cb8099afa8f1, type: 2}

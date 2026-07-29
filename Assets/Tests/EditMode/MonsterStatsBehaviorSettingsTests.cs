@@ -22,6 +22,12 @@ public sealed class MonsterStatsBehaviorSettingsTests
         Type.GetType("MonsterProjectile, Assembly-CSharp");
     private static readonly Type SignAttackType =
         Type.GetType("SignZigzagAttack, Assembly-CSharp");
+    private static readonly Type MothFanAttackType =
+        Type.GetType("MothFanAttack, Assembly-CSharp");
+    private static readonly Type TeaCupBarrageAttackType =
+        Type.GetType(
+            "TeaCupBarrageAttack, Assembly-CSharp"
+        );
 
     private static readonly string[] MonsterNames =
     {
@@ -76,6 +82,8 @@ public sealed class MonsterStatsBehaviorSettingsTests
         Assert.That(MonsterRangedAttackType, Is.Not.Null);
         Assert.That(MonsterProjectileType, Is.Not.Null);
         Assert.That(SignAttackType, Is.Not.Null);
+        Assert.That(MothFanAttackType, Is.Not.Null);
+        Assert.That(TeaCupBarrageAttackType, Is.Not.Null);
     }
 
     [Test]
@@ -252,7 +260,10 @@ public sealed class MonsterStatsBehaviorSettingsTests
                  {
                      ("FlowerFairy", mobProjectile),
                      ("DeerKing", bossProjectile),
-                     ("Moth", mobProjectile)
+                     ("Grandma", mobProjectile),
+                     ("Moth", mobProjectile),
+                     ("Hunter", mobProjectile),
+                     ("TeaCup", mobProjectile)
                  })
         {
             object settings = GetProperty(
@@ -339,7 +350,10 @@ public sealed class MonsterStatsBehaviorSettingsTests
         {
             if (monsterName == "FlowerFairy" ||
                 monsterName == "DeerKing" ||
-                monsterName == "Moth")
+                monsterName == "Grandma" ||
+                monsterName == "Moth" ||
+                monsterName == "Hunter" ||
+                monsterName == "TeaCup")
             {
                 continue;
             }
@@ -367,21 +381,55 @@ public sealed class MonsterStatsBehaviorSettingsTests
     }
 
     [Test]
-    public void MothKeepsItsExistingPassiveComponentComposition()
+    public void MothUsesItsConfiguredFanAttackComposition()
     {
         GameObject moth = LoadPrefab("Moth");
 
-        Assert.That(moth.GetComponent<Rigidbody2D>(), Is.Null);
+        Assert.That(
+            moth.GetComponent<Rigidbody2D>(),
+            Is.Not.Null
+        );
         Assert.That(
             moth.GetComponent(MonsterChaseType),
-            Is.Null
+            Is.Not.Null
         );
         Assert.That(
             moth.GetComponent(MonsterAttackType),
-            Is.Null
+            Is.Not.Null
+        );
+        Assert.That(
+            moth.GetComponent(MothFanAttackType),
+            Is.Not.Null
         );
         Assert.That(
             moth.GetComponent(MonsterRangedAttackType),
+            Is.Null
+        );
+    }
+
+    [Test]
+    public void TeaCupUsesItsConfiguredBarrageAttackComposition()
+    {
+        GameObject teaCup = LoadPrefab("TeaCup");
+
+        Assert.That(
+            teaCup.GetComponent<Rigidbody2D>(),
+            Is.Not.Null
+        );
+        Assert.That(
+            teaCup.GetComponent(MonsterChaseType),
+            Is.Not.Null
+        );
+        Assert.That(
+            teaCup.GetComponent(MonsterAttackType),
+            Is.Not.Null
+        );
+        Assert.That(
+            teaCup.GetComponent(TeaCupBarrageAttackType),
+            Is.Not.Null
+        );
+        Assert.That(
+            teaCup.GetComponent(MonsterRangedAttackType),
             Is.Null
         );
     }

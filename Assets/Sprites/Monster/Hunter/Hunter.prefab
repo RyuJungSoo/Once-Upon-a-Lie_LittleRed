@@ -19,6 +19,9 @@ GameObject:
   - component: {fileID: 5800249845055601277}
   - component: {fileID: 2021312413947639377}
   - component: {fileID: 8660536281551660277}
+  - component: {fileID: 1639778329917743341}
+  - component: {fileID: 9077478258805217101}
+  - component: {fileID: 6592437512647552887}
   m_Layer: 0
   m_Name: Hunter
   m_TagString: Untagged
@@ -274,3 +277,46 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::MonsterChase
   target: {fileID: 0}
+--- !u!114 &1639778329917743341
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3192719920758087752}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8ae2e8f85a1ed97409241a4094855b6b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::MothFanAttack
+  projectileCount: 5
+  spreadAngle: 60
+--- !u!114 &9077478258805217101
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3192719920758087752}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 50e20b93b4685ab4e816db53870a6763, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::SignZigzagAttack
+  speedMultiplier: 2.5
+  zigzagInterval: 0.5
+  zigzagStrength: 0.65
+  target: {fileID: 0}
+--- !u!114 &6592437512647552887
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3192719920758087752}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5969f97515d66fb43a111c82a0c4194f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::HunterDirector
+  profile: {fileID: 11400000, guid: a7bdc7dce4701a444b6bf29b7ff3a2a4, type: 2}
