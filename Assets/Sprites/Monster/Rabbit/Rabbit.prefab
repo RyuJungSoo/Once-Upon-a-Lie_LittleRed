@@ -261,8 +261,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 08fbfa84d3da1404d857db743e379109, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::MonsterAttack
-  attackCooldown: 0.75
-  attackAnimationDuration: 0.25
 --- !u!114 &6803750799350511889
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -276,4 +274,3 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::MonsterChase
   target: {fileID: 0}
-  stopDistance: 0.1

@@ -274,7 +274,8 @@ MonoBehaviour:
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: d2afad098eb196f449ccfc2e7ad85a15, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::PigChargeAttack
+  m_EditorClassIdentifier: Assembly-CSharp::MonsterAimedChargeAttack
+  automaticActivation: 1
   chargeRange: 4
   aimDuration: 0.65
   chargeSpeed: 8

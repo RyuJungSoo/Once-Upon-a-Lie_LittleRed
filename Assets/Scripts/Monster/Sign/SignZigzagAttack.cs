@@ -16,13 +16,6 @@ public sealed class SignZigzagAttack : MonoBehaviour
     [SerializeField, Min(0.01f)]
     private float zigzagStrength = 0.65f;
 
-    [Header("Contact Attack")]
-    [SerializeField, Min(0.05f)]
-    private float attackCooldown = 0.75f;
-
-    [SerializeField, Min(0f)]
-    private float attackAnimationDuration = 0.25f;
-
     [Header("Target")]
     [SerializeField]
     private Transform target;
@@ -46,6 +39,32 @@ public sealed class SignZigzagAttack : MonoBehaviour
     public bool IsMovingZigzag =>
         body != null &&
         body.linearVelocity.sqrMagnitude > 0.0001f;
+
+    public float AttackCooldown
+    {
+        get
+        {
+            MonsterContactAttackSettings settings =
+                GetContactAttackSettings();
+
+            return settings != null
+                ? settings.AttackCooldown
+                : 0.75f;
+        }
+    }
+
+    public float AttackAnimationDuration
+    {
+        get
+        {
+            MonsterContactAttackSettings settings =
+                GetContactAttackSettings();
+
+            return settings != null
+                ? settings.AttackAnimationDuration
+                : 0.25f;
+        }
+    }
 
     private void Awake()
     {
@@ -250,7 +269,7 @@ public sealed class SignZigzagAttack : MonoBehaviour
             );
         }
 
-        nextAttackTime = Time.time + attackCooldown;
+        nextAttackTime = Time.time + AttackCooldown;
         PlayAttackAnimation();
     }
 
@@ -267,7 +286,7 @@ public sealed class SignZigzagAttack : MonoBehaviour
         );
 
         attackAnimationEndTime =
-            Time.time + attackAnimationDuration;
+            Time.time + AttackAnimationDuration;
     }
 
     public void SetTarget(Transform newTarget)
@@ -309,6 +328,23 @@ public sealed class SignZigzagAttack : MonoBehaviour
             playerMental =
                 FindFirstObjectByType<PlayerMental>();
         }
+    }
+
+    private MonsterContactAttackSettings
+        GetContactAttackSettings()
+    {
+        if (monsterHealth == null)
+        {
+            monsterHealth = GetComponent<MonsterHealth>();
+        }
+
+        MonsterStats stats = monsterHealth != null
+            ? monsterHealth.Stats
+            : null;
+
+        return stats != null
+            ? stats.ContactAttack
+            : null;
     }
 
     private void SetChaseEnabled(bool shouldEnable)
@@ -353,9 +389,5 @@ public sealed class SignZigzagAttack : MonoBehaviour
             Mathf.Max(0.05f, zigzagInterval);
         zigzagStrength =
             Mathf.Max(0.01f, zigzagStrength);
-        attackCooldown =
-            Mathf.Max(0.05f, attackCooldown);
-        attackAnimationDuration =
-            Mathf.Max(0f, attackAnimationDuration);
     }
 }

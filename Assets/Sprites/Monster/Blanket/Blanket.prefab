@@ -262,7 +262,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::MonsterChase
   target: {fileID: 0}
-  stopDistance: 0.1
 --- !u!114 &5748295553415426110
 MonoBehaviour:
   m_ObjectHideFlags: 0

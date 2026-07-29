@@ -13,8 +13,16 @@ public sealed class MonsterChaseTests
     private static readonly Type MonsterAttackType =
         Type.GetType("MonsterAttack, Assembly-CSharp");
 
-    private static readonly Type PigChargeAttackType =
-        Type.GetType("PigChargeAttack, Assembly-CSharp");
+    private static readonly Type MonsterRangedAttackType =
+        Type.GetType("MonsterRangedAttack, Assembly-CSharp");
+
+    private static readonly Type AimedChargeAttackType =
+        Type.GetType(
+            "MonsterAimedChargeAttack, Assembly-CSharp"
+        );
+
+    private static readonly Type DeerKingDirectorType =
+        Type.GetType("DeerKingDirector, Assembly-CSharp");
 
     private static readonly Type SignAttackType =
         Type.GetType(
@@ -43,7 +51,9 @@ public sealed class MonsterChaseTests
     {
         Assert.That(MonsterChaseType, Is.Not.Null);
         Assert.That(MonsterAttackType, Is.Not.Null);
-        Assert.That(PigChargeAttackType, Is.Not.Null);
+        Assert.That(MonsterRangedAttackType, Is.Not.Null);
+        Assert.That(AimedChargeAttackType, Is.Not.Null);
+        Assert.That(DeerKingDirectorType, Is.Not.Null);
         Assert.That(SignAttackType, Is.Not.Null);
         Assert.That(BlanketAttackType, Is.Not.Null);
         Assert.That(MonsterAppearanceType, Is.Not.Null);
@@ -238,7 +248,26 @@ public sealed class MonsterChaseTests
                 Is.Null
             );
             Assert.That(
-                prefab.GetComponent(PigChargeAttackType),
+                prefab.GetComponent(AimedChargeAttackType),
+                Is.Not.Null
+            );
+        }
+        else if (monsterName == "DeerKing")
+        {
+            Assert.That(
+                prefab.GetComponent(MonsterAttackType),
+                Is.Not.Null
+            );
+            Assert.That(
+                prefab.GetComponent(MonsterRangedAttackType),
+                Is.Not.Null
+            );
+            Assert.That(
+                prefab.GetComponent(AimedChargeAttackType),
+                Is.Not.Null
+            );
+            Assert.That(
+                prefab.GetComponent(DeerKingDirectorType),
                 Is.Not.Null
             );
         }
@@ -250,6 +279,17 @@ public sealed class MonsterChaseTests
             );
             Assert.That(
                 prefab.GetComponent(SignAttackType),
+                Is.Not.Null
+            );
+        }
+        else if (monsterName == "FlowerFairy")
+        {
+            Assert.That(
+                prefab.GetComponent(MonsterAttackType),
+                Is.Not.Null
+            );
+            Assert.That(
+                prefab.GetComponent(MonsterRangedAttackType),
                 Is.Not.Null
             );
         }

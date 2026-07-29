@@ -28,7 +28,7 @@ AnimatorController:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: "ChatGPT Image 2026\uB144 7\uC6D4 29\uC77C \uC624\uC804 10_34_59-Photoroom_0"
+  m_Name: Boss_Bullet
   serializedVersion: 5
   m_AnimatorParameters: []
   m_AnimatorLayers:

@@ -19,6 +19,9 @@ GameObject:
   - component: {fileID: 5800249845055601277}
   - component: {fileID: 2021312413947639377}
   - component: {fileID: 8660536281551660277}
+  - component: {fileID: 7300000000000000001}
+  - component: {fileID: 7300000000000000002}
+  - component: {fileID: 7300000000000000003}
   m_Layer: 0
   m_Name: DeerKing
   m_TagString: Untagged
@@ -36,7 +39,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 2, y: 2, z: 2}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
@@ -261,8 +264,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 08fbfa84d3da1404d857db743e379109, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::MonsterAttack
-  attackCooldown: 0.75
-  attackAnimationDuration: 0.25
 --- !u!114 &8660536281551660277
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -276,4 +277,48 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::MonsterChase
   target: {fileID: 0}
-  stopDistance: 0.1
+--- !u!114 &7300000000000000001
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3192719920758087752}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d2afad098eb196f449ccfc2e7ad85a15, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::MonsterAimedChargeAttack
+  automaticActivation: 0
+  chargeRange: 4
+  aimDuration: 0.65
+  chargeSpeed: 8
+  chargeDuration: 0.75
+  recoveryDuration: 0.65
+  chargeCooldown: 1.5
+  target: {fileID: 0}
+--- !u!114 &7300000000000000002
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3192719920758087752}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c8c5960b3973711449c1fecc4f981a4e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::MonsterRangedAttack
+--- !u!114 &7300000000000000003
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3192719920758087752}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a10934e9535f4893b92cf2bb36c3badf, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::DeerKingDirector
+  profile: {fileID: 11400000, guid: 7b40079c911448759a0f7626f8780ea7, type: 2}

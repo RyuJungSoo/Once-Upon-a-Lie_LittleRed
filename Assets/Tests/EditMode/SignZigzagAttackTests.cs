@@ -17,6 +17,9 @@ public sealed class SignZigzagAttackTests
     private static readonly Type MonsterChaseType =
         Type.GetType("MonsterChase, Assembly-CSharp");
 
+    private static readonly Type MonsterHealthType =
+        Type.GetType("MonsterHealth, Assembly-CSharp");
+
     [Test]
     public void SignPrefabUsesContinuousZigzagAttack()
     {
@@ -60,9 +63,40 @@ public sealed class SignZigzagAttackTests
             serializedPattern,
             "zigzagStrength"
         );
-        AssertPositive(
-            serializedPattern,
-            "attackCooldown"
+
+        Component health =
+            prefab.GetComponent(MonsterHealthType);
+        object stats = GetProperty(health, "Stats");
+        object contactAttack = GetProperty(
+            stats,
+            "ContactAttack"
+        );
+
+        Assert.That(
+            (float)GetProperty(
+                contactAttack,
+                "AttackCooldown"
+            ),
+            Is.GreaterThan(0f)
+        );
+        Assert.That(
+            (float)GetProperty(
+                contactAttack,
+                "AttackAnimationDuration"
+            ),
+            Is.GreaterThanOrEqualTo(0f)
+        );
+        Assert.That(
+            serializedPattern.FindProperty(
+                "attackCooldown"
+            ),
+            Is.Null
+        );
+        Assert.That(
+            serializedPattern.FindProperty(
+                "attackAnimationDuration"
+            ),
+            Is.Null
         );
 
         Assert.That(
@@ -221,5 +255,22 @@ public sealed class SignZigzagAttackTests
 
         Assert.That(method, Is.Not.Null);
         return method.Invoke(target, arguments);
+    }
+
+    private static object GetProperty(
+        object target,
+        string propertyName
+    )
+    {
+        PropertyInfo property = target
+            .GetType()
+            .GetProperty(
+                propertyName,
+                BindingFlags.Instance |
+                BindingFlags.Public
+            );
+
+        Assert.That(property, Is.Not.Null);
+        return property.GetValue(target);
     }
 }

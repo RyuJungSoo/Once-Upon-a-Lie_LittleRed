@@ -1,13 +1,12 @@
 using UnityEngine;
 
+[DisallowMultipleComponent]
+[RequireComponent(typeof(Rigidbody2D))]
+[RequireComponent(typeof(MonsterHealth))]
 public sealed class MonsterChase : MonoBehaviour
 {
     [Header("Target")]
     [SerializeField] private Transform target;
-
-    [Header("Movement")]
-    [SerializeField, Min(0f)]
-    private float stopDistance = 0.5f;
 
     private static Transform cachedPlayerTarget;
 
@@ -19,6 +18,30 @@ public sealed class MonsterChase : MonoBehaviour
     private bool isMoving;
 
     public bool IsMoving => isMoving;
+    public float StopDistance
+    {
+        get
+        {
+            MonsterStats stats = GetStats();
+
+            return stats != null
+                ? stats.Chase.StopDistance
+                : 0.1f;
+        }
+    }
+
+    public Transform Target
+    {
+        get
+        {
+            if (target == null)
+            {
+                ResolveTarget();
+            }
+
+            return target;
+        }
+    }
 
     private void Awake()
     {
@@ -83,6 +106,8 @@ public sealed class MonsterChase : MonoBehaviour
         }
 
         Vector2 offset = (Vector2)target.position - body.position;
+
+        float stopDistance = StopDistance;
 
         if (offset.sqrMagnitude <= stopDistance * stopDistance)
         {
@@ -160,5 +185,17 @@ public sealed class MonsterChase : MonoBehaviour
         {
             appearance.SetMoving(isMoving);
         }
+    }
+
+    private MonsterStats GetStats()
+    {
+        if (monsterHealth == null)
+        {
+            monsterHealth = GetComponent<MonsterHealth>();
+        }
+
+        return monsterHealth != null
+            ? monsterHealth.Stats
+            : null;
     }
 }

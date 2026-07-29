@@ -1,20 +1,41 @@
 using UnityEngine;
 
+[DisallowMultipleComponent]
+[RequireComponent(typeof(MonsterHealth))]
 public sealed class MonsterAttack : MonoBehaviour
 {
-    [Header("Attack")]
-    [SerializeField, Min(0.05f)]
-    private float attackCooldown = 0.75f;
-
-    [SerializeField, Min(0f)]
-    private float attackAnimationDuration = 0.25f;
-
     private MonsterHealth monsterHealth;
     private MonsterSanityAppearance appearance;
     private PlayerMental playerMental;
 
     private float nextAttackTime;
     private float attackAnimationEndTime = -1f;
+
+    public float AttackCooldown
+    {
+        get
+        {
+            MonsterContactAttackSettings settings =
+                GetSettings();
+
+            return settings != null
+                ? settings.AttackCooldown
+                : 0.75f;
+        }
+    }
+
+    public float AttackAnimationDuration
+    {
+        get
+        {
+            MonsterContactAttackSettings settings =
+                GetSettings();
+
+            return settings != null
+                ? settings.AttackAnimationDuration
+                : 0.25f;
+        }
+    }
 
     private void Awake()
     {
@@ -70,7 +91,7 @@ public sealed class MonsterAttack : MonoBehaviour
             playerMovement.ApplyKnockback(transform.position);
         }
 
-        nextAttackTime = Time.time + attackCooldown;
+        nextAttackTime = Time.time + AttackCooldown;
 
         PlayAttackAnimation();
     }
@@ -104,6 +125,23 @@ public sealed class MonsterAttack : MonoBehaviour
 
         appearance.SetMotionState(MonsterSanityAppearance.MonsterMotionState.Attack);
 
-        attackAnimationEndTime = Time.time + attackAnimationDuration;
+        attackAnimationEndTime =
+            Time.time + AttackAnimationDuration;
+    }
+
+    private MonsterContactAttackSettings GetSettings()
+    {
+        if (monsterHealth == null)
+        {
+            monsterHealth = GetComponent<MonsterHealth>();
+        }
+
+        MonsterStats stats = monsterHealth != null
+            ? monsterHealth.Stats
+            : null;
+
+        return stats != null
+            ? stats.ContactAttack
+            : null;
     }
 }

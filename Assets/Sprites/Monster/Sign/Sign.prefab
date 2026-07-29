@@ -262,7 +262,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::MonsterChase
   target: {fileID: 0}
-  stopDistance: 0.1
 --- !u!114 &3195730765329972230
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -278,6 +277,4 @@ MonoBehaviour:
   speedMultiplier: 1.75
   zigzagInterval: 0.18
   zigzagStrength: 0.65
-  attackCooldown: 0.75
-  attackAnimationDuration: 0.25
   target: {fileID: 0}
