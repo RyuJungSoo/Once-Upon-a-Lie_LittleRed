@@ -233,19 +233,26 @@ public sealed class MonsterStatsBehaviorSettingsTests
     }
 
     [Test]
-    public void RangedMonstersUseMobBulletAndOthersStayDisabled()
+    public void RangedMonstersUseTheirConfiguredBulletAndOthersStayDisabled()
     {
-        GameObject bulletPrefab =
+        GameObject mobBulletPrefab =
             AssetDatabase.LoadAssetAtPath<GameObject>(
                 "Assets/Sprites/Bullet/Mob_Bullet1.prefab"
             );
-        Component projectile =
-            bulletPrefab.GetComponent(MonsterProjectileType);
+        GameObject bossBulletPrefab =
+            AssetDatabase.LoadAssetAtPath<GameObject>(
+                "Assets/Sprites/Bullet/Boss_Bullet.prefab"
+            );
+        Component mobProjectile =
+            mobBulletPrefab.GetComponent(MonsterProjectileType);
+        Component bossProjectile =
+            bossBulletPrefab.GetComponent(MonsterProjectileType);
 
-        foreach (string monsterName in new[]
+        foreach ((string monsterName, Component projectile) in new[]
                  {
-                     "FlowerFairy",
-                     "DeerKing"
+                     ("FlowerFairy", mobProjectile),
+                     ("DeerKing", bossProjectile),
+                     ("Moth", mobProjectile)
                  })
         {
             object settings = GetProperty(
@@ -313,6 +320,14 @@ public sealed class MonsterStatsBehaviorSettingsTests
                 ),
                 Is.EqualTo(4f)
             );
+        }
+
+        foreach (string monsterName in new[]
+                 {
+                     "FlowerFairy",
+                     "DeerKing"
+                 })
+        {
             Assert.That(
                 LoadPrefab(monsterName)
                     .GetComponent(MonsterRangedAttackType),
@@ -323,7 +338,8 @@ public sealed class MonsterStatsBehaviorSettingsTests
         foreach (string monsterName in MonsterNames)
         {
             if (monsterName == "FlowerFairy" ||
-                monsterName == "DeerKing")
+                monsterName == "DeerKing" ||
+                monsterName == "Moth")
             {
                 continue;
             }

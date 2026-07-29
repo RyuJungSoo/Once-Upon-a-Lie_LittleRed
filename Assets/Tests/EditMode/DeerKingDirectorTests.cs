@@ -58,7 +58,7 @@ public sealed class DeerKingDirectorTests
             );
         GameObject bullet =
             AssetDatabase.LoadAssetAtPath<GameObject>(
-                "Assets/Sprites/Bullet/Mob_Bullet1.prefab"
+                "Assets/Sprites/Bullet/Boss_Bullet.prefab"
             );
 
         Component director =
