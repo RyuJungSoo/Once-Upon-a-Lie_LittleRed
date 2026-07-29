@@ -1,4 +1,4 @@
-using Unity.Cinemachine;
+//using Unity.Cinemachine;
 using UnityEngine;
 
 public sealed class MentalCameraShake : MonoBehaviour
@@ -21,13 +21,13 @@ public sealed class MentalCameraShake : MonoBehaviour
     [Header("Transition")]
     [SerializeField, Min(0.01f)] private float transitionSpeed = 1.5f;
 
-    private CinemachineBasicMultiChannelPerlin noise;
+    //private CinemachineBasicMultiChannelPerlin noise;
     private float targetAmplitude;
     private float targetFrequency;
 
     private void Awake()
     {
-        noise = GetComponent<CinemachineBasicMultiChannelPerlin>();
+        //noise = GetComponent<CinemachineBasicMultiChannelPerlin>();
     }
 
     private void OnEnable()
@@ -48,15 +48,15 @@ public sealed class MentalCameraShake : MonoBehaviour
 
         HandleMentalStateChanged(playerMental.CurrentMentalState);
 
-        noise.AmplitudeGain = targetAmplitude;
-        noise.FrequencyGain = targetFrequency;
+        //noise.AmplitudeGain = targetAmplitude;
+        //noise.FrequencyGain = targetFrequency;
     }
 
     private void Update()
     {
-        noise.AmplitudeGain = Mathf.MoveTowards(noise.AmplitudeGain, targetAmplitude, transitionSpeed * Time.deltaTime);
+        //noise.AmplitudeGain = Mathf.MoveTowards(noise.AmplitudeGain, targetAmplitude, transitionSpeed * Time.deltaTime);
 
-        noise.FrequencyGain = Mathf.MoveTowards(noise.FrequencyGain,targetFrequency,transitionSpeed * Time.deltaTime);
+        //noise.FrequencyGain = Mathf.MoveTowards(noise.FrequencyGain,targetFrequency,transitionSpeed * Time.deltaTime);
     }
 
     private void OnDisable()

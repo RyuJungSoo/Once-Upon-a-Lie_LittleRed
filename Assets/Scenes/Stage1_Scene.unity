@@ -3194,6 +3194,9 @@ MonoBehaviour:
   hideReloadGaugeWhenIdle: 1
   experienceGauge: {fileID: 2048241590}
   levelText: {fileID: 1996472141}
+  fullBarDuration: 0.35
+  minimumSegmentDuration: 0.08
+  fullHoldDuration: 0.1
   timerText: {fileID: 591508912}
   resetTimerOnStageStart: 1
   canvas: {fileID: 586901385}
