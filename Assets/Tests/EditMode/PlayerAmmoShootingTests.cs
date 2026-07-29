@@ -181,6 +181,28 @@ public sealed class PlayerAmmoShootingTests
         );
     }
 
+    [Test]
+    public void TryUseAmmoStartsReloadWhenLastRoundIsConsumed()
+    {
+        Invoke(ammo, "SetAmmo", 1);
+
+        bool consumed = Invoke<bool>(
+            ammo,
+            "TryUseAmmo",
+            1
+        );
+
+        Assert.That(consumed, Is.True);
+        Assert.That(
+            GetProperty<int>(ammo, "CurrentAmmo"),
+            Is.EqualTo(0)
+        );
+        Assert.That(
+            GetProperty<bool>(ammo, "IsReloading"),
+            Is.True
+        );
+    }
+
     private static Component[] FindTestBullets()
     {
         return Resources

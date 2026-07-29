@@ -100,6 +100,7 @@ public class PlayerAmmo : MonoBehaviour
         if (CurrentAmmo <= 0)
         {
             OnAmmoEmpty?.Invoke();
+            TryStartReload();
         }
 
         return true;
