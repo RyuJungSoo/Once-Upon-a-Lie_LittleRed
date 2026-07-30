@@ -124,6 +124,8 @@ public class PlayerAmmo : MonoBehaviour
         reloadElapsedTime = 0f;
 
         OnReloadStarted?.Invoke();
+        if(SoundManager.HasInstance)
+            SoundManager.Instance.PlaySFX(ESFXType.Reload);
 
         if (UIManager.HasInstance)
         {

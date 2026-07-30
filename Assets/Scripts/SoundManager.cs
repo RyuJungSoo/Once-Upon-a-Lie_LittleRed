@@ -13,18 +13,25 @@ public enum EAudioMixerType
 public enum EBGMType
 {
     MainMenu = 0,
-    Stage1 = 1
+    Stage1 = 1,
+    Stage2 = 2,
+    Stage3 = 3,
+    Victory = 4,
+    GameOver = 5,
+    StageClear = 6
 }
 
 // SFX 타입 번호
 public enum ESFXType
 {
-    /*ButtonClick = 0,
-    PlayerAttack = 1,
-    MonsterDeath = 2,
-    LevelUp = 7,
-    GameOver = 8,
-    Victory = 9*/
+    Fire = 0,
+    Reload = 1,
+    Hurt = 2,
+    Death = 3,
+    ExpCrystal = 4,
+    RedBerry = 5,
+    StarCandy = 6,
+    Pie = 7
 }
 
 public class SoundManager : Singleton<SoundManager>

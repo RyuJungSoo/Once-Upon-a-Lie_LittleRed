@@ -80,6 +80,11 @@ public class StageClearUIController : MonoBehaviour
 
     private void ShowStageClearUI()
     {
+        if (SoundManager.HasInstance)
+        {
+            SoundManager.Instance.PlayBGM(EBGMType.StageClear);
+        }
+
         SetActive(nextButton, true);
         SetActive(redStageClear, true);
 
@@ -92,6 +97,11 @@ public class StageClearUIController : MonoBehaviour
 
     private void ShowVictoryUI()
     {
+        if (SoundManager.HasInstance)
+        {
+            SoundManager.Instance.PlayBGM(EBGMType.Victory);
+        }
+
         SetActive(exitButton, true);
         SetActive(redGameClear, true);
 

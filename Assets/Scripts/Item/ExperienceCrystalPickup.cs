@@ -39,6 +39,9 @@ public sealed class ExperienceCrystalPickup : MonoBehaviour
             return;
         }
 
+        if(SoundManager.HasInstance)
+            SoundManager.Instance.PlaySFX(ESFXType.ExpCrystal);
+
         PlayerExperience playerExperience =
             ResolvePlayerExperience();
 

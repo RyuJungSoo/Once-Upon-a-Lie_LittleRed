@@ -1610,7 +1610,16 @@ MonoBehaviour:
   - {fileID: 8300000, guid: 83e7917cf5ad362459222485cec10597, type: 3}
   - {fileID: 8300000, guid: e011cc4a2cc6c824cb9ee921b0df7c2b, type: 3}
   - {fileID: 8300000, guid: e423b2985bb1a9a43b3e9ebb704e2952, type: 3}
-  sfxClips: []
+  - {fileID: 8300000, guid: b7169608c663f9442b1f086299d7e099, type: 3}
+  sfxClips:
+  - {fileID: 8300000, guid: 75a49714346153643871b665f5a44652, type: 3}
+  - {fileID: 8300000, guid: 14b1dfcdfe46a484baebde05859df174, type: 3}
+  - {fileID: 8300000, guid: 9124222d7c4a85c4cb375b3fc8fa8c22, type: 3}
+  - {fileID: 8300000, guid: f223fad6e92735242b36d0c946d8007d, type: 3}
+  - {fileID: 8300000, guid: e3d4c770aa78030418de393c0f444c72, type: 3}
+  - {fileID: 8300000, guid: 24d6bea78a2da344586d2b438565c79d, type: 3}
+  - {fileID: 8300000, guid: 3eaf116da7a487b4b97be3f3d0b04187, type: 3}
+  - {fileID: 8300000, guid: 9cf38af6ca004f64fa08da0797db719b, type: 3}
 --- !u!1 &730820013
 GameObject:
   m_ObjectHideFlags: 0

@@ -444,6 +444,9 @@ public class PlayerMental : MonoBehaviour
             !hasDepleted)
         {
             hasDepleted = true;
+            
+            if(SoundManager.HasInstance)
+                SoundManager.Instance.PlaySFX(ESFXType.Death);
 
             OnMentalDepleted?.Invoke();
 

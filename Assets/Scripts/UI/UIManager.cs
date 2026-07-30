@@ -102,6 +102,10 @@ public class UIManager : Singleton<UIManager>
     [Header("Ammo")]
     [SerializeField] private TMP_Text ammoText;
 
+    [Header("Result UI")]
+    [SerializeField] private GameObject gameOverUI;
+    [SerializeField] private GameObject stageClearUI;
+
     private Transform playerTransform;
 
     private GameManager gameManager;
@@ -142,6 +146,7 @@ public class UIManager : Singleton<UIManager>
         InitializeReferences();
         InitializeMentalUI();
         InitializeProgressUI();
+        InitializeResultUI();
     }
 
     private void Start()
@@ -234,6 +239,19 @@ public class UIManager : Singleton<UIManager>
         );
         ApplyExperiencePresentation();
         ResetGameTimer();
+    }
+
+    private void InitializeResultUI()
+    {
+        if (gameOverUI != null)
+        {
+            gameOverUI.SetActive(false);
+        }
+
+        if (stageClearUI != null)
+        {
+            stageClearUI.SetActive(false);
+        }
     }
 
     private void SynchronizeAmmoUI()
@@ -1099,4 +1117,64 @@ public class UIManager : Singleton<UIManager>
             );
         }
     }
+
+    public void ShowGameOverUI()
+    {
+        if (gameOverUI == null)
+        {
+            Debug.LogError(
+                $"{nameof(UIManager)}: " +
+                "GameOver UI가 연결되지 않았습니다.",
+                this
+            );
+
+            return;
+        }
+
+        if (stageClearUI != null)
+        {
+            stageClearUI.SetActive(false);
+        }
+
+        gameOverUI.SetActive(true);
+        if (SoundManager.HasInstance)
+        {
+            SoundManager.Instance.PlayBGM(EBGMType.GameOver);
+        }
+    }
+
+    public void ShowStageClearUI()
+    {
+        if (stageClearUI == null)
+        {
+            Debug.LogError(
+                $"{nameof(UIManager)}: " +
+                "StageClear UI가 연결되지 않았습니다.",
+                this
+            );
+
+            return;
+        }
+
+        if (gameOverUI != null)
+        {
+            gameOverUI.SetActive(false);
+        }
+
+        stageClearUI.SetActive(true);
+    }
+
+    public void HideResultUI()
+    {
+        if (gameOverUI != null)
+        {
+            gameOverUI.SetActive(false);
+        }
+
+        if (stageClearUI != null)
+        {
+            stageClearUI.SetActive(false);
+        }
+    }
+
 }

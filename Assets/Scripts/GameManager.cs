@@ -141,6 +141,15 @@ public class GameManager : Singleton<GameManager>
         Time.timeScale = 1f;
 
         InitializeGameState(scene);
+        PlayBgmForLoadedScene(scene);
+
+        if (scene.name == MainMenuSceneName)
+        {
+            ResetRunProgress();
+            return;
+        }
+
+        ResetPlayerRuntimeForScene();
     }
 
 
@@ -175,11 +184,13 @@ public class GameManager : Singleton<GameManager>
     {
         Time.timeScale = 1f;
 
-        currentStageIndex = 0;
-        ResetPlayerLevel();
+        ResetRunProgress();
 
         ChangeState(EGameState.Playing);
-        OnStageStarted?.Invoke(currentStageIndex);
+
+        OnStageStarted?.Invoke(
+            currentStageIndex
+        );
     }
 
 
@@ -204,6 +215,10 @@ public class GameManager : Singleton<GameManager>
 
         ChangeState(EGameState.StageClear);
         OnStageCleared?.Invoke(currentStageIndex);
+        if (UIManager.HasInstance)
+        {
+            UIManager.Instance.ShowStageClearUI();
+        }
     }
 
 
@@ -213,6 +228,8 @@ public class GameManager : Singleton<GameManager>
         currentStageIndex++;
 
         ChangeState(EGameState.Playing);
+        PlayCurrentStageBgm();
+
         OnStageStarted?.Invoke(currentStageIndex);
     }
 
@@ -269,6 +286,11 @@ public class GameManager : Singleton<GameManager>
 
         ChangeState(EGameState.GameOver);
         OnGameOver?.Invoke();
+        
+        if (UIManager.HasInstance)
+        {
+            UIManager.Instance.ShowGameOverUI();
+        }
     }
 
 
@@ -282,6 +304,10 @@ public class GameManager : Singleton<GameManager>
 
         ChangeState(EGameState.Victory);
         OnVictory?.Invoke();
+        if (UIManager.HasInstance)
+        {
+            UIManager.Instance.ShowStageClearUI();
+        }
     }
 
 
@@ -338,6 +364,129 @@ public class GameManager : Singleton<GameManager>
                 $"{nameof(PlayerExperience)} 컴포넌트가 없습니다.",
                 this
             );
+        }
+    }
+
+    private void PlayCurrentStageBgm()
+    {
+        if (!SoundManager.HasInstance)
+        {
+            return;
+        }
+
+        EBGMType bgmType;
+
+        switch (currentStageIndex)
+        {
+            case 0:
+                bgmType = EBGMType.Stage1;
+                break;
+
+            case 1:
+                bgmType = EBGMType.Stage2;
+                break;
+
+            case 2:
+                bgmType = EBGMType.Stage3;
+                break;
+
+            default:
+                Debug.LogWarning(
+                    $"{nameof(GameManager)}: " +
+                    $"현재 스테이지에 대응하는 BGM이 없습니다. " +
+                    $"Stage Index: {currentStageIndex}",
+                    this
+                );
+
+                return;
+        }
+
+        SoundManager.Instance.PlayBGM(bgmType);
+    }
+
+    private void PlayBgmForLoadedScene(Scene scene)
+    {
+        if (!SoundManager.HasInstance)
+        {
+            return;
+        }
+
+        if (scene.name == MainMenuSceneName)
+        {
+            SoundManager.Instance.PlayBGM(
+                EBGMType.MainMenu
+            );
+
+            return;
+        }
+
+        PlayCurrentStageBgm();
+    }
+
+    private void ResetRunProgress()
+    {
+        currentStageIndex = 0;
+
+        ResetPlayerLevel();
+
+        if (playerExperience == null)
+        {
+            playerExperience =
+                GetComponent<PlayerExperience>();
+        }
+
+        if (playerExperience != null)
+        {
+            playerExperience.ResetExperience();
+        }
+
+        if (UIManager.HasInstance)
+        {
+            UIManager.Instance.HideResultUI();
+        }
+    }
+
+    private void ResetPlayerRuntimeForScene()
+    {
+        PlayerLevelStats levelStats =
+            FindFirstObjectByType<PlayerLevelStats>();
+
+        if (levelStats == null)
+        {
+            Debug.LogWarning(
+                $"{nameof(GameManager)}: " +
+                "현재 씬에서 PlayerLevelStats를 " +
+                "찾을 수 없습니다.",
+                this
+            );
+
+            return;
+        }
+
+        // 반드시 Ammo와 Mental보다 먼저 계산
+        levelStats.RecalculateStats(
+            currentPlayerLevel
+        );
+
+        PlayerAmmo playerAmmo =
+            levelStats.GetComponent<PlayerAmmo>();
+
+        if (playerAmmo != null)
+        {
+            playerAmmo.ResetAmmo();
+        }
+
+        PlayerMental playerMental =
+            levelStats.GetComponent<PlayerMental>();
+
+        if (playerMental != null)
+        {
+            playerMental.ResetMental();
+        }
+
+        if (UIManager.HasInstance)
+        {
+            UIManager.Instance.HideResultUI();
         }
     }
 }

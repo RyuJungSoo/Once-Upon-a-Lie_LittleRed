@@ -115,6 +115,9 @@ public sealed class PlayerShooting : MonoBehaviour
         BulletProjectile bullet = Instantiate(bulletPrefab, spawnPosition, Quaternion.identity);
         bullet.Launch(aimDirection);
 
+        if(SoundManager.HasInstance)
+            SoundManager.Instance.PlaySFX(ESFXType.Fire);
+
         if (playerMovement.isActiveAndEnabled)
         {
             playerMovement.PlayAttackAnimation(
