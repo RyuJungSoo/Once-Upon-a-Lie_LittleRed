@@ -73,20 +73,25 @@ public sealed class PlayerMovement : MonoBehaviour
     private void OnDisable()
     {
         moveAction?.Disable();
-        moveInput = Vector2.zero;
+        StopMovement(true);
 
         if (animator == null)
         {
             return;
         }
 
-        animator.SetBool(MovingParameter, false);
         animator.SetBool(AttackingParameter, false);
         animator.ResetTrigger(AttackParameter);
     }
 
     private void Update()
     {
+        if (!CanMove())
+        {
+            StopMovement(ShouldCancelPendingKnockback());
+            return;
+        }
+
         moveInput = moveAction.ReadValue<Vector2>();
 
         if (moveInput.sqrMagnitude > 1f)
@@ -99,6 +104,12 @@ public sealed class PlayerMovement : MonoBehaviour
 
     private void FixedUpdate()
     {
+        if (!CanMove())
+        {
+            StopMovement(ShouldCancelPendingKnockback());
+            return;
+        }
+
         if (knockbackTimeRemaining > 0f)
         {
             float stepTime = Mathf.Min(Time.fixedDeltaTime, knockbackTimeRemaining);
@@ -115,6 +126,38 @@ public sealed class PlayerMovement : MonoBehaviour
         Vector2 movement = moveInput * (moveSpeed * Time.fixedDeltaTime);
 
         body.MovePosition(body.position + movement);
+    }
+
+    private static bool CanMove()
+    {
+        return !GameManager.HasInstance ||
+               GameManager.Instance.IsPlaying;
+    }
+
+    private static bool ShouldCancelPendingKnockback()
+    {
+        return !GameManager.HasInstance ||
+               !GameManager.Instance.IsPaused;
+    }
+
+    private void StopMovement(bool cancelPendingKnockback)
+    {
+        moveInput = Vector2.zero;
+
+        if (cancelPendingKnockback)
+        {
+            knockbackTimeRemaining = 0f;
+        }
+
+        if (body != null)
+        {
+            body.linearVelocity = Vector2.zero;
+        }
+
+        if (animator != null)
+        {
+            animator.SetBool(MovingParameter, false);
+        }
     }
 
     private void UpdateAnimatorParameters()
