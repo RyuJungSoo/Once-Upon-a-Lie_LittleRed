@@ -70,21 +70,25 @@ public sealed class MonsterHealth : MonoBehaviour
 
         TryDropItem(
             stats.RedBerryDropPrefab,
-            stats.RedBerryDropChancePercent
+            stats.RedBerryDropChancePercent,
+            new Vector3(0.75f, 0f, 0f)
         );
         TryDropItem(
             stats.StarCandyDropPrefab,
-            stats.StarCandyDropChancePercent
+            stats.StarCandyDropChancePercent,
+            new Vector3(-0.375f, 0.65f, 0f)
         );
         TryDropItem(
             stats.PieDropPrefab,
-            stats.PieDropChancePercent
+            stats.PieDropChancePercent,
+            new Vector3(-0.375f, -0.65f, 0f)
         );
     }
 
     private void TryDropItem(
         GameObject itemPrefab,
-        float dropChancePercent
+        float dropChancePercent,
+        Vector3 spawnOffset
     )
     {
         if (itemPrefab == null ||
@@ -102,7 +106,7 @@ public sealed class MonsterHealth : MonoBehaviour
 
         Instantiate(
             itemPrefab,
-            transform.position,
+            transform.position + spawnOffset,
             Quaternion.identity
         );
     }
