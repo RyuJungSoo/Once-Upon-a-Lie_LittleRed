@@ -1,6 +1,13 @@
 using System;
 using UnityEngine;
 
+public enum MonsterDamageSource
+{
+    Unspecified,
+    PlayerBullet,
+    SelfDestruct
+}
+
 [DisallowMultipleComponent]
 [RequireComponent(typeof(BoxCollider2D))]
 public sealed class MonsterHealth : MonoBehaviour
@@ -25,6 +32,17 @@ public sealed class MonsterHealth : MonoBehaviour
 
     public void TakeDamage(int amount)
     {
+        TakeDamage(
+            amount,
+            MonsterDamageSource.Unspecified
+        );
+    }
+
+    public void TakeDamage(
+        int amount,
+        MonsterDamageSource damageSource
+    )
+    {
         if (amount <= 0 || IsDead)
         {
             return;
@@ -32,18 +50,33 @@ public sealed class MonsterHealth : MonoBehaviour
 
         int previousHealth = CurrentHealth;
         CurrentHealth = Mathf.Max(0, CurrentHealth - amount);
-        HealthChanged?.Invoke(previousHealth, CurrentHealth);
+        bool wasKilled = CurrentHealth == 0;
 
-        if (CurrentHealth > 0)
+        if (wasKilled)
         {
-            return;
+            IsDead = true;
+            DropDeathRewards(damageSource);
+            Destroy(gameObject);
         }
 
-        IsDead = true;
-        Died?.Invoke(this);
+        HealthChanged?.Invoke(previousHealth, CurrentHealth);
+
+        if (wasKilled)
+        {
+            Died?.Invoke(this);
+        }
+    }
+
+    private void DropDeathRewards(
+        MonsterDamageSource damageSource
+    )
+    {
         DropExperienceCrystal();
-        DropRecoveryItems();
-        Destroy(gameObject);
+
+        if (damageSource == MonsterDamageSource.PlayerBullet)
+        {
+            DropRecoveryItems();
+        }
     }
 
     private void DropExperienceCrystal()

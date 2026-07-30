@@ -47,7 +47,10 @@ public sealed class BulletProjectile : MonoBehaviour
         MonsterHealth monster = other.GetComponentInParent<MonsterHealth>();
         if (monster != null)
         {
-            monster.TakeDamage(damage);
+            monster.TakeDamage(
+                damage,
+                MonsterDamageSource.PlayerBullet
+            );
 
             if (!monster.IsDead)
             {

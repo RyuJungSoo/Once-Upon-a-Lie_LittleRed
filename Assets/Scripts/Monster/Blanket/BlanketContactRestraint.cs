@@ -73,7 +73,8 @@ public sealed class BlanketContactRestraint : MonoBehaviour
         RestrainPlayer(playerMovement);
 
         monsterHealth.TakeDamage(
-            monsterHealth.CurrentHealth
+            monsterHealth.CurrentHealth,
+            MonsterDamageSource.SelfDestruct
         );
     }
 
