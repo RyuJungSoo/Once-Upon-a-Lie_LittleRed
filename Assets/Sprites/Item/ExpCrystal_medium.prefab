@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 3640683347908889522}
   - component: {fileID: 9056640019856326860}
   - component: {fileID: 7421111205590249295}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: ExpCrystal_medium
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -172,6 +172,6 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: e54a9ae64116dab4aa0c5ee8288d90ab, type: 3}
-  m_Name:
+  m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::ExperienceCrystalPickup
   experienceAmount: 8

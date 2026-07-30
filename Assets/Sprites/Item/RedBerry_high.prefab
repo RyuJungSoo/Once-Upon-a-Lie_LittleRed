@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 4600895066102867322}
   - component: {fileID: 8002117067909593821}
   - component: {fileID: 5776658760484327760}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: RedBerry_high
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -149,7 +149,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 6418d5891638d664889206a1e4b43bbd, type: 3}
-  m_Name:
+  m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::MentalRecoveryItem
   mentalRestoreRatio: 0.25
   passiveMentalDrainPauseDuration: 0
