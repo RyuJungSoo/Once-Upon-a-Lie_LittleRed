@@ -1,0 +1,75 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1b171e131f5c3dd4285bce62bd4725ce, type: 3}
+  m_Name: Stage1Definition
+  m_EditorClassIdentifier: Assembly-CSharp::StageDefinition
+  stageName: Stage 1
+  finalStage: 0
+  loadNextSceneAutomatically: 1
+  nextSceneName: Stage2_Scene
+  nextSceneDelay: 3
+  waves:
+  - waveName: "\uAE30\uBCF8 \uBAAC\uC2A4\uD130"
+    startTime: 0
+    spawnInterval: 1.5
+    maxAlive: 12
+    spawnCountPerTick: 1
+    bossWave: 0
+    monsters:
+    - prefab: {fileID: 6579557707755153181, guid: 32da97c4c16549d994eb9ac6e5611e22, type: 3}
+      weight: 1
+  - waveName: "\uB450 \uBC88\uC9F8 \uBAAC\uC2A4\uD130 \uCD94\uAC00"
+    startTime: 30
+    spawnInterval: 1.3
+    maxAlive: 18
+    spawnCountPerTick: 1
+    bossWave: 0
+    monsters:
+    - prefab: {fileID: 6579557707755153181, guid: 32da97c4c16549d994eb9ac6e5611e22, type: 3}
+      weight: 1
+    - prefab: {fileID: 6222643459820160562, guid: 6d242c713baa4af4950d90820145d158, type: 3}
+      weight: 1
+  - waveName: "\uC138 \uBC88\uC9F8 \uBAAC\uC2A4\uD130 \uCD94\uAC00"
+    startTime: 60
+    spawnInterval: 1.1
+    maxAlive: 24
+    spawnCountPerTick: 1
+    bossWave: 0
+    monsters:
+    - prefab: {fileID: 6579557707755153181, guid: 32da97c4c16549d994eb9ac6e5611e22, type: 3}
+      weight: 1
+    - prefab: {fileID: 6222643459820160562, guid: 6d242c713baa4af4950d90820145d158, type: 3}
+      weight: 1
+    - prefab: {fileID: 8560963249597590526, guid: b102984d1caf431b826d4ecd02b0c93c, type: 3}
+      weight: 1
+  - waveName: "\uD63C\uD569 \uC6E8\uC774\uBE0C"
+    startTime: 90
+    spawnInterval: 0.85
+    maxAlive: 30
+    spawnCountPerTick: 1
+    bossWave: 0
+    monsters:
+    - prefab: {fileID: 6579557707755153181, guid: 32da97c4c16549d994eb9ac6e5611e22, type: 3}
+      weight: 1
+    - prefab: {fileID: 6222643459820160562, guid: 6d242c713baa4af4950d90820145d158, type: 3}
+      weight: 1
+    - prefab: {fileID: 8560963249597590526, guid: b102984d1caf431b826d4ecd02b0c93c, type: 3}
+      weight: 1
+  - waveName: "\uBCF4\uC2A4"
+    startTime: 120
+    spawnInterval: 1
+    maxAlive: 1
+    spawnCountPerTick: 1
+    bossWave: 1
+    monsters:
+    - prefab: {fileID: 3192719920758087752, guid: 06b6ce39184975e478a9f1101fd77e8a, type: 3}
+      weight: 1
