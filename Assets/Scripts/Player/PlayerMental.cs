@@ -159,7 +159,18 @@ public class PlayerMental : MonoBehaviour
             baseDamage * damageMultiplier
         );
 
+        float previousMental = CurrentMental;
+
         SetMental(CurrentMental - finalDamage);
+
+        if (CurrentMental < previousMental &&
+            !IsDepleted &&
+            SoundManager.HasInstance)
+        {
+            SoundManager.Instance.PlaySFX(
+                ESFXType.Hurt
+            );
+        }
     }
 
     /// <summary>

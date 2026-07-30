@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using UnityEngine;
 using UnityEngine.Audio;
@@ -36,6 +37,9 @@ public enum ESFXType
 
 public class SoundManager : Singleton<SoundManager>
 {
+    private const string DefaultSfxPlaybackProfilePath =
+        "SFXPlaybackProfile";
+
     [Header("Audio Mixer")]
     [SerializeField] private AudioMixer audioMixer;
 
@@ -47,8 +51,23 @@ public class SoundManager : Singleton<SoundManager>
     [SerializeField] private AudioClip[] bgmClips;
     [SerializeField] private AudioClip[] sfxClips;
 
+    [Header("SFX Playback")]
+    [SerializeField]
+    private SFXPlaybackProfile sfxPlaybackProfile;
+
     private readonly bool[] isMute = new bool[3];
     private readonly float[] audioVolumes = new float[3];
+
+    private AudioSource[] sfxVoices =
+        Array.Empty<AudioSource>();
+    private float[] nextSfxPlayTimes =
+        Array.Empty<float>();
+    private float[] lastSfxPitches =
+        Array.Empty<float>();
+    private bool[] hasLastSfxPitch =
+        Array.Empty<bool>();
+    private int nextSfxVoiceIndex;
+    private float defaultSfxPitch = 1f;
 
     protected override void Awake()
     {
@@ -61,6 +80,7 @@ public class SoundManager : Singleton<SoundManager>
         }
 
         InitAudioSources();
+        InitSfxPlayback();
     }
 
     private void InitAudioSources()
@@ -100,6 +120,56 @@ public class SoundManager : Singleton<SoundManager>
                 this
             );
         }
+    }
+
+    private void InitSfxPlayback()
+    {
+        if (sfxSource == null)
+        {
+            return;
+        }
+
+        if (sfxPlaybackProfile == null)
+        {
+            sfxPlaybackProfile =
+                Resources.Load<SFXPlaybackProfile>(
+                    DefaultSfxPlaybackProfilePath
+                );
+        }
+
+        defaultSfxPitch = sfxSource.pitch;
+
+        int voiceCount = sfxPlaybackProfile != null
+            ? sfxPlaybackProfile.VoicePoolSize
+            : 1;
+
+        sfxVoices = new AudioSource[voiceCount];
+        sfxVoices[0] = sfxSource;
+
+        for (int i = 1; i < voiceCount; i++)
+        {
+            AudioSource voice = Instantiate(
+                sfxSource,
+                sfxSource.transform.parent
+            );
+
+            voice.name =
+                $"{sfxSource.name} Voice {i + 1:00}";
+            voice.playOnAwake = false;
+            voice.loop = false;
+            voice.clip = null;
+            voice.Stop();
+            sfxVoices[i] = voice;
+        }
+
+        int stateCount = Mathf.Max(
+            sfxClips?.Length ?? 0,
+            Enum.GetValues(typeof(ESFXType)).Length
+        );
+
+        nextSfxPlayTimes = new float[stateCount];
+        lastSfxPitches = new float[stateCount];
+        hasLastSfxPitch = new bool[stateCount];
     }
 
     public void SetAudioVolume(
@@ -308,7 +378,7 @@ public class SoundManager : Singleton<SoundManager>
 
     private void PlaySFXImmediate(int index)
     {
-        if (sfxSource == null)
+        if (sfxVoices.Length == 0)
         {
             return;
         }
@@ -320,7 +390,85 @@ public class SoundManager : Singleton<SoundManager>
             return;
         }
 
-        sfxSource.PlayOneShot(clip);
+        SFXPlaybackSettings settings =
+            GetPlaybackSettings(index);
+
+        if (settings != null &&
+            Time.unscaledTime < nextSfxPlayTimes[index])
+        {
+            return;
+        }
+
+        AudioSource voice = GetNextSfxVoice();
+        float pitch = defaultSfxPitch;
+        float volumeScale = 1f;
+
+        if (settings != null)
+        {
+            pitch = settings.PickPitch(
+                defaultSfxPitch,
+                hasLastSfxPitch[index],
+                lastSfxPitches[index]
+            );
+            volumeScale = settings.PickVolumeScale();
+            nextSfxPlayTimes[index] =
+                Time.unscaledTime +
+                settings.MinRetriggerInterval;
+        }
+
+        voice.pitch = pitch;
+        voice.PlayOneShot(clip, volumeScale);
+
+        lastSfxPitches[index] = pitch;
+        hasLastSfxPitch[index] = true;
+    }
+
+    private SFXPlaybackSettings GetPlaybackSettings(
+        int index
+    )
+    {
+        if (sfxPlaybackProfile == null ||
+            !Enum.IsDefined(typeof(ESFXType), index))
+        {
+            return null;
+        }
+
+        sfxPlaybackProfile.TryGetSettings(
+            (ESFXType)index,
+            out SFXPlaybackSettings settings
+        );
+
+        return settings;
+    }
+
+    private AudioSource GetNextSfxVoice()
+    {
+        for (int offset = 0;
+            offset < sfxVoices.Length;
+            offset++)
+        {
+            int index =
+                (nextSfxVoiceIndex + offset) %
+                sfxVoices.Length;
+            AudioSource voice = sfxVoices[index];
+
+            if (voice.isPlaying)
+            {
+                continue;
+            }
+
+            nextSfxVoiceIndex =
+                (index + 1) % sfxVoices.Length;
+            return voice;
+        }
+
+        AudioSource reusedVoice =
+            sfxVoices[nextSfxVoiceIndex];
+        nextSfxVoiceIndex =
+            (nextSfxVoiceIndex + 1) %
+            sfxVoices.Length;
+        reusedVoice.Stop();
+        return reusedVoice;
     }
 
     private IEnumerator PlaySFXWithDelay(
