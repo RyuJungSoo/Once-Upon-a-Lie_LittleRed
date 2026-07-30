@@ -126,20 +126,21 @@ public sealed class MentalRecoveryItemTests
         );
     }
 
-    [TestCase("RedBerry_low", 0.15f, 0f, 0f)]
-    [TestCase("RedBerry_medium", 0.20f, 0f, 0f)]
-    [TestCase("RedBerry_high", 0.25f, 0f, 0f)]
-    [TestCase("StarCandy_low", 0.08f, 5f, 0f)]
-    [TestCase("StarCandy_medium", 0.10f, 6f, 0f)]
-    [TestCase("StarCandy_high", 0.12f, 7f, 0f)]
-    [TestCase("Pie_low", 0.20f, 3f, 3f)]
-    [TestCase("Pie_medium", 0.25f, 4f, 4f)]
-    [TestCase("Pie_high", 0.30f, 5f, 5f)]
+    [TestCase("RedBerry_low", 0.15f, 0f, 0f, 5)]
+    [TestCase("RedBerry_medium", 0.20f, 0f, 0f, 5)]
+    [TestCase("RedBerry_high", 0.25f, 0f, 0f, 5)]
+    [TestCase("StarCandy_low", 0.08f, 5f, 0f, 6)]
+    [TestCase("StarCandy_medium", 0.10f, 6f, 0f, 6)]
+    [TestCase("StarCandy_high", 0.12f, 7f, 0f, 6)]
+    [TestCase("Pie_low", 0.20f, 3f, 3f, 7)]
+    [TestCase("Pie_medium", 0.25f, 4f, 4f, 7)]
+    [TestCase("Pie_high", 0.30f, 5f, 5f, 7)]
     public void ItemPrefabHasConfiguredMentalEffect(
         string prefabName,
         float restoreRatio,
         float passivePause,
-        float damageBlock
+        float damageBlock,
+        int pickupSfxType
     )
     {
         string path =
@@ -181,6 +182,15 @@ public sealed class MentalRecoveryItemTests
                 "IncomingMentalDamageBlockDuration"
             ),
             Is.EqualTo(damageBlock).Within(0.001f)
+        );
+        Assert.That(
+            Convert.ToInt32(
+                GetProperty(
+                    effect,
+                    "PickupSfxType"
+                )
+            ),
+            Is.EqualTo(pickupSfxType)
         );
     }
 

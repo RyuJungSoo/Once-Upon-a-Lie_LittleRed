@@ -15,6 +15,10 @@ public sealed class MentalRecoveryItem : MonoBehaviour
     [SerializeField, Min(0f)]
     private float incomingMentalDamageBlockDuration;
 
+    [Header("Pickup Audio")]
+    [SerializeField]
+    private ESFXType pickupSfxType;
+
     public float MentalRestoreRatio =>
         mentalRestoreRatio;
 
@@ -23,6 +27,9 @@ public sealed class MentalRecoveryItem : MonoBehaviour
 
     public float IncomingMentalDamageBlockDuration =>
         incomingMentalDamageBlockDuration;
+
+    public ESFXType PickupSfxType =>
+        pickupSfxType;
 
     private bool isConsumed;
 
@@ -89,7 +96,20 @@ public sealed class MentalRecoveryItem : MonoBehaviour
         );
 
         isConsumed = true;
+        PlayPickupSfx();
         return true;
+    }
+
+    private void PlayPickupSfx()
+    {
+        if (!SoundManager.HasInstance)
+        {
+            return;
+        }
+
+        SoundManager.Instance.PlaySFX(
+            pickupSfxType
+        );
     }
 
     private static PlayerMental ResolvePlayerMental()
