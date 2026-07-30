@@ -36,8 +36,8 @@ MonoBehaviour:
     projectileLifetime: 4
   experienceCrystalDropPrefab: {fileID: 1302753847062244704, guid: d5203063cc52122419aca0854f33ec5a, type: 3}
   redBerryDropPrefab: {fileID: 7710983379186187294, guid: b209bcf08093b4b4c9a10c4c68871195, type: 3}
-  redBerryDropChancePercent: 10
+  redBerryDropChancePercent: 0
   starCandyDropPrefab: {fileID: 2988582258893398170, guid: 12bcb33cc5229ee48b49557f08a26871, type: 3}
-  starCandyDropChancePercent: 20
+  starCandyDropChancePercent: 0
   pieDropPrefab: {fileID: 5063591248770267050, guid: 42ca17a7b9be50d4ca2a015ef351e04a, type: 3}
-  pieDropChancePercent: 3
+  pieDropChancePercent: 0
