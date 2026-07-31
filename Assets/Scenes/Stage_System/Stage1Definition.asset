@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::StageDefinition
   stageName: Stage 1
   finalStage: 0
-  loadNextSceneAutomatically: 1
+  loadNextSceneAutomatically: 0
   nextSceneName: Stage2_Scene
   nextSceneDelay: 3
   waves:

@@ -16,35 +16,23 @@ public sealed class MonsterProjectile : MonoBehaviour
         body.gravityScale = 0f;
     }
 
-    public void Launch(
-        Vector2 direction,
-        float projectileSpeed,
-        float projectileDamage,
-        float projectileLifetime
-    )
+    public void Launch(Vector2 direction,float projectileSpeed,float projectileDamage, float projectileLifetime)
     {
         if (body == null)
         {
             body = GetComponent<Rigidbody2D>();
         }
 
-        Vector2 launchDirection =
-            direction.sqrMagnitude > 0f
-                ? direction.normalized
-                : Vector2.right;
+        Vector2 launchDirection = direction.sqrMagnitude > 0f ? direction.normalized : Vector2.right;
 
         hasHit = false;
         damage = Mathf.Max(0f, projectileDamage);
         transform.right = launchDirection;
-        body.linearVelocity =
-            launchDirection * Mathf.Max(0f, projectileSpeed);
+        body.linearVelocity = launchDirection * Mathf.Max(0f, projectileSpeed);
 
         if (Application.isPlaying)
         {
-            Destroy(
-                gameObject,
-                Mathf.Max(0.1f, projectileLifetime)
-            );
+            Destroy(gameObject, Mathf.Max(0.1f, projectileLifetime));
         }
     }
 
