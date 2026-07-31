@@ -197,6 +197,12 @@ public sealed class PrologueController : MonoBehaviour
             return;
         }
 
+        if(GameManager.HasInstance)
+        {
+            GameManager.Instance.StartPrologue();
+        }
+
+
         if (!dialogueCsvParser.IsParsed)
         {
             bool parseSucceeded =
