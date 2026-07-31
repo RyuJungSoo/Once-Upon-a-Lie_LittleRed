@@ -818,7 +818,64 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: af80cbef4e2d779409cd79684c94a43c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::StageDirector
-  stageDefinition: {fileID: 11400000, guid: 7475e5613998a25478eb3b1d61df8d14, type: 2}
+  stageName: Stage 3
+  finalStage: 1
+  waves:
+  - waveName: "\uAE30\uBCF8 \uBAAC\uC2A4\uD130"
+    startTime: 0
+    spawnInterval: 1.5
+    maxAlive: 12
+    spawnCountPerTick: 1
+    bossWave: 0
+    monsters:
+    - prefab: {fileID: 4976233715045526362, guid: 01560c7b7f7b41bead967ec98ebcf743, type: 3}
+      weight: 1
+  - waveName: "\uB450 \uBC88\uC9F8 \uBAAC\uC2A4\uD130 \uCD94\uAC00"
+    startTime: 30
+    spawnInterval: 1.3
+    maxAlive: 18
+    spawnCountPerTick: 1
+    bossWave: 0
+    monsters:
+    - prefab: {fileID: 4976233715045526362, guid: 01560c7b7f7b41bead967ec98ebcf743, type: 3}
+      weight: 1
+    - prefab: {fileID: 7142681337270856045, guid: 3892181b730a47d9b71a258bb3ffc31f, type: 3}
+      weight: 1
+  - waveName: "\uC138 \uBC88\uC9F8 \uBAAC\uC2A4\uD130 \uCD94\uAC00"
+    startTime: 60
+    spawnInterval: 1.1
+    maxAlive: 24
+    spawnCountPerTick: 1
+    bossWave: 0
+    monsters:
+    - prefab: {fileID: 4976233715045526362, guid: 01560c7b7f7b41bead967ec98ebcf743, type: 3}
+      weight: 1
+    - prefab: {fileID: 7142681337270856045, guid: 3892181b730a47d9b71a258bb3ffc31f, type: 3}
+      weight: 1
+    - prefab: {fileID: 3192719920758087752, guid: a591331d624e4b78b05dfad7aee1a5af, type: 3}
+      weight: 1
+  - waveName: "\uD63C\uD569 \uC6E8\uC774\uBE0C"
+    startTime: 90
+    spawnInterval: 0.85
+    maxAlive: 30
+    spawnCountPerTick: 1
+    bossWave: 0
+    monsters:
+    - prefab: {fileID: 4976233715045526362, guid: 01560c7b7f7b41bead967ec98ebcf743, type: 3}
+      weight: 1
+    - prefab: {fileID: 7142681337270856045, guid: 3892181b730a47d9b71a258bb3ffc31f, type: 3}
+      weight: 1
+    - prefab: {fileID: 3192719920758087752, guid: a591331d624e4b78b05dfad7aee1a5af, type: 3}
+      weight: 1
+  - waveName: "\uBCF4\uC2A4"
+    startTime: 120
+    spawnInterval: 1
+    maxAlive: 1
+    spawnCountPerTick: 1
+    bossWave: 1
+    monsters:
+    - prefab: {fileID: 3192719920758087752, guid: 36120426a62e29c469ef1ea8c1af3198, type: 3}
+      weight: 1
 --- !u!114 &2050204004
 MonoBehaviour:
   m_ObjectHideFlags: 0

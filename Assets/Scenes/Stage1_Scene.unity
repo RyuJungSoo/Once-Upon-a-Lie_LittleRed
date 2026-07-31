@@ -14969,7 +14969,51 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: af80cbef4e2d779409cd79684c94a43c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::StageDirector
-  stageDefinition: {fileID: 11400000, guid: 22f1646febbc0ac4a8c6da56ddd7da30, type: 2}
+  stageName: Stage1
+  finalStage: 0
+  waves:
+  - waveName: "1\uCC28"
+    startTime: 0
+    spawnInterval: 1
+    maxAlive: 10
+    spawnCountPerTick: 1
+    bossWave: 0
+    monsters:
+    - prefab: {fileID: 6579557707755153181, guid: 32da97c4c16549d994eb9ac6e5611e22, type: 3}
+      weight: 1
+  - waveName: "2\uCC28"
+    startTime: 30
+    spawnInterval: 1
+    maxAlive: 10
+    spawnCountPerTick: 1
+    bossWave: 0
+    monsters:
+    - prefab: {fileID: 6579557707755153181, guid: 32da97c4c16549d994eb9ac6e5611e22, type: 3}
+      weight: 1
+    - prefab: {fileID: 6222643459820160562, guid: 6d242c713baa4af4950d90820145d158, type: 3}
+      weight: 1
+  - waveName: "3\uCC28"
+    startTime: 60
+    spawnInterval: 1
+    maxAlive: 10
+    spawnCountPerTick: 1
+    bossWave: 0
+    monsters:
+    - prefab: {fileID: 6579557707755153181, guid: 32da97c4c16549d994eb9ac6e5611e22, type: 3}
+      weight: 1
+    - prefab: {fileID: 6222643459820160562, guid: 6d242c713baa4af4950d90820145d158, type: 3}
+      weight: 1
+    - prefab: {fileID: 8560963249597590526, guid: b102984d1caf431b826d4ecd02b0c93c, type: 3}
+      weight: 1
+  - waveName: "\uBCF4\uC2A4"
+    startTime: 90
+    spawnInterval: 1
+    maxAlive: 1
+    spawnCountPerTick: 1
+    bossWave: 1
+    monsters:
+    - prefab: {fileID: 3192719920758087752, guid: 06b6ce39184975e478a9f1101fd77e8a, type: 3}
+      weight: 1
 --- !u!114 &2050204004
 MonoBehaviour:
   m_ObjectHideFlags: 0

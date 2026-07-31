@@ -29,7 +29,7 @@ MonoBehaviour:
     resumeRangePadding: 0.5
     attackCooldown: 1.25
     attackAnimationDuration: 0.25
-    projectilePrefab: {fileID: 8699534169670345425, guid: 6ccd81ebd236faf46b19f349d67bb04d, type: 3}
+    projectilePrefab: {fileID: 5235753010542106134, guid: cd3fcedc577b7144eb942dd2cda3672d, type: 3}
     projectileSpawnOffset: {x: 0, y: 0.2}
     projectileSpeed: 7
     projectileDamage: 10

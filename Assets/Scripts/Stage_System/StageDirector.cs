@@ -1,15 +1,21 @@
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.SceneManagement;
 
 [DisallowMultipleComponent]
 [RequireComponent(typeof(MonsterSpawner))]
 public sealed class StageDirector : MonoBehaviour
 {
+    [Header("Stage")]
     [SerializeField]
-    private StageDefinition stageDefinition;
+    private string stageName = "Stage";
+
+    [SerializeField]
+    private bool finalStage;
+
+    [Header("Waves")]
+    [SerializeField]
+    private List<StageWaveDefinition> waves = new();
 
     private readonly HashSet<MonsterHealth> livingBosses = new();
     private List<StageWaveDefinition> orderedWaves = new();
@@ -20,7 +26,9 @@ public sealed class StageDirector : MonoBehaviour
     private float spawnCountdown;
     private bool completed;
 
-    public StageDefinition Definition => stageDefinition;
+    public string StageName => stageName;
+    public bool IsFinalStage => finalStage;
+    public IReadOnlyList<StageWaveDefinition> Waves => waves;
     public StageWaveDefinition ActiveWave => activeWave;
     public int ActiveWaveIndex => activeWaveIndex;
     public float ElapsedTime => elapsedTime;
@@ -36,23 +44,13 @@ public sealed class StageDirector : MonoBehaviour
 
     private void Start()
     {
-        if (stageDefinition == null)
-        {
-            Debug.LogError(
-                $"{nameof(StageDirector)}: StageDefinition이 연결되지 않았습니다.",
-                this
-            );
-            enabled = false;
-            return;
-        }
-
-        orderedWaves = stageDefinition.CreateOrderedWaveList();
+        orderedWaves = CreateOrderedWaveList();
 
         if (orderedWaves.Count == 0)
         {
             Debug.LogError(
-                $"{stageDefinition.name}에 웨이브가 없습니다.",
-                stageDefinition
+                $"{stageName}에 웨이브가 없습니다.",
+                this
             );
             enabled = false;
             return;
@@ -85,9 +83,14 @@ public sealed class StageDirector : MonoBehaviour
         }
     }
 
-    public void Configure(StageDefinition definition)
+    private List<StageWaveDefinition> CreateOrderedWaveList()
     {
-        stageDefinition = definition;
+        List<StageWaveDefinition> ordered = new(waves);
+        ordered.RemoveAll(wave => wave == null);
+        ordered.Sort(
+            (left, right) => left.StartTime.CompareTo(right.StartTime)
+        );
+        return ordered;
     }
 
     private bool CanAdvanceStage()
@@ -118,7 +121,7 @@ public sealed class StageDirector : MonoBehaviour
         WaveStarted?.Invoke(activeWave);
 
         Debug.Log(
-            $"[{stageDefinition.StageName}] {activeWave.WaveName} 시작 " +
+            $"[{stageName}] {activeWave.WaveName} 시작 " +
             $"({elapsedTime:0.0}초)",
             this
         );
@@ -201,7 +204,7 @@ public sealed class StageDirector : MonoBehaviour
 
         if (GameManager.HasInstance)
         {
-            if (stageDefinition.IsFinalStage)
+            if (finalStage)
             {
                 GameManager.Instance.Victory();
             }
@@ -210,30 +213,5 @@ public sealed class StageDirector : MonoBehaviour
                 GameManager.Instance.StageClear();
             }
         }
-
-        if (
-            stageDefinition.LoadNextSceneAutomatically &&
-            !string.IsNullOrWhiteSpace(stageDefinition.NextSceneName)
-        )
-        {
-            StartCoroutine(LoadNextSceneRoutine());
-        }
-    }
-
-    private IEnumerator LoadNextSceneRoutine()
-    {
-        yield return new WaitForSecondsRealtime(
-            stageDefinition.NextSceneDelay
-        );
-
-        if (
-            GameManager.HasInstance &&
-            !stageDefinition.IsFinalStage
-        )
-        {
-            GameManager.Instance.StartNextStage();
-        }
-
-        SceneManager.LoadScene(stageDefinition.NextSceneName);
     }
 }
