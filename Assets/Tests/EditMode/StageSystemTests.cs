@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using System.Reflection;
 using NUnit.Framework;
 using UnityEngine;
@@ -67,6 +68,61 @@ public sealed class StageSystemTests
 
         UnityEngine.Object.DestroyImmediate(first);
         UnityEngine.Object.DestroyImmediate(root);
+    }
+
+    [Test]
+    public void StageSceneTransfer_CollectsDistinctPlayerAndCameraRoots()
+    {
+        Type transferType =
+            Type.GetType("StageSceneTransfer, Assembly-CSharp");
+
+        Assert.That(transferType, Is.Not.Null);
+
+        GameObject playerRoot = new("PlayerRoot");
+        GameObject player = new("Player");
+        player.transform.SetParent(playerRoot.transform);
+
+        GameObject cameraRoot = new("CameraRoot");
+        GameObject cameraObject = new("Main Camera");
+        cameraObject.transform.SetParent(cameraRoot.transform);
+        cameraObject.AddComponent<Camera>();
+
+        GameObject virtualCameraRoot = new("VirtualCameraRoot");
+        GameObject virtualCamera = new("CinemachineCamera");
+        virtualCamera.transform.SetParent(
+            virtualCameraRoot.transform
+        );
+
+        MethodInfo collectRoots = transferType.GetMethod(
+            "CollectTransferRoots",
+            BindingFlags.NonPublic | BindingFlags.Static
+        );
+
+        Assert.That(collectRoots, Is.Not.Null);
+
+        IEnumerable roots = (IEnumerable)collectRoots.Invoke(
+            null,
+            new object[]
+            {
+                player,
+                cameraObject,
+                virtualCamera
+            }
+        );
+
+        CollectionAssert.AreEquivalent(
+            new[]
+            {
+                playerRoot,
+                cameraRoot,
+                virtualCameraRoot
+            },
+            roots
+        );
+
+        UnityEngine.Object.DestroyImmediate(playerRoot);
+        UnityEngine.Object.DestroyImmediate(cameraRoot);
+        UnityEngine.Object.DestroyImmediate(virtualCameraRoot);
     }
 
     private static GameObject CreateSpawnPoint(

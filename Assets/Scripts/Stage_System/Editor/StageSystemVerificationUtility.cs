@@ -31,7 +31,9 @@ public static class StageSystemVerificationUtility
                     "StageSystemTests." +
                     "ChoosePrefab_UsesConfiguredWeights",
                     "StageSystemTests." +
-                    "MonsterSpawner_DiscoversAddedAndRemovedSpawnPoints"
+                    "MonsterSpawner_DiscoversAddedAndRemovedSpawnPoints",
+                    "StageSystemTests." +
+                    "StageSceneTransfer_CollectsDistinctPlayerAndCameraRoots"
                 }
             }
         )
@@ -39,7 +41,7 @@ public static class StageSystemVerificationUtility
             runSynchronously = true
         };
 
-        Debug.Log("[StageSystemTests] Starting 2 EditMode tests.");
+        Debug.Log("[StageSystemTests] Starting 3 EditMode tests.");
         testRunner.Execute(settings);
     }
 
