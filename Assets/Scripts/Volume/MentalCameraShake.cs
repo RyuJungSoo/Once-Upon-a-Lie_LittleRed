@@ -29,31 +29,33 @@ public sealed class MentalCameraShake : MonoBehaviour
     private FieldInfo frequencyGainField;
     private float targetAmplitude;
     private float targetFrequency;
+    private PlayerMental subscribedPlayerMental;
 
     private void Awake()
     {
-        if (TryCacheNoiseComponent())
-        {
-            return;
-        }
+        ResolvePlayerMental();
 
-        Debug.LogWarning(
-            $"[{nameof(MentalCameraShake)}] Cinemachine 노이즈 컴포넌트를 찾을 수 없어 " +
-            "카메라 흔들림 기능만 비활성화합니다. 프로젝트는 Cinemachine 없이도 실행할 수 있습니다.",
-            this);
-        enabled = false;
+        if (!TryCacheNoiseComponent())
+        {
+            Debug.LogWarning(
+                $"[{nameof(MentalCameraShake)}] Cinemachine 노이즈 컴포넌트를 찾을 수 없어 " +
+                "카메라 흔들림 기능만 비활성화합니다. 프로젝트는 Cinemachine 없이도 실행할 수 있습니다.",
+                this);
+            enabled = false;
+        }
     }
 
     private void OnEnable()
     {
-        if (playerMental != null)
-        {
-            playerMental.OnMentalStateChanged += HandleMentalStateChanged;
-        }
+        ResolvePlayerMental();
+        BindPlayerMental();
     }
 
     private void Start()
     {
+        ResolvePlayerMental();
+        BindPlayerMental();
+
         if (playerMental == null)
         {
             Debug.LogWarning(
@@ -63,9 +65,7 @@ public sealed class MentalCameraShake : MonoBehaviour
             return;
         }
 
-        HandleMentalStateChanged(playerMental.CurrentMentalState);
-
-        SetNoise(targetAmplitude, targetFrequency);
+        ApplyCurrentMentalImmediately();
     }
 
     private void Update()
@@ -81,10 +81,80 @@ public sealed class MentalCameraShake : MonoBehaviour
 
     private void OnDisable()
     {
-        if (playerMental != null)
+        UnbindPlayerMental();
+    }
+
+    public void ResetForMental(PlayerMental source)
+    {
+        playerMental = source;
+        BindPlayerMental();
+        ApplyCurrentMentalImmediately();
+    }
+
+    private void ResolvePlayerMental()
+    {
+        PlayerMental resolvedPlayerMental = null;
+
+        if (GameManager.HasInstance)
         {
-            playerMental.OnMentalStateChanged -= HandleMentalStateChanged;
+            resolvedPlayerMental =
+                GameManager.Instance.GetComponent<PlayerMental>();
         }
+
+        if (resolvedPlayerMental == null)
+        {
+            resolvedPlayerMental = playerMental;
+        }
+
+        if (resolvedPlayerMental == null)
+        {
+            resolvedPlayerMental =
+                FindFirstObjectByType<PlayerMental>();
+        }
+
+        playerMental = resolvedPlayerMental;
+    }
+
+    private void BindPlayerMental()
+    {
+        if (!isActiveAndEnabled ||
+            playerMental == null ||
+            subscribedPlayerMental == playerMental)
+        {
+            return;
+        }
+
+        UnbindPlayerMental();
+
+        playerMental.OnMentalStateChanged +=
+            HandleMentalStateChanged;
+        subscribedPlayerMental = playerMental;
+    }
+
+    private void UnbindPlayerMental()
+    {
+        if (subscribedPlayerMental == null)
+        {
+            return;
+        }
+
+        subscribedPlayerMental.OnMentalStateChanged -=
+            HandleMentalStateChanged;
+        subscribedPlayerMental = null;
+    }
+
+    private void ApplyCurrentMentalImmediately()
+    {
+        if (playerMental == null ||
+            noise == null)
+        {
+            return;
+        }
+
+        HandleMentalStateChanged(
+            playerMental.CurrentMentalState
+        );
+        SetNoise(targetAmplitude, targetFrequency);
     }
 
     private void HandleMentalStateChanged(EMentalState mentalState)

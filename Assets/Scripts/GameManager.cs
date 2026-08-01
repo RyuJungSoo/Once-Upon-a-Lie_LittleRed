@@ -547,15 +547,17 @@ public class GameManager : Singleton<GameManager>
         {
             // 현재 레벨 기준 최대 정신력으로 초기화합니다.
             playerMental.ResetMental();
-        }
 
-        /*
-         * TODO: 팀원 정신력 카메라 초기화 코드 추가
-         *
-         * 씬 이동 또는 Retry 이후 이전 씬에서 적용된
-         * 정신력 단계별 카메라 효과가 남지 않도록
-         * 정상 정신력 상태의 카메라 연출로 초기화합니다.
-         */
+            MentalCameraShake cameraShake =
+                FindFirstObjectByType<MentalCameraShake>();
+
+            if (cameraShake != null)
+            {
+                cameraShake.ResetForMental(
+                    playerMental
+                );
+            }
+        }
 
         if (UIManager.HasInstance)
         {
