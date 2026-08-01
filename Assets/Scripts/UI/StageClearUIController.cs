@@ -3,12 +3,6 @@ using UnityEngine;
 
 public class StageClearUIController : MonoBehaviour
 {
-    [Header("Buttons")]
-    [SerializeField]
-    private GameObject exitButton;
-
-    [SerializeField]
-    private GameObject nextButton;
 
     [Header("Red Images")]
     [SerializeField]
@@ -40,7 +34,8 @@ public class StageClearUIController : MonoBehaviour
     }
 
     /// <summary>
-    /// 현재 GameManager 상태에 맞게 결과 UI를 갱신합니다.
+    /// 현재 게임 상태에 따라 결과 이미지와 메시지를 갱신합니다.
+    /// 버튼 동작은 NextButtonController에서 별도로 처리합니다.
     /// </summary>
     public void RefreshUI()
     {
@@ -85,7 +80,6 @@ public class StageClearUIController : MonoBehaviour
             SoundManager.Instance.PlayBGM(EBGMType.StageClear);
         }
 
-        SetActive(nextButton, true);
         SetActive(redStageClear, true);
 
         if (messageText != null)
@@ -102,7 +96,6 @@ public class StageClearUIController : MonoBehaviour
             SoundManager.Instance.PlayBGM(EBGMType.Victory);
         }
 
-        SetActive(exitButton, true);
         SetActive(redGameClear, true);
 
         if (messageText != null)
@@ -114,8 +107,6 @@ public class StageClearUIController : MonoBehaviour
 
     private void DisableAllStateObjects()
     {
-        SetActive(exitButton, false);
-        SetActive(nextButton, false);
         SetActive(redStageClear, false);
         SetActive(redGameClear, false);
 

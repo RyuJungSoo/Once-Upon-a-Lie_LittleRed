@@ -24,6 +24,8 @@ public sealed class GlobalVolumeManager :
             return;
         }
 
+        if(GameManager.HasInstance)
+            playerMental = GameManager.Instance.gameObject.GetComponent<PlayerMental>();
         InitializeEffects();
     }
 
