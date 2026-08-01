@@ -20,6 +20,7 @@ public sealed class PlayerShooting : MonoBehaviour
     private InputAction fireAction;
     private InputAction reloadAction;
     private PlayerMovement playerMovement;
+    private PlayerLevelStats playerLevelStats;
     private float nextFireTime;
 
     private void Awake()
@@ -47,10 +48,17 @@ public sealed class PlayerShooting : MonoBehaviour
             playerAmmo = FindFirstObjectByType<PlayerAmmo>();
         }
 
+        if (playerAmmo != null)
+        {
+            playerLevelStats =
+                playerAmmo.GetComponent<PlayerLevelStats>();
+        }
+
         if (inputActions == null ||
             bulletPrefab == null ||
             aimCamera == null ||
-            playerAmmo == null)
+            playerAmmo == null ||
+            playerLevelStats == null)
         {
             Debug.LogError("PlayerShooting references are not fully assigned.", this);
             enabled = false;
@@ -102,8 +110,15 @@ public sealed class PlayerShooting : MonoBehaviour
 
     public bool TryFire(Vector2 aimDirection)
     {
+        if (playerLevelStats == null && playerAmmo != null)
+        {
+            playerLevelStats =
+                playerAmmo.GetComponent<PlayerLevelStats>();
+        }
+
         if (Time.time < nextFireTime ||
             aimDirection.sqrMagnitude <= 0.0001f ||
+            playerLevelStats == null ||
             !playerAmmo.TryUseAmmo())
         {
             return false;
@@ -113,7 +128,7 @@ public sealed class PlayerShooting : MonoBehaviour
 
         Vector2 spawnPosition = (Vector2)transform.position + aimDirection * spawnOffset;
         BulletProjectile bullet = Instantiate(bulletPrefab, spawnPosition, Quaternion.identity);
-        bullet.Launch(aimDirection);
+        bullet.Launch(aimDirection, playerLevelStats);
 
         if(SoundManager.HasInstance)
             SoundManager.Instance.PlaySFX(ESFXType.Fire);
