@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.EventSystems;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public class UIManager : Singleton<UIManager>
@@ -135,6 +136,8 @@ public class UIManager : Singleton<UIManager>
     private float elapsedPlayTime;
     private int displayedTimerSecond = -1;
 
+    private EventSystem persistentEventSystem;
+
     protected override void Awake()
     {
         base.Awake();
@@ -144,19 +147,59 @@ public class UIManager : Singleton<UIManager>
             return;
         }
 
-        AttachEventSystemToPersistentUiRoot();
+        EnsureSinglePersistentEventSystem();
         InitializeReferences();
         InitializeMentalUI();
         InitializeProgressUI();
         InitializeResultUI();
     }
 
-    private void AttachEventSystemToPersistentUiRoot()
+    private void OnEnable()
     {
-        EventSystem eventSystem =
-            FindFirstObjectByType<EventSystem>();
+        if (Instance != this)
+        {
+            return;
+        }
 
-        if (eventSystem == null)
+        SceneManager.sceneLoaded -= HandleSceneLoaded;
+        SceneManager.sceneLoaded += HandleSceneLoaded;
+    }
+
+    private void HandleSceneLoaded(
+        Scene scene,
+        LoadSceneMode loadSceneMode
+    )
+    {
+        EnsureSinglePersistentEventSystem();
+    }
+
+    private void EnsureSinglePersistentEventSystem()
+    {
+        EventSystem[] eventSystems =
+            FindObjectsByType<EventSystem>(
+                FindObjectsInactive.Include,
+                FindObjectsSortMode.None
+            );
+
+        if (persistentEventSystem == null)
+        {
+            foreach (EventSystem eventSystem in eventSystems)
+            {
+                if (eventSystem.transform.IsChildOf(transform))
+                {
+                    persistentEventSystem = eventSystem;
+                    break;
+                }
+            }
+
+            if (persistentEventSystem == null &&
+                eventSystems.Length > 0)
+            {
+                persistentEventSystem = eventSystems[0];
+            }
+        }
+
+        if (persistentEventSystem == null)
         {
             Debug.LogError(
                 $"{nameof(UIManager)}: " +
@@ -166,10 +209,23 @@ public class UIManager : Singleton<UIManager>
             return;
         }
 
-        eventSystem.transform.SetParent(
+        persistentEventSystem.transform.SetParent(
             transform,
             true
         );
+
+        foreach (EventSystem eventSystem in eventSystems)
+        {
+            if (eventSystem == persistentEventSystem)
+            {
+                continue;
+            }
+
+            eventSystem.enabled = false;
+            Destroy(eventSystem.gameObject);
+        }
+
+        EventSystem.current = persistentEventSystem;
     }
 
     private void Start()
@@ -200,6 +256,7 @@ public class UIManager : Singleton<UIManager>
 
     private void OnDisable()
     {
+        SceneManager.sceneLoaded -= HandleSceneLoaded;
         UnbindProgressUI();
     }
 

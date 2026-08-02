@@ -174,5 +174,70 @@ public sealed class StageUiInputPersistenceTests
             Is.SameAs(sourceEventSystem),
             "Reloading Stage2 must retain the persistent UI EventSystem."
         );
+
+        TaskCompletionSource<Scene> sourceSceneReloaded =
+            new TaskCompletionSource<Scene>();
+
+        void HandleSourceSceneReloaded(
+            Scene scene,
+            LoadSceneMode loadSceneMode
+        )
+        {
+            if (scene.name == "Stage1_Scene")
+            {
+                sourceSceneReloaded.TrySetResult(scene);
+            }
+        }
+
+        SceneManager.sceneLoaded += HandleSourceSceneReloaded;
+
+        try
+        {
+            SceneManager.LoadScene("Stage1_Scene");
+
+            Task completedTask = await Task.WhenAny(
+                sourceSceneReloaded.Task,
+                Task.Delay(TimeSpan.FromSeconds(10))
+            );
+
+            Assert.That(
+                completedTask,
+                Is.SameAs(sourceSceneReloaded.Task),
+                "Stage1 did not reload within 10 seconds."
+            );
+
+            await sourceSceneReloaded.Task;
+        }
+        finally
+        {
+            SceneManager.sceneLoaded -= HandleSourceSceneReloaded;
+        }
+
+        EventSystem[] eventSystems =
+            UnityEngine.Object.FindObjectsByType<EventSystem>(
+                FindObjectsInactive.Include,
+                FindObjectsSortMode.None
+            );
+
+        int activeEventSystemCount = 0;
+
+        foreach (EventSystem eventSystem in eventSystems)
+        {
+            if (eventSystem.isActiveAndEnabled)
+            {
+                activeEventSystemCount++;
+            }
+        }
+
+        Assert.That(
+            activeEventSystemCount,
+            Is.EqualTo(1),
+            "Returning to a scene with its own EventSystem must leave exactly one active."
+        );
+        Assert.That(
+            EventSystem.current,
+            Is.SameAs(sourceEventSystem),
+            "The persistent UI must keep using its original EventSystem."
+        );
     }
 }
