@@ -1,4 +1,5 @@
 using System;
+using Unity.Cinemachine;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -145,6 +146,7 @@ public class GameManager : Singleton<GameManager>
             return;
         }
 
+        // 현재 레벨 기준으로 탄알과 정신력을 초기화합니다.
         ResetPlayerRuntimeForScene();
     }
 
