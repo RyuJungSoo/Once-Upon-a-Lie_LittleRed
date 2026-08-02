@@ -1,0 +1,9 @@
+{
+    "name": "LittleRed.Tests.PlayMode",
+    "references": [
+        "Unity.ugui"
+    ],
+    "optionalUnityReferences": [
+        "TestAssemblies"
+    ]
+}

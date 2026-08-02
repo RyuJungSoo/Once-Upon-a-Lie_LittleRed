@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
 public class UIManager : Singleton<UIManager>
@@ -143,10 +144,32 @@ public class UIManager : Singleton<UIManager>
             return;
         }
 
+        AttachEventSystemToPersistentUiRoot();
         InitializeReferences();
         InitializeMentalUI();
         InitializeProgressUI();
         InitializeResultUI();
+    }
+
+    private void AttachEventSystemToPersistentUiRoot()
+    {
+        EventSystem eventSystem =
+            FindFirstObjectByType<EventSystem>();
+
+        if (eventSystem == null)
+        {
+            Debug.LogError(
+                $"{nameof(UIManager)}: " +
+                "UI 입력에 필요한 EventSystem을 찾을 수 없습니다.",
+                this
+            );
+            return;
+        }
+
+        eventSystem.transform.SetParent(
+            transform,
+            true
+        );
     }
 
     private void Start()
