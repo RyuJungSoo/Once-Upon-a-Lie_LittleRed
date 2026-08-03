@@ -4,7 +4,10 @@ using System.Linq;
 using System.Reflection;
 using NUnit.Framework;
 using UnityEditor;
+using UnityEditor.SceneManagement;
 using UnityEngine;
+using UnityEngine.Rendering;
+using UnityEngine.SceneManagement;
 
 public sealed class MonsterDropLayoutTests
 {
@@ -16,8 +19,11 @@ public sealed class MonsterDropLayoutTests
     private static readonly Type MonsterHealthType =
         Type.GetType("MonsterHealth, Assembly-CSharp");
 
+    private static readonly Type ItemRenderOrderType =
+        Type.GetType("ItemRenderOrder, Assembly-CSharp");
+
     [Test]
-    public void ExperienceAndRecoveryDropsDoNotOverlapWhenSpawnedTogether()
+    public void ExperienceAndRecoveryDropsHaveStableRenderOrder()
     {
         Assert.That(MonsterStatsType, Is.Not.Null);
         Assert.That(MonsterHealthType, Is.Not.Null);
@@ -53,6 +59,9 @@ public sealed class MonsterDropLayoutTests
 
             Assert.That(spawnedDrops, Has.Length.EqualTo(4));
             AssertDropsAreSeparated(spawnedDrops);
+            AssertDropsHaveDistinctSortingGroups(
+                spawnedDrops
+            );
         }
         finally
         {
@@ -67,6 +76,69 @@ public sealed class MonsterDropLayoutTests
             UnityEngine.Object.DestroyImmediate(monster);
             UnityEngine.Object.DestroyImmediate(stats);
         }
+    }
+
+    [Test]
+    public void ItemLayerSceneObjectsReceiveStableRenderOrder()
+    {
+        Scene testScene = EditorSceneManager.NewScene(
+            NewSceneSetup.EmptyScene,
+            NewSceneMode.Single
+        );
+
+        try
+        {
+            GameObject first = CreateSceneItem("First Item");
+            GameObject second = CreateSceneItem("Second Item");
+
+            InvokeStatic(
+                ItemRenderOrderType,
+                "AssignSceneItems",
+                testScene
+            );
+
+            AssertDropsHaveDistinctSortingGroups(
+                new[] { first, second }
+            );
+        }
+        finally
+        {
+            EditorSceneManager.NewScene(
+                NewSceneSetup.EmptyScene,
+                NewSceneMode.Single
+            );
+        }
+    }
+
+    private static GameObject CreateSceneItem(string name)
+    {
+        GameObject item = new GameObject(name);
+        item.layer = LayerMask.NameToLayer("Item");
+        item.AddComponent<SpriteRenderer>();
+        return item;
+    }
+
+    private static void AssertDropsHaveDistinctSortingGroups(
+        IReadOnlyList<GameObject> drops
+    )
+    {
+        SortingGroup[] sortingGroups = drops
+            .Select(drop => drop.GetComponent<SortingGroup>())
+            .ToArray();
+
+        Assert.That(
+            sortingGroups.All(group => group != null),
+            Is.True,
+            "Every runtime drop needs a root SortingGroup."
+        );
+        Assert.That(
+            sortingGroups
+                .Select(group => group.sortingOrder)
+                .Distinct()
+                .Count(),
+            Is.EqualTo(drops.Count),
+            "Overlapping drops need unique render-order ties."
+        );
     }
 
     private static void AssertDropsAreSeparated(
@@ -181,5 +253,22 @@ public sealed class MonsterDropLayoutTests
         );
         Assert.That(method, Is.Not.Null);
         return method.Invoke(target, Array.Empty<object>());
+    }
+
+    private static object InvokeStatic(
+        Type type,
+        string methodName,
+        params object[] arguments
+    )
+    {
+        Assert.That(type, Is.Not.Null);
+        MethodInfo method = type.GetMethod(
+            methodName,
+            BindingFlags.Static |
+            BindingFlags.Public |
+            BindingFlags.NonPublic
+        );
+        Assert.That(method, Is.Not.Null);
+        return method.Invoke(null, arguments);
     }
 }

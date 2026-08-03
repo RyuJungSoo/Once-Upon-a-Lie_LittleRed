@@ -87,10 +87,9 @@ public sealed class MonsterHealth : MonoBehaviour
             return;
         }
 
-        Instantiate(
+        SpawnDrop(
             stats.ExperienceCrystalDropPrefab,
-            transform.position,
-            Quaternion.identity
+            transform.position
         );
     }
 
@@ -137,10 +136,24 @@ public sealed class MonsterHealth : MonoBehaviour
             return;
         }
 
-        Instantiate(
+        SpawnDrop(
             itemPrefab,
-            transform.position + spawnOffset,
+            transform.position + spawnOffset
+        );
+    }
+
+    private static GameObject SpawnDrop(
+        GameObject itemPrefab,
+        Vector3 position
+    )
+    {
+        GameObject drop = Instantiate(
+            itemPrefab,
+            position,
             Quaternion.identity
         );
+        ItemRenderOrder.Assign(drop);
+
+        return drop;
     }
 }
