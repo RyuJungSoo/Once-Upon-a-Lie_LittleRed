@@ -8,6 +8,12 @@ using UnityEngine;
 
 public sealed class MonsterRecoveryItemDropTests
 {
+    [TearDown]
+    public void TearDown()
+    {
+        ItemPoolTestCleanup.DestroyPoolObjects();
+    }
+
     private static readonly Type MonsterStatsType =
         Type.GetType("MonsterStats, Assembly-CSharp");
 

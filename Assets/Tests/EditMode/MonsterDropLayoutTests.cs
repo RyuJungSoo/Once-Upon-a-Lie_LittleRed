@@ -11,6 +11,12 @@ using UnityEngine.SceneManagement;
 
 public sealed class MonsterDropLayoutTests
 {
+    [TearDown]
+    public void TearDown()
+    {
+        ItemPoolTestCleanup.DestroyPoolObjects();
+    }
+
     private const float MinimumDropSeparation = 0.7f;
 
     private static readonly Type MonsterStatsType =

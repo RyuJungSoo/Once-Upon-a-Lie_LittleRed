@@ -55,6 +55,8 @@ public sealed class MentalRecoveryItemTests
     {
         UnityEngine.Object.DestroyImmediate(itemObject);
         UnityEngine.Object.DestroyImmediate(mentalObject);
+
+        ItemPoolTestCleanup.DestroyPoolObjects();
     }
 
     [TestCase(0.08f, 8f)]
@@ -255,4 +257,5 @@ public sealed class MentalRecoveryItemTests
         Assert.That(method, Is.Not.Null);
         return method.Invoke(target, arguments);
     }
+
 }

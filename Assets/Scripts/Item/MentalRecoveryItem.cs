@@ -33,6 +33,11 @@ public sealed class MentalRecoveryItem : MonoBehaviour
 
     private bool isConsumed;
 
+    private void OnEnable()
+    {
+        isConsumed = false;
+    }
+
     private void Reset()
     {
         BoxCollider2D itemCollider =
@@ -75,7 +80,10 @@ public sealed class MentalRecoveryItem : MonoBehaviour
             return;
         }
 
-        Destroy(gameObject);
+        if (!ItemPool.Release(gameObject))
+        {
+            Destroy(gameObject);
+        }
     }
 
     public bool TryApply(PlayerMental playerMental)

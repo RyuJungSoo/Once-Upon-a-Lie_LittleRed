@@ -6,6 +6,12 @@ using UnityEngine;
 
 public sealed class StageSystemTests
 {
+    [TearDown]
+    public void TearDown()
+    {
+        ItemPoolTestCleanup.DestroyPoolObjects();
+    }
+
     private static readonly Type SpawnEntryType =
         Type.GetType("MonsterSpawnEntry, Assembly-CSharp");
     private static readonly Type WaveType =

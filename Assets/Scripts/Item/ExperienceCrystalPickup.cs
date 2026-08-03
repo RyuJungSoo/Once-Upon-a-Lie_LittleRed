@@ -12,6 +12,11 @@ public sealed class ExperienceCrystalPickup : MonoBehaviour
 
     private bool isConsumed;
 
+    private void OnEnable()
+    {
+        isConsumed = false;
+    }
+
     private void Reset()
     {
         BoxCollider2D pickupCollider =
@@ -50,7 +55,10 @@ public sealed class ExperienceCrystalPickup : MonoBehaviour
             return;
         }
 
-        Destroy(gameObject);
+        if (!ItemPool.Release(gameObject))
+        {
+            Destroy(gameObject);
+        }
     }
 
     public bool TryCollect(

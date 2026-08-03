@@ -9,6 +9,12 @@ using static MonsterDeathRewardTestSupport;
 
 public sealed class MonsterDeathRewardTests
 {
+    [TearDown]
+    public void TearDown()
+    {
+        ItemPoolTestCleanup.DestroyPoolObjects();
+    }
+
     [TestCase("Unspecified", 0)]
     [TestCase("SelfDestruct", 0)]
     [TestCase("PlayerBullet", 3)]

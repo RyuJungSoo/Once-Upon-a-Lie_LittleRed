@@ -66,6 +66,8 @@ public sealed class ExperienceCrystalTests
                 crystal
             );
         }
+
+        ItemPoolTestCleanup.DestroyPoolObjects();
     }
 
     [Test]
@@ -461,4 +463,5 @@ public sealed class ExperienceCrystalTests
         Assert.That(method, Is.Not.Null);
         return method.Invoke(target, arguments);
     }
+
 }

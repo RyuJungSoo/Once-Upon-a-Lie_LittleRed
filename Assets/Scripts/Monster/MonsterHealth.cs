@@ -161,15 +161,16 @@ public sealed class MonsterHealth : MonoBehaviour
         );
     }
 
-    private static GameObject SpawnDrop(
+    private GameObject SpawnDrop(
         GameObject itemPrefab,
         Vector3 position
     )
     {
-        GameObject drop = Instantiate(
+        GameObject drop = ItemPool.Spawn(
             itemPrefab,
             position,
-            Quaternion.identity
+            Quaternion.identity,
+            gameObject.scene
         );
         ItemRenderOrder.Assign(drop);
 
