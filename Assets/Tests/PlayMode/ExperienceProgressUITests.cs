@@ -14,6 +14,17 @@ public sealed class ExperienceProgressUITests
     private static readonly Type UIManagerType =
         Type.GetType("UIManager, Assembly-CSharp");
 
+    private static readonly Type EventSystemType =
+        Type.GetType(
+            "UnityEngine.EventSystems.EventSystem, UnityEngine.UI"
+        );
+
+    private static readonly Type InputModuleType =
+        Type.GetType(
+            "UnityEngine.InputSystem.UI.InputSystemUIInputModule, " +
+            "Unity.InputSystem"
+        );
+
     private static readonly Type ImageType =
         Type.GetType("UnityEngine.UI.Image, UnityEngine.UI");
 
@@ -24,6 +35,7 @@ public sealed class ExperienceProgressUITests
 
     private GameObject managerObject;
     private GameObject uiObject;
+    private GameObject eventSystemObject;
     private Component gameManager;
     private Component playerExperience;
     private Component uiManager;
@@ -36,6 +48,8 @@ public sealed class ExperienceProgressUITests
         Assert.That(GameManagerType, Is.Not.Null);
         Assert.That(PlayerExperienceType, Is.Not.Null);
         Assert.That(UIManagerType, Is.Not.Null);
+        Assert.That(EventSystemType, Is.Not.Null);
+        Assert.That(InputModuleType, Is.Not.Null);
         Assert.That(ImageType, Is.Not.Null);
         Assert.That(TextType, Is.Not.Null);
 
@@ -86,9 +100,13 @@ public sealed class ExperienceProgressUITests
         );
         SetField(uiManager, "levelText", levelText);
 
-        Invoke(playerExperience, "Awake");
-        Invoke(gameManager, "Awake");
-        Invoke(uiManager, "Awake");
+        eventSystemObject = new GameObject(
+            "Experience UI Test EventSystem"
+        );
+        eventSystemObject.SetActive(false);
+        eventSystemObject.AddComponent(EventSystemType);
+        eventSystemObject.AddComponent(InputModuleType);
+        eventSystemObject.SetActive(true);
 
         managerObject.SetActive(true);
         uiObject.SetActive(true);
@@ -100,6 +118,9 @@ public sealed class ExperienceProgressUITests
     [TearDown]
     public void TearDown()
     {
+        UnityEngine.Object.DestroyImmediate(
+            eventSystemObject
+        );
         UnityEngine.Object.DestroyImmediate(uiObject);
         UnityEngine.Object.DestroyImmediate(managerObject);
     }

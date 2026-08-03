@@ -251,10 +251,18 @@ public sealed class MonsterStatsBehaviorSettingsTests
             AssetDatabase.LoadAssetAtPath<GameObject>(
                 "Assets/Sprites/Bullet/Boss_Bullet.prefab"
             );
+        GameObject teaCupBulletPrefab =
+            AssetDatabase.LoadAssetAtPath<GameObject>(
+                "Assets/Sprites/Bullet/Mob_Bullet2.prefab"
+            );
         Component mobProjectile =
             mobBulletPrefab.GetComponent(MonsterProjectileType);
         Component bossProjectile =
             bossBulletPrefab.GetComponent(MonsterProjectileType);
+        Component teaCupProjectile =
+            teaCupBulletPrefab.GetComponent(
+                MonsterProjectileType
+            );
 
         foreach ((string monsterName, Component projectile) in new[]
                  {
@@ -263,7 +271,7 @@ public sealed class MonsterStatsBehaviorSettingsTests
                      ("Grandma", mobProjectile),
                      ("Moth", mobProjectile),
                      ("Hunter", mobProjectile),
-                     ("TeaCup", mobProjectile)
+                     ("TeaCup", teaCupProjectile)
                  })
         {
             object settings = GetProperty(
