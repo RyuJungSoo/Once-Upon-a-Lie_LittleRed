@@ -14,6 +14,15 @@ public sealed class MonsterKnockback : MonoBehaviour
         monsterHealth = GetComponent<MonsterHealth>();
     }
 
+    private void OnDisable()
+    {
+        if (knockbackRoutine != null)
+        {
+            StopCoroutine(knockbackRoutine);
+            knockbackRoutine = null;
+        }
+    }
+
     public void Apply(Vector2 direction)
     {
         MonsterStats stats = monsterHealth.Stats;

@@ -9,6 +9,10 @@ public sealed class MonsterSpawner : MonoBehaviour
 
     private readonly List<MonsterSpawnPoint> spawnPoints = new();
     private readonly List<MonsterHealth> aliveMonsters = new();
+    private readonly Dictionary<GameObject, Stack<MonsterHealth>> pools =
+        new();
+    private readonly Dictionary<MonsterHealth, GameObject> prefabByMonster =
+        new();
 
     public int SpawnPointCount
     {
@@ -23,7 +27,11 @@ public sealed class MonsterSpawner : MonoBehaviour
     {
         get
         {
-            aliveMonsters.RemoveAll(monster => monster == null);
+            aliveMonsters.RemoveAll(
+                monster =>
+                    monster == null ||
+                    !monster.gameObject.activeInHierarchy
+            );
             return aliveMonsters.Count;
         }
     }
@@ -85,24 +93,111 @@ public sealed class MonsterSpawner : MonoBehaviour
         MonsterSpawnPoint spawnPoint = activePoints[
             Random.Range(0, activePoints.Count)
         ];
-        GameObject monsterObject = Instantiate(
-            prefab,
-            spawnPoint.transform.position,
-            Quaternion.identity
-        );
-        MonsterHealth health = monsterObject.GetComponent<MonsterHealth>();
+        MonsterHealth health = TakeFromPool(prefab);
 
         if (health == null)
         {
-            Debug.LogError(
-                $"{prefab.name} 프리팹에 {nameof(MonsterHealth)}가 없습니다.",
-                monsterObject
+            GameObject monsterObject = Instantiate(
+                prefab,
+                spawnPoint.transform.position,
+                Quaternion.identity
             );
-            Destroy(monsterObject);
+            health = monsterObject.GetComponent<MonsterHealth>();
+
+            if (health == null)
+            {
+                Debug.LogError(
+                    $"{prefab.name} 프리팹에 " +
+                    $"{nameof(MonsterHealth)}가 없습니다.",
+                    monsterObject
+                );
+                Destroy(monsterObject);
+                return null;
+            }
+
+            prefabByMonster.Add(health, prefab);
+        }
+
+        health.transform.SetPositionAndRotation(
+            spawnPoint.transform.position,
+            Quaternion.identity
+        );
+        health.SetPoolReleaseHandler(ReturnToPool);
+        health.gameObject.SetActive(true);
+        health.ResetForSpawn();
+        aliveMonsters.Add(health);
+        return health;
+    }
+
+    private MonsterHealth TakeFromPool(GameObject prefab)
+    {
+        if (!pools.TryGetValue(prefab, out Stack<MonsterHealth> pool))
+        {
             return null;
         }
 
-        aliveMonsters.Add(health);
-        return health;
+        while (pool.Count > 0)
+        {
+            MonsterHealth health = pool.Pop();
+
+            if (health != null)
+            {
+                return health;
+            }
+        }
+
+        return null;
+    }
+
+    private bool ReturnToPool(MonsterHealth health)
+    {
+        if (health == null ||
+            !prefabByMonster.TryGetValue(
+                health,
+                out GameObject prefab
+            ))
+        {
+            return false;
+        }
+
+        aliveMonsters.Remove(health);
+        ResetPhysics(health);
+        health.gameObject.SetActive(false);
+
+        if (!pools.TryGetValue(prefab, out Stack<MonsterHealth> pool))
+        {
+            pool = new Stack<MonsterHealth>();
+            pools.Add(prefab, pool);
+        }
+
+        pool.Push(health);
+        return true;
+    }
+
+    private static void ResetPhysics(MonsterHealth health)
+    {
+        Rigidbody2D[] bodies =
+            health.GetComponentsInChildren<Rigidbody2D>();
+
+        foreach (Rigidbody2D body in bodies)
+        {
+            body.linearVelocity = Vector2.zero;
+            body.angularVelocity = 0f;
+        }
+    }
+
+    private void OnDestroy()
+    {
+        foreach (MonsterHealth health in prefabByMonster.Keys)
+        {
+            if (health != null)
+            {
+                health.SetPoolReleaseHandler(null);
+            }
+        }
+
+        aliveMonsters.Clear();
+        pools.Clear();
+        prefabByMonster.Clear();
     }
 }

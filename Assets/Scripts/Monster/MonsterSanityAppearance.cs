@@ -50,6 +50,8 @@ public sealed class MonsterSanityAppearance : MonoBehaviour
     private void OnDisable()
     {
         UnsubscribeFromMental();
+        isMoving = false;
+        motionState = MonsterMotionState.Idle;
     }
 
     private void LateUpdate()

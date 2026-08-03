@@ -45,6 +45,18 @@ public sealed class MonsterAttack : MonoBehaviour
         ResolvePlayerMental();
     }
 
+    private void OnEnable()
+    {
+        nextAttackTime = Time.time;
+        attackAnimationEndTime = -1f;
+    }
+
+    private void OnDisable()
+    {
+        attackAnimationEndTime = -1f;
+        appearance?.RestoreMovementMotionState();
+    }
+
     private void Update()
     {
         if (appearance == null || attackAnimationEndTime < 0f || Time.time < attackAnimationEndTime)

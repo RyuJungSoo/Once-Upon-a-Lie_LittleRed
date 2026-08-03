@@ -14,6 +14,8 @@ public sealed class MonsterHealth : MonoBehaviour
 {
     [SerializeField] private MonsterStats stats;
 
+    private Func<MonsterHealth, bool> poolReleaseHandler;
+
     public MonsterStats Stats => stats;
     public int MaxHealth => stats != null ? stats.MaxHealth : 1;
     public float Damage => stats != null ? stats.Damage : 0f;
@@ -25,6 +27,11 @@ public sealed class MonsterHealth : MonoBehaviour
     public event Action<MonsterHealth> Died;
 
     private void OnEnable()
+    {
+        ResetForSpawn();
+    }
+
+    internal void ResetForSpawn()
     {
         CurrentHealth = MaxHealth;
         IsDead = false;
@@ -56,7 +63,6 @@ public sealed class MonsterHealth : MonoBehaviour
         {
             IsDead = true;
             DropDeathRewards(damageSource);
-            Destroy(gameObject);
         }
 
         HealthChanged?.Invoke(previousHealth, CurrentHealth);
@@ -64,7 +70,20 @@ public sealed class MonsterHealth : MonoBehaviour
         if (wasKilled)
         {
             Died?.Invoke(this);
+
+            if (poolReleaseHandler == null ||
+                !poolReleaseHandler(this))
+            {
+                Destroy(gameObject);
+            }
         }
+    }
+
+    internal void SetPoolReleaseHandler(
+        Func<MonsterHealth, bool> releaseHandler
+    )
+    {
+        poolReleaseHandler = releaseHandler;
     }
 
     private void DropDeathRewards(

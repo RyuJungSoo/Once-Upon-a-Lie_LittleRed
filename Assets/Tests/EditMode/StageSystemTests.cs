@@ -14,6 +14,8 @@ public sealed class StageSystemTests
         Type.GetType("MonsterSpawner, Assembly-CSharp");
     private static readonly Type SpawnPointType =
         Type.GetType("MonsterSpawnPoint, Assembly-CSharp");
+    private static readonly Type HealthType =
+        Type.GetType("MonsterHealth, Assembly-CSharp");
 
     [Test]
     public void ChoosePrefab_UsesConfiguredWeights()
@@ -67,6 +69,65 @@ public sealed class StageSystemTests
         Assert.That(spawnPointCount.GetValue(spawner), Is.EqualTo(1));
 
         UnityEngine.Object.DestroyImmediate(first);
+        UnityEngine.Object.DestroyImmediate(root);
+    }
+
+    [Test]
+    public void MonsterSpawner_ReusesDefeatedMonsterFromSamePrefab()
+    {
+        GameObject root = new("StageSystem");
+        Component spawner = root.AddComponent(SpawnerType);
+        CreateSpawnPoint(root.transform, "SpawnPoint");
+        GameObject prefab = new("MonsterPrefab");
+        prefab.AddComponent(HealthType);
+        MethodInfo spawnRandom =
+            SpawnerType.GetMethod("SpawnRandom");
+        PropertyInfo aliveCount =
+            SpawnerType.GetProperty("AliveCount");
+        MethodInfo takeDamage = HealthType.GetMethod(
+            "TakeDamage",
+            new[] { typeof(int) }
+        );
+
+        Component first = (Component)spawnRandom.Invoke(
+            spawner,
+            new object[] { prefab }
+        );
+
+        Assert.That(first, Is.Not.Null);
+        Assert.That(
+            aliveCount.GetValue(spawner),
+            Is.EqualTo(1)
+        );
+
+        takeDamage.Invoke(first, new object[] { 1 });
+
+        Assert.That(first.gameObject.activeSelf, Is.False);
+        Assert.That(
+            aliveCount.GetValue(spawner),
+            Is.EqualTo(0)
+        );
+
+        Component second = (Component)spawnRandom.Invoke(
+            spawner,
+            new object[] { prefab }
+        );
+
+        Assert.That(second, Is.SameAs(first));
+        Assert.That(second.gameObject.activeSelf, Is.True);
+        Assert.That(
+            HealthType.GetProperty("CurrentHealth").GetValue(second),
+            Is.EqualTo(
+                HealthType.GetProperty("MaxHealth").GetValue(second)
+            )
+        );
+        Assert.That(
+            aliveCount.GetValue(spawner),
+            Is.EqualTo(1)
+        );
+
+        UnityEngine.Object.DestroyImmediate(second.gameObject);
+        UnityEngine.Object.DestroyImmediate(prefab);
         UnityEngine.Object.DestroyImmediate(root);
     }
 

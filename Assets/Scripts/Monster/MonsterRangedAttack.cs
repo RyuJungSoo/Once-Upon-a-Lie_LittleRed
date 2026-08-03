@@ -42,6 +42,14 @@ public sealed class MonsterRangedAttack : MonoBehaviour
         spriteRenderer = GetComponent<SpriteRenderer>();
     }
 
+    private void OnEnable()
+    {
+        nextAttackTime = Time.time;
+        attackAnimationEndTime = -1f;
+        isHoldingAttackRange = false;
+        ownsChasePause = false;
+    }
+
     private void OnDisable()
     {
         ReleaseChase();

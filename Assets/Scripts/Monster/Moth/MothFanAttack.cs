@@ -58,6 +58,14 @@ public sealed class MothFanAttack : MonoBehaviour
         spreadAngle = Mathf.Clamp(spreadAngle, 0f, 180f);
     }
 
+    private void OnEnable()
+    {
+        nextAttackTime = Time.time;
+        attackAnimationEndTime = -1f;
+        isHoldingAttackRange = false;
+        ownsChasePause = false;
+    }
+
     private void OnDisable()
     {
         ReleaseChase();
