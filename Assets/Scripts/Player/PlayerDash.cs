@@ -11,9 +11,11 @@ public sealed class PlayerDash : MonoBehaviour
     [SerializeField] private InputActionAsset inputActions;
     [SerializeField] private Camera aimCamera;
     [SerializeField, Min(0f)] private float dashDistance = 2f;
+    [SerializeField, Min(0f)] private float dashInterval = 1f;
 
     private Rigidbody2D body;
     private InputAction dashAction;
+    private float nextDashTime;
 
     private void Awake()
     {
@@ -73,6 +75,11 @@ public sealed class PlayerDash : MonoBehaviour
 
     public bool TryDash(Vector2 targetWorldPosition)
     {
+        if (Time.time < nextDashTime)
+        {
+            return false;
+        }
+
         Vector2 direction = targetWorldPosition - body.position;
 
         if (direction.sqrMagnitude <= 0.0001f)
@@ -81,6 +88,7 @@ public sealed class PlayerDash : MonoBehaviour
         }
 
         body.position += direction.normalized * dashDistance;
+        nextDashTime = Time.time + dashInterval;
         return true;
     }
 

@@ -29,6 +29,7 @@ public sealed class PlayerDashTests
 
         SetField(playerDash, "aimCamera", aimCamera);
         SetField(playerDash, "dashDistance", 2.5f);
+        SetField(playerDash, "dashInterval", 0.5f);
         LogAssert.Expect(
             LogType.Error,
             "PlayerDash references are not fully assigned."
@@ -80,6 +81,42 @@ public sealed class PlayerDashTests
 
         Assert.That(didDash, Is.False);
         Assert.That(playerBody.position, Is.EqualTo(startingPosition));
+    }
+
+    [Test]
+    public void TryDashBlocksUntilIntervalExpires()
+    {
+        playerBody.position = Vector2.zero;
+
+        bool firstDash = (bool)Invoke(
+            playerDash,
+            "TryDash",
+            Vector2.right
+        );
+        Vector2 positionAfterFirstDash = playerBody.position;
+
+        bool immediateDash = (bool)Invoke(
+            playerDash,
+            "TryDash",
+            positionAfterFirstDash + Vector2.up
+        );
+
+        Assert.That(firstDash, Is.True);
+        Assert.That(immediateDash, Is.False);
+        Assert.That(
+            playerBody.position,
+            Is.EqualTo(positionAfterFirstDash)
+        );
+
+        SetField(playerDash, "nextDashTime", Time.time - 0.01f);
+
+        bool dashAfterInterval = (bool)Invoke(
+            playerDash,
+            "TryDash",
+            positionAfterFirstDash + Vector2.up
+        );
+
+        Assert.That(dashAfterInterval, Is.True);
     }
 
     private static void SetField(
