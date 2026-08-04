@@ -15471,13 +15471,13 @@ MonoBehaviour:
     - prefab: {fileID: 3192719920758087752, guid: 06b6ce39184975e478a9f1101fd77e8a, type: 3}
       weight: 1
   - waveName: "\uBCF4\uC2A4+"
-    waveTime: 50
-    spawnInterval: 1
+    waveTime: 9999
+    spawnInterval: 5
     maxAlive: 10
     spawnCountPerTick: 1
     bossWave: 0
     monsters:
-    - prefab: {fileID: 3192719920758087752, guid: 06b6ce39184975e478a9f1101fd77e8a, type: 3}
+    - prefab: {fileID: 6222643459820160562, guid: 90e826bdc21220a4da7b18449993e601, type: 3}
       weight: 1
 --- !u!114 &2050204004
 MonoBehaviour:

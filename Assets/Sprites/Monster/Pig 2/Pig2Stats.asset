@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Pig2Stats
   m_EditorClassIdentifier: Assembly-CSharp::MonsterStats
   maxHealth: 20
-  damage: 20
+  damage: 5
   knockbackDistance: 0.3
   knockbackDuration: 0.1
   hitFlashColor: {r: 1, g: 0.15, b: 0.15, a: 1}
