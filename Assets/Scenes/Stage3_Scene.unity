@@ -10448,7 +10448,7 @@ MonoBehaviour:
       weight: 1
   - waveName: RedString 1 + TeaCup 1
     waveTime: 20
-    spawnInterval: 1
+    spawnInterval: 1.2
     maxAlive: 20
     spawnCountPerTick: 1
     bossWave: 0
@@ -10468,7 +10468,7 @@ MonoBehaviour:
       weight: 1
   - waveName: TeaCup 3 + Blanket 1
     waveTime: 20
-    spawnInterval: 1
+    spawnInterval: 1.2
     maxAlive: 15
     spawnCountPerTick: 1
     bossWave: 0
@@ -10479,7 +10479,7 @@ MonoBehaviour:
       weight: 1
   - waveName: Blanket 1
     waveTime: 20
-    spawnInterval: 0.25
+    spawnInterval: 0.4
     maxAlive: 20
     spawnCountPerTick: 1
     bossWave: 0
@@ -10488,7 +10488,7 @@ MonoBehaviour:
       weight: 1
   - waveName: RedString 1 + Blanket 1
     waveTime: 20
-    spawnInterval: 0.1
+    spawnInterval: 0.2
     maxAlive: 20
     spawnCountPerTick: 1
     bossWave: 0
