@@ -6,6 +6,10 @@ using UnityEngine;
 [RequireComponent(typeof(MonsterChase))]
 public sealed class TeaCupBarrageAttack : MonoBehaviour
 {
+    private const float MovementSpeedMultiplier = 0.35f;
+    private const float PreferredRangeRatio = 0.7f;
+    private const float RangeToleranceRatio = 0.1f;
+
     [Header("Barrage Pattern")]
     [SerializeField, Min(0.05f)]
     private float fireInterval = 0.18f;
@@ -24,6 +28,7 @@ public sealed class TeaCupBarrageAttack : MonoBehaviour
 
     private float nextShotTime;
     private float attackAnimationEndTime = -1f;
+    private float strafeDirection;
     private int shotIndex;
     private bool ownsChasePause;
 
@@ -62,12 +67,16 @@ public sealed class TeaCupBarrageAttack : MonoBehaviour
     private void OnEnable()
     {
         nextShotTime = Time.time;
+        strafeDirection =
+            GetInstanceID() % 2 == 0 ? 1f : -1f;
         shotIndex = 0;
-        HoldPosition();
+        PauseChase();
+        StopSupportMovement();
     }
 
     private void OnDisable()
     {
+        StopSupportMovement();
         ReleaseChase();
         RestoreMovementAnimation();
     }
@@ -81,13 +90,12 @@ public sealed class TeaCupBarrageAttack : MonoBehaviour
 
     private void FixedUpdate()
     {
-        HoldPosition();
+        MoveForSupport();
     }
 
     private void Update()
     {
         RestoreMovementAnimationWhenReady();
-        HoldPosition();
 
         if (monsterHealth == null ||
             monsterHealth.IsDead ||
@@ -209,18 +217,103 @@ public sealed class TeaCupBarrageAttack : MonoBehaviour
             normalizedDirection;
     }
 
-    private void HoldPosition()
+    private void MoveForSupport()
+    {
+        PauseChase();
+
+        if (body == null ||
+            monsterHealth == null ||
+            monsterHealth.IsDead ||
+            (GameManager.HasInstance &&
+             !GameManager.Instance.IsPlaying))
+        {
+            StopSupportMovement();
+            return;
+        }
+
+        Transform target = chase != null
+            ? chase.Target
+            : null;
+        MonsterRangedAttackSettings settings = Settings;
+
+        if (target == null || settings == null)
+        {
+            StopSupportMovement();
+            return;
+        }
+
+        Vector2 targetOffset =
+            (Vector2)target.position - body.position;
+        Vector2 direction = CalculateSupportDirection(
+            targetOffset,
+            settings.AttackRange,
+            PreferredRangeRatio,
+            RangeToleranceRatio,
+            strafeDirection
+        );
+        Vector2 velocity =
+            direction *
+            monsterHealth.MoveSpeed *
+            MovementSpeedMultiplier;
+
+        body.linearVelocity = velocity;
+        appearance?.SetMoving(velocity.sqrMagnitude > 0f);
+    }
+
+    private static Vector2 CalculateSupportDirection(
+        Vector2 targetOffset,
+        float attackRange,
+        float preferredRangeRatio,
+        float rangeToleranceRatio,
+        float strafeSign
+    )
+    {
+        if (targetOffset.sqrMagnitude <= Mathf.Epsilon ||
+            attackRange <= 0f)
+        {
+            return Vector2.zero;
+        }
+
+        float distance = targetOffset.magnitude;
+        Vector2 towardTarget = targetOffset / distance;
+        float preferredDistance =
+            attackRange * preferredRangeRatio;
+        float tolerance =
+            attackRange * rangeToleranceRatio;
+
+        if (distance > preferredDistance + tolerance)
+        {
+            return towardTarget;
+        }
+
+        if (distance < preferredDistance - tolerance)
+        {
+            return -towardTarget;
+        }
+
+        return new Vector2(
+            -towardTarget.y,
+            towardTarget.x
+        ) * Mathf.Sign(strafeSign);
+    }
+
+    private void PauseChase()
     {
         if (chase != null && chase.enabled)
         {
             chase.enabled = false;
             ownsChasePause = true;
         }
+    }
 
+    private void StopSupportMovement()
+    {
         if (body != null)
         {
             body.linearVelocity = Vector2.zero;
         }
+
+        appearance?.SetMoving(false);
     }
 
     private void ReleaseChase()
