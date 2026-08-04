@@ -252,7 +252,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerExperience
   <CurrentExperience>k__BackingField: 0
-  <RequiredExperience>k__BackingField: 25
+  <RequiredExperience>k__BackingField: 30
 --- !u!1 &18578504
 GameObject:
   m_ObjectHideFlags: 0
@@ -1739,6 +1739,70 @@ MonoBehaviour:
   initialPoolSize: 3
   canExpand: 1
   maxPoolSize: 10
+<<<<<<< Updated upstream
+=======
+--- !u!1001 &254099704
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 1302753847062244704, guid: d5203063cc52122419aca0854f33ec5a, type: 3}
+      propertyPath: m_Name
+      value: ExpCrystal_low
+      objectReference: {fileID: 0}
+    - target: {fileID: 2372701264533393849, guid: d5203063cc52122419aca0854f33ec5a, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0.8
+      objectReference: {fileID: 0}
+    - target: {fileID: 2372701264533393849, guid: d5203063cc52122419aca0854f33ec5a, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: -4.058955
+      objectReference: {fileID: 0}
+    - target: {fileID: 2372701264533393849, guid: d5203063cc52122419aca0854f33ec5a, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2372701264533393849, guid: d5203063cc52122419aca0854f33ec5a, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2372701264533393849, guid: d5203063cc52122419aca0854f33ec5a, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2372701264533393849, guid: d5203063cc52122419aca0854f33ec5a, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2372701264533393849, guid: d5203063cc52122419aca0854f33ec5a, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2372701264533393849, guid: d5203063cc52122419aca0854f33ec5a, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2372701264533393849, guid: d5203063cc52122419aca0854f33ec5a, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2372701264533393849, guid: d5203063cc52122419aca0854f33ec5a, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3384566449543063022, guid: d5203063cc52122419aca0854f33ec5a, type: 3}
+      propertyPath: experienceAmount
+      value: 1
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: d5203063cc52122419aca0854f33ec5a, type: 3}
+>>>>>>> Stashed changes
 --- !u!1 &270181412
 GameObject:
   m_ObjectHideFlags: 0
@@ -15268,29 +15332,58 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::StageDirector
   stageName: Stage1
-  finalStage: 0
+  finalStage: 1
   waves:
-  - waveName: "1\uCC28"
-    waveTime: 5
-    spawnInterval: 1
+  - waveName: 1
+    waveTime: 10
+    spawnInterval: 1.5
     maxAlive: 10
     spawnCountPerTick: 1
     bossWave: 0
     monsters:
     - prefab: {fileID: 6579557707755153181, guid: 32da97c4c16549d994eb9ac6e5611e22, type: 3}
       weight: 1
-  - waveName: "2\uCC28"
-    waveTime: 5
-    spawnInterval: 1
+  - waveName: 2
+    waveTime: 15
+    spawnInterval: 1.2
     maxAlive: 10
     spawnCountPerTick: 1
     bossWave: 0
     monsters:
     - prefab: {fileID: 6579557707755153181, guid: 32da97c4c16549d994eb9ac6e5611e22, type: 3}
       weight: 1
+  - waveName: 3
+    waveTime: 15
+    spawnInterval: 0.8
+    maxAlive: 10
+    spawnCountPerTick: 1
+    bossWave: 0
+    monsters:
+    - prefab: {fileID: 6579557707755153181, guid: 32da97c4c16549d994eb9ac6e5611e22, type: 3}
+      weight: 7
     - prefab: {fileID: 6222643459820160562, guid: 6d242c713baa4af4950d90820145d158, type: 3}
       weight: 1
-  - waveName: "3\uCC28"
+  - waveName: 4
+    waveTime: 5
+    spawnInterval: 0.6
+    maxAlive: 10
+    spawnCountPerTick: 1
+    bossWave: 0
+    monsters:
+    - prefab: {fileID: 6579557707755153181, guid: 32da97c4c16549d994eb9ac6e5611e22, type: 3}
+      weight: 1
+  - waveName: 5
+    waveTime: 20
+    spawnInterval: 1
+    maxAlive: 10
+    spawnCountPerTick: 1
+    bossWave: 0
+    monsters:
+    - prefab: {fileID: 6579557707755153181, guid: 32da97c4c16549d994eb9ac6e5611e22, type: 3}
+      weight: 3
+    - prefab: {fileID: 6222643459820160562, guid: 6d242c713baa4af4950d90820145d158, type: 3}
+      weight: 1
+  - waveName: 6
     waveTime: 5
     spawnInterval: 1
     maxAlive: 10
@@ -15299,14 +15392,143 @@ MonoBehaviour:
     monsters:
     - prefab: {fileID: 6579557707755153181, guid: 32da97c4c16549d994eb9ac6e5611e22, type: 3}
       weight: 1
+  - waveName: 7
+    waveTime: 20
+    spawnInterval: 1
+    maxAlive: 15
+    spawnCountPerTick: 1
+    bossWave: 0
+    monsters:
+    - prefab: {fileID: 6579557707755153181, guid: 32da97c4c16549d994eb9ac6e5611e22, type: 3}
+      weight: 2
     - prefab: {fileID: 6222643459820160562, guid: 6d242c713baa4af4950d90820145d158, type: 3}
+      weight: 1
+  - waveName: 8
+    waveTime: 20
+    spawnInterval: 0.8
+    maxAlive: 15
+    spawnCountPerTick: 1
+    bossWave: 0
+    monsters:
+    - prefab: {fileID: 6579557707755153181, guid: 32da97c4c16549d994eb9ac6e5611e22, type: 3}
+      weight: 4
+    - prefab: {fileID: 6222643459820160562, guid: 6d242c713baa4af4950d90820145d158, type: 3}
+      weight: 1
+  - waveName: 9
+    waveTime: 10
+    spawnInterval: 0.5
+    maxAlive: 30
+    spawnCountPerTick: 1
+    bossWave: 0
+    monsters:
+    - prefab: {fileID: 6579557707755153181, guid: 32da97c4c16549d994eb9ac6e5611e22, type: 3}
+      weight: 1
+  - waveName: 10
+    waveTime: 10
+    spawnInterval: 1
+    maxAlive: 30
+    spawnCountPerTick: 1
+    bossWave: 0
+    monsters:
+    - prefab: {fileID: 6579557707755153181, guid: 32da97c4c16549d994eb9ac6e5611e22, type: 3}
+      weight: 1
+  - waveName: 11
+    waveTime: 20
+    spawnInterval: 0.8
+    maxAlive: 30
+    spawnCountPerTick: 1
+    bossWave: 0
+    monsters:
+    - prefab: {fileID: 6579557707755153181, guid: 32da97c4c16549d994eb9ac6e5611e22, type: 3}
+      weight: 2
+    - prefab: {fileID: 8560963249597590526, guid: b102984d1caf431b826d4ecd02b0c93c, type: 3}
+      weight: 1
+  - waveName: 12
+    waveTime: 10
+    spawnInterval: 1
+    maxAlive: 30
+    spawnCountPerTick: 1
+    bossWave: 0
+    monsters:
+    - prefab: {fileID: 6579557707755153181, guid: 32da97c4c16549d994eb9ac6e5611e22, type: 3}
       weight: 1
     - prefab: {fileID: 8560963249597590526, guid: b102984d1caf431b826d4ecd02b0c93c, type: 3}
+      weight: 1
+  - waveName: 13
+    waveTime: 20
+    spawnInterval: 1
+    maxAlive: 15
+    spawnCountPerTick: 1
+    bossWave: 0
+    monsters:
+    - prefab: {fileID: 8560963249597590526, guid: b102984d1caf431b826d4ecd02b0c93c, type: 3}
+      weight: 1
+  - waveName: 14
+    waveTime: 5
+    spawnInterval: 1
+    maxAlive: 15
+    spawnCountPerTick: 1
+    bossWave: 0
+    monsters:
+    - prefab: {fileID: 6222643459820160562, guid: 6d242c713baa4af4950d90820145d158, type: 3}
+      weight: 4
+    - prefab: {fileID: 8560963249597590526, guid: b102984d1caf431b826d4ecd02b0c93c, type: 3}
+      weight: 1
+  - waveName: 15
+    waveTime: 10
+    spawnInterval: 1
+    maxAlive: 10
+    spawnCountPerTick: 1
+    bossWave: 0
+    monsters:
+    - prefab: {fileID: 6579557707755153181, guid: 32da97c4c16549d994eb9ac6e5611e22, type: 3}
+      weight: 1
+  - waveName: 16
+    waveTime: 30
+    spawnInterval: 0.5
+    maxAlive: 20
+    spawnCountPerTick: 1
+    bossWave: 0
+    monsters:
+    - prefab: {fileID: 6222643459820160562, guid: 6d242c713baa4af4950d90820145d158, type: 3}
+      weight: 1
+  - waveName: 17
+    waveTime: 10
+    spawnInterval: 1
+    maxAlive: 10
+    spawnCountPerTick: 1
+    bossWave: 0
+    monsters:
+    - prefab: {fileID: 6579557707755153181, guid: 32da97c4c16549d994eb9ac6e5611e22, type: 3}
+      weight: 1
+  - waveName: 18
+    waveTime: 5
+    spawnInterval: 0.8
+    maxAlive: 20
+    spawnCountPerTick: 1
+    bossWave: 0
+    monsters:
+    - prefab: {fileID: 6579557707755153181, guid: 32da97c4c16549d994eb9ac6e5611e22, type: 3}
+      weight: 5
+    - prefab: {fileID: 6222643459820160562, guid: 6d242c713baa4af4950d90820145d158, type: 3}
+      weight: 2
+    - prefab: {fileID: 8560963249597590526, guid: b102984d1caf431b826d4ecd02b0c93c, type: 3}
+      weight: 1
+  - waveName: 19
+    waveTime: 10
+    spawnInterval: 1
+    maxAlive: 20
+    spawnCountPerTick: 1
+    bossWave: 0
+    monsters:
+    - prefab: {fileID: 6579557707755153181, guid: 32da97c4c16549d994eb9ac6e5611e22, type: 3}
+      weight: 3
+    - prefab: {fileID: 6222643459820160562, guid: 6d242c713baa4af4950d90820145d158, type: 3}
       weight: 1
   - waveName: "\uBCF4\uC2A4"
     waveTime: 5
     spawnInterval: 1
-    maxAlive: 1
+    maxAlive: 10
     spawnCountPerTick: 1
     bossWave: 1
     monsters:
