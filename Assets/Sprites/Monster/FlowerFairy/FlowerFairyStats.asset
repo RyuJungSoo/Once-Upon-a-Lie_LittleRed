@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: FlowerFairyStats
   m_EditorClassIdentifier: Assembly-CSharp::MonsterStats
   maxHealth: 1
-  damage: 10
+  damage: 45
   knockbackDistance: 0.3
   knockbackDuration: 0.1
   hitFlashColor: {r: 1, g: 0.15, b: 0.15, a: 1}
