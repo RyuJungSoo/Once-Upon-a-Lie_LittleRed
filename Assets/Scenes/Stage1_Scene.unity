@@ -8312,6 +8312,7 @@ GameObject:
   - component: {fileID: 1664570136}
   - component: {fileID: 1664570135}
   - component: {fileID: 1664570137}
+  - component: {fileID: 1664570139}
   m_Layer: 3
   m_Name: Player
   m_TagString: Player
@@ -8514,6 +8515,21 @@ CapsuleCollider2D:
   m_Offset: {x: 0, y: -0.12}
   m_Size: {x: 0.63, y: 0.74}
   m_Direction: 0
+--- !u!114 &1664570139
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1664570131}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4f89a9d168034ebdb690a469867e73f1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::PlayerDash
+  inputActions: {fileID: -944628639613478452, guid: f41a8943376b5bc4289c41f9fcce2036, type: 3}
+  aimCamera: {fileID: 519420031}
+  dashDistance: 1
 --- !u!1 &1670537664
 GameObject:
   m_ObjectHideFlags: 0
