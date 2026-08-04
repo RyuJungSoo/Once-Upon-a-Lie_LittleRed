@@ -1739,8 +1739,6 @@ MonoBehaviour:
   initialPoolSize: 3
   canExpand: 1
   maxPoolSize: 10
-<<<<<<< Updated upstream
-=======
 --- !u!1001 &254099704
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1802,7 +1800,6 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: d5203063cc52122419aca0854f33ec5a, type: 3}
->>>>>>> Stashed changes
 --- !u!1 &270181412
 GameObject:
   m_ObjectHideFlags: 0
