@@ -135,6 +135,12 @@ public sealed class PlayerDash : MonoBehaviour
         body.linearVelocity = Vector2.zero;
         IsDashing = true;
         nextDashTime = Time.time + dashInterval;
+
+        if (SoundManager.HasInstance)
+        {
+            SoundManager.Instance.PlaySFX(ESFXType.Dash);
+        }
+
         return true;
     }
 

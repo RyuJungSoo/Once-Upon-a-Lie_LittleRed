@@ -16,6 +16,52 @@ public sealed class MonsterProjectileTests
         Type.GetType("PlayerMental, Assembly-CSharp");
 
     [Test]
+    public void MobBullet2MatchesMobBullet1CollisionPhysics()
+    {
+        GameObject referencePrefab =
+            AssetDatabase.LoadAssetAtPath<GameObject>(
+                "Assets/Sprites/Bullet/Mob_Bullet1.prefab"
+            );
+        GameObject teaCupProjectilePrefab =
+            AssetDatabase.LoadAssetAtPath<GameObject>(
+                "Assets/Sprites/Bullet/Mob_Bullet2.prefab"
+            );
+
+        Assert.That(referencePrefab, Is.Not.Null);
+        Assert.That(teaCupProjectilePrefab, Is.Not.Null);
+
+        Rigidbody2D referenceBody =
+            referencePrefab.GetComponent<Rigidbody2D>();
+        Rigidbody2D teaCupProjectileBody =
+            teaCupProjectilePrefab.GetComponent<Rigidbody2D>();
+        Collider2D referenceCollider =
+            referencePrefab.GetComponent<Collider2D>();
+        Collider2D teaCupProjectileCollider =
+            teaCupProjectilePrefab.GetComponent<Collider2D>();
+
+        Assert.That(
+            teaCupProjectileCollider.isTrigger,
+            Is.EqualTo(referenceCollider.isTrigger)
+        );
+        Assert.That(
+            teaCupProjectileBody.gravityScale,
+            Is.EqualTo(referenceBody.gravityScale)
+        );
+        Assert.That(
+            teaCupProjectileBody.constraints,
+            Is.EqualTo(referenceBody.constraints)
+        );
+        Assert.That(
+            teaCupProjectileBody.collisionDetectionMode,
+            Is.EqualTo(referenceBody.collisionDetectionMode)
+        );
+        Assert.That(
+            teaCupProjectileBody.interpolation,
+            Is.EqualTo(referenceBody.interpolation)
+        );
+    }
+
+    [Test]
     public void PlayerTagCausesDamageAndProjectileDestruction()
     {
         Assert.That(MonsterProjectileType, Is.Not.Null);
