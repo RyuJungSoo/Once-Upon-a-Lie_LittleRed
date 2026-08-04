@@ -252,7 +252,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerExperience
   <CurrentExperience>k__BackingField: 0
-  <RequiredExperience>k__BackingField: 30
+  <RequiredExperience>k__BackingField: 40
 --- !u!1 &18578504
 GameObject:
   m_ObjectHideFlags: 0
