@@ -234,9 +234,9 @@ MonoBehaviour:
   baseMoveSpeed: 5
   moveSpeedPerLevel: 0.1
   basePassiveMentalDrain: 1
-  passiveDrainReductionPerLevel: 0.03
-  minimumPassiveMentalDrain: 0.25
-  hitMentalDamageReductionPerLevel: 0.02
+  passiveDrainReductionPerLevel: 0.01
+  minimumPassiveMentalDrain: 0.5
+  hitMentalDamageReductionPerLevel: 0.01
   minimumHitMentalDamageMultiplier: 0.5
   lowMentalAttackBonusPerLevel: 0.03
 --- !u!114 &18403770
