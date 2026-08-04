@@ -93,7 +93,7 @@ SpriteRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_MaskInteraction: 0
-  m_Sprite: {fileID: 2670164986882087280, guid: c82df9a21488c2f4caabea46d7db707a, type: 3}
+  m_Sprite: {fileID: 7965865188929508254, guid: c82df9a21488c2f4caabea46d7db707a, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -180,7 +180,7 @@ BoxCollider2D:
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
-    oldSize: {x: 1.020498, y: 1.7500001}
+    oldSize: {x: 1.360664, y: 1.54}
     newSize: {x: 1.14, y: 1.08}
     adaptiveTilingThreshold: 0.5
     drawMode: 0
@@ -287,7 +287,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: db8ec27d0b75a0d4982210f1aa483fd4, type: 3}
-  m_Name:
+  m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::TeaCupBarrageAttack
   fireInterval: 0.18
   sweepAngle: 30
@@ -302,7 +302,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 0b9d271387e94e342a64e14869c7f2ef, type: 3}
-  m_Name:
+  m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::GrandmaRestraintAttack
   profile: {fileID: 11400000, guid: 36b6a68dd9aaab141934cb8099afa8f1, type: 2}
 --- !u!114 &1828138081717305332
@@ -315,6 +315,6 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 2c34f845a1a810e4898d0cf1a3b222c7, type: 3}
-  m_Name:
+  m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::GrandmaDirector
   profile: {fileID: 11400000, guid: 36b6a68dd9aaab141934cb8099afa8f1, type: 2}
