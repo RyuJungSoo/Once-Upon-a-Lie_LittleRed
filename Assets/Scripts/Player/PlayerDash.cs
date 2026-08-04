@@ -7,7 +7,9 @@ using UnityEngine.InputSystem;
 public sealed class PlayerDash : MonoBehaviour
 {
     private const string DashActionPath = "PlayerInput/Dash";
+    private const string PlayerBoundsLayerName = "PlayerBounds";
     private const float DiagonalDirection = 0.70710678f;
+    private const float CollisionSkin = 0.01f;
 
     [SerializeField] private InputActionAsset inputActions;
     [SerializeField, Min(0f)] private float dashDistance = 2f;
@@ -21,6 +23,8 @@ public sealed class PlayerDash : MonoBehaviour
     private Vector2 dashTargetPosition;
     private float dashElapsedTime;
     private float nextDashTime;
+    private ContactFilter2D dashContactFilter;
+    private readonly RaycastHit2D[] dashHits = new RaycastHit2D[1];
 
     public bool IsDashing { get; private set; }
 
@@ -28,6 +32,12 @@ public sealed class PlayerDash : MonoBehaviour
     {
         body = GetComponent<Rigidbody2D>();
         playerMovement = GetComponent<PlayerMovement>();
+        dashContactFilter = new ContactFilter2D
+        {
+            useLayerMask = true,
+            layerMask = LayerMask.GetMask(PlayerBoundsLayerName),
+            useTriggers = false
+        };
 
         if (inputActions == null || playerMovement == null)
         {
@@ -96,11 +106,13 @@ public sealed class PlayerDash : MonoBehaviour
             duration
         );
         float progress = dashElapsedTime / duration;
-        body.position = Vector2.Lerp(
+        Vector2 nextPosition = Vector2.Lerp(
             dashStartPosition,
             dashTargetPosition,
             progress
         );
+
+        MoveToDashPosition(nextPosition);
     }
 
     public bool TryDash(Vector2 direction)
@@ -124,6 +136,38 @@ public sealed class PlayerDash : MonoBehaviour
         IsDashing = true;
         nextDashTime = Time.time + dashInterval;
         return true;
+    }
+
+    private void MoveToDashPosition(Vector2 nextPosition)
+    {
+        Vector2 movement = nextPosition - body.position;
+        float distance = movement.magnitude;
+
+        if (distance <= Mathf.Epsilon)
+        {
+            return;
+        }
+
+        Vector2 direction = movement / distance;
+        int hitCount = body.Cast(
+            direction,
+            dashContactFilter,
+            dashHits,
+            distance
+        );
+
+        if (hitCount == 0)
+        {
+            body.position = nextPosition;
+            return;
+        }
+
+        float allowedDistance = Mathf.Max(
+            0f,
+            dashHits[0].distance - CollisionSkin
+        );
+        body.position += direction * allowedDistance;
+        IsDashing = false;
     }
 
     private static Vector2 SnapToEightDirections(

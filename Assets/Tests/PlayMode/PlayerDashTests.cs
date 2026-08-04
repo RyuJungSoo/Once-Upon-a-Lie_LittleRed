@@ -16,6 +16,7 @@ public sealed class PlayerDashTests
     private Component playerDash;
     private Component playerMovement;
     private Rigidbody2D playerBody;
+    private GameObject boundaryObject;
 
     [SetUp]
     public void SetUp()
@@ -25,6 +26,9 @@ public sealed class PlayerDashTests
 
         playerObject = new GameObject("Player Dash Test Player");
         playerObject.SetActive(false);
+        playerObject.layer = LayerMask.NameToLayer("Player");
+        playerObject.AddComponent<CapsuleCollider2D>().size =
+            new Vector2(0.63f, 0.74f);
         playerDash = playerObject.AddComponent(PlayerDashType);
         playerMovement = playerObject.AddComponent(
             PlayerMovementType
@@ -53,6 +57,7 @@ public sealed class PlayerDashTests
     public void TearDown()
     {
         UnityEngine.Object.DestroyImmediate(playerObject);
+        UnityEngine.Object.DestroyImmediate(boundaryObject);
     }
 
     [Test]
@@ -147,6 +152,37 @@ public sealed class PlayerDashTests
         );
 
         Assert.That(dashAfterInterval, Is.True);
+    }
+
+    [Test]
+    public void TryDashStopsBeforePlayerBounds()
+    {
+        boundaryObject = new GameObject("PlayerBounds Test Edge");
+        boundaryObject.layer = 8;
+        EdgeCollider2D boundary =
+            boundaryObject.AddComponent<EdgeCollider2D>();
+        boundary.points = new[]
+        {
+            new Vector2(1.5f, -2f),
+            new Vector2(1.5f, 2f)
+        };
+
+        playerBody.position = Vector2.zero;
+        Physics2D.SyncTransforms();
+
+        bool didDash = (bool)Invoke(
+            playerDash,
+            "TryDash",
+            Vector2.right
+        );
+        CompleteDash();
+
+        Assert.That(didDash, Is.True);
+        Assert.That(
+            playerBody.position.x,
+            Is.LessThan(1.5f),
+            "Dash must not cross the PlayerBounds edge."
+        );
     }
 
     [Test]
