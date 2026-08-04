@@ -29,10 +29,11 @@ public enum ESFXType
     Reload = 1,
     Hurt = 2,
     Death = 3,
-    ExpCrystal = 4,
-    RedBerry = 5,
-    StarCandy = 6,
-    Pie = 7
+    Dash = 4,
+    ExpCrystal = 5,
+    RedBerry = 6,
+    StarCandy = 7,
+    Pie = 8
 }
 
 public class SoundManager : Singleton<SoundManager>
