@@ -154,4 +154,4 @@ MonoBehaviour:
   mentalRestoreRatio: 0.25
   passiveMentalDrainPauseDuration: 0
   incomingMentalDamageBlockDuration: 0
-  pickupSfxType: 5
+  pickupSfxType: 6

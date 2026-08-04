@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: BlanketStats
   m_EditorClassIdentifier: Assembly-CSharp::MonsterStats
   maxHealth: 5
-  damage: 10
+  damage: 30
   knockbackDistance: 0.3
   knockbackDuration: 0.1
   hitFlashColor: {r: 1, g: 0.15, b: 0.15, a: 1}
@@ -36,8 +36,8 @@ MonoBehaviour:
     projectileLifetime: 4
   experienceCrystalDropPrefab: {fileID: 6319948648696832272, guid: 482d131c5cdb86e41b3860ab04bd8c6a, type: 3}
   redBerryDropPrefab: {fileID: 8402970182217116196, guid: b294420d1e554984693993600b682b14, type: 3}
-  redBerryDropChancePercent: 10
+  redBerryDropChancePercent: 3
   starCandyDropPrefab: {fileID: 4654218894503131967, guid: 11773e5284902004d8c6ecb8069f4654, type: 3}
-  starCandyDropChancePercent: 20
+  starCandyDropChancePercent: 2
   pieDropPrefab: {fileID: 9207624126157785309, guid: 1b99c8b48afe2ce47a17a57342c08e0d, type: 3}
-  pieDropChancePercent: 3
+  pieDropChancePercent: 1

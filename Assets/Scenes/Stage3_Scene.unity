@@ -2201,7 +2201,7 @@ Camera:
   m_Enabled: 1
   serializedVersion: 2
   m_ClearFlags: 2
-  m_BackGroundColor: {r: 0.19215687, g: 0.3019608, b: 0.4745098, a: 0}
+  m_BackGroundColor: {r: 0, g: 0, b: 0, a: 0}
   m_projectionMatrixMode: 1
   m_GateFitMode: 2
   m_FOVAxisMode: 0
@@ -10417,7 +10417,7 @@ MonoBehaviour:
   waves:
   - waveName: RedString
     waveTime: 20
-    spawnInterval: 1
+    spawnInterval: 0.4
     maxAlive: 15
     spawnCountPerTick: 1
     bossWave: 0
@@ -10426,7 +10426,7 @@ MonoBehaviour:
       weight: 1
   - waveName: RedString+
     waveTime: 20
-    spawnInterval: 0.25
+    spawnInterval: 0.2
     maxAlive: 30
     spawnCountPerTick: 1
     bossWave: 0
@@ -10434,9 +10434,9 @@ MonoBehaviour:
     - prefab: {fileID: 4976233715045526362, guid: 01560c7b7f7b41bead967ec98ebcf743, type: 3}
       weight: 1
   - waveName: RedString 3 + Teacup 1
-    waveTime: 10
-    spawnInterval: 1.1
-    maxAlive: 15
+    waveTime: 20
+    spawnInterval: 0.5
+    maxAlive: 30
     spawnCountPerTick: 1
     bossWave: 0
     monsters:
@@ -10447,9 +10447,9 @@ MonoBehaviour:
     - prefab: {fileID: 7142681337270856045, guid: 3892181b730a47d9b71a258bb3ffc31f, type: 3}
       weight: 1
   - waveName: RedString 1 + TeaCup 1
-    waveTime: 10
-    spawnInterval: 1.5
-    maxAlive: 15
+    waveTime: 20
+    spawnInterval: 1
+    maxAlive: 20
     spawnCountPerTick: 1
     bossWave: 0
     monsters:
@@ -10458,18 +10458,18 @@ MonoBehaviour:
     - prefab: {fileID: 7142681337270856045, guid: 3892181b730a47d9b71a258bb3ffc31f, type: 3}
       weight: 1
   - waveName: TeaCup
-    waveTime: 10
-    spawnInterval: 2
-    maxAlive: 10
+    waveTime: 20
+    spawnInterval: 1
+    maxAlive: 15
     spawnCountPerTick: 1
     bossWave: 0
     monsters:
     - prefab: {fileID: 7142681337270856045, guid: 3892181b730a47d9b71a258bb3ffc31f, type: 3}
       weight: 1
   - waveName: TeaCup 3 + Blanket 1
-    waveTime: 10
-    spawnInterval: 2
-    maxAlive: 10
+    waveTime: 20
+    spawnInterval: 1
+    maxAlive: 15
     spawnCountPerTick: 1
     bossWave: 0
     monsters:
@@ -10478,18 +10478,18 @@ MonoBehaviour:
     - prefab: {fileID: 3192719920758087752, guid: a591331d624e4b78b05dfad7aee1a5af, type: 3}
       weight: 1
   - waveName: Blanket 1
-    waveTime: 10
-    spawnInterval: 1
-    maxAlive: 15
+    waveTime: 20
+    spawnInterval: 0.25
+    maxAlive: 20
     spawnCountPerTick: 1
     bossWave: 0
     monsters:
     - prefab: {fileID: 3192719920758087752, guid: a591331d624e4b78b05dfad7aee1a5af, type: 3}
       weight: 1
   - waveName: RedString 1 + Blanket 1
-    waveTime: 10
-    spawnInterval: 1
-    maxAlive: 15
+    waveTime: 20
+    spawnInterval: 0.1
+    maxAlive: 20
     spawnCountPerTick: 1
     bossWave: 0
     monsters:
