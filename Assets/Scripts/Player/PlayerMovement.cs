@@ -22,6 +22,7 @@ public sealed class PlayerMovement : MonoBehaviour
     private Rigidbody2D body;
     private Animator animator;
     private SpriteRenderer spriteRenderer;
+    private PlayerDash playerDash;
     private InputAction moveAction;
     private Vector2 moveInput;
     private FacingDirection facingDirection = FacingDirection.Front;
@@ -41,6 +42,7 @@ public sealed class PlayerMovement : MonoBehaviour
         body = GetComponent<Rigidbody2D>();
         animator = GetComponent<Animator>();
         spriteRenderer = GetComponent<SpriteRenderer>();
+        playerDash = GetComponent<PlayerDash>();
 
         body.gravityScale = 0f;
         body.freezeRotation = true;
@@ -107,6 +109,12 @@ public sealed class PlayerMovement : MonoBehaviour
         if (!CanMove())
         {
             StopMovement(ShouldCancelPendingKnockback());
+            return;
+        }
+
+        if (playerDash != null && playerDash.IsDashing)
+        {
+            body.linearVelocity = Vector2.zero;
             return;
         }
 

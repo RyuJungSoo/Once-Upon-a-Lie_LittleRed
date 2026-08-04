@@ -48,8 +48,10 @@ public class PlayerExperience : MonoBehaviour
             CurrentExperience
         );
 
-        RequiredExperience =
-            ExperienceRequiredPerLevel;
+        RequiredExperience = Mathf.Max(
+            1,
+            RequiredExperience
+        );
     }
 
     private void OnEnable()
@@ -76,9 +78,6 @@ public class PlayerExperience : MonoBehaviour
         InitializeIfNeeded();
 
         CurrentExperience = 0;
-
-        RequiredExperience =
-            ExperienceRequiredPerLevel;
 
         NotifyExperienceChanged();
     }
@@ -139,8 +138,10 @@ public class PlayerExperience : MonoBehaviour
 
         TrySubscribeGameManager();
 
-        RequiredExperience =
-            ExperienceRequiredPerLevel;
+        RequiredExperience = Mathf.Max(
+            1,
+            RequiredExperience
+        );
 
         CurrentExperience = Mathf.Clamp(
             CurrentExperience,
@@ -193,9 +194,6 @@ public class PlayerExperience : MonoBehaviour
                 break;
             }
 
-            RequiredExperience =
-                ExperienceRequiredPerLevel;
-
             OnLevelGained?.Invoke(
                 currentLevel
             );
@@ -236,15 +234,12 @@ public class PlayerExperience : MonoBehaviour
 
     /// <summary>
     /// 외부에서 플레이어 레벨이 변경된 경우
-    /// 필요 경험치를 다시 계산합니다.
+    /// 현재 경험치 정보를 다시 알립니다.
     /// </summary>
     private void HandlePlayerLevelChanged(
         int newLevel
     )
     {
-        RequiredExperience =
-            ExperienceRequiredPerLevel;
-
         NotifyExperienceChanged();
     }
 

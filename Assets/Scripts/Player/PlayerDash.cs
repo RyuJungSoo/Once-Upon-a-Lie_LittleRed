@@ -12,10 +12,16 @@ public sealed class PlayerDash : MonoBehaviour
     [SerializeField] private Camera aimCamera;
     [SerializeField, Min(0f)] private float dashDistance = 2f;
     [SerializeField, Min(0f)] private float dashInterval = 1f;
+    [SerializeField, Min(0.01f)] private float dashDuration = 0.12f;
 
     private Rigidbody2D body;
     private InputAction dashAction;
+    private Vector2 dashStartPosition;
+    private Vector2 dashTargetPosition;
+    private float dashElapsedTime;
     private float nextDashTime;
+
+    public bool IsDashing { get; private set; }
 
     private void Awake()
     {
@@ -47,6 +53,7 @@ public sealed class PlayerDash : MonoBehaviour
     private void OnDisable()
     {
         dashAction?.Disable();
+        IsDashing = false;
     }
 
     private void Update()
@@ -73,9 +80,36 @@ public sealed class PlayerDash : MonoBehaviour
         TryDash(GetPointerWorldPosition());
     }
 
+    private void FixedUpdate()
+    {
+        if (!IsDashing)
+        {
+            return;
+        }
+
+        float duration = Mathf.Max(0.01f, dashDuration);
+
+        if (dashElapsedTime >= duration)
+        {
+            IsDashing = false;
+            return;
+        }
+
+        dashElapsedTime = Mathf.Min(
+            dashElapsedTime + Time.fixedDeltaTime,
+            duration
+        );
+        float progress = dashElapsedTime / duration;
+        body.position = Vector2.Lerp(
+            dashStartPosition,
+            dashTargetPosition,
+            progress
+        );
+    }
+
     public bool TryDash(Vector2 targetWorldPosition)
     {
-        if (Time.time < nextDashTime)
+        if (IsDashing || Time.time < nextDashTime)
         {
             return false;
         }
@@ -87,7 +121,12 @@ public sealed class PlayerDash : MonoBehaviour
             return false;
         }
 
-        body.position += direction.normalized * dashDistance;
+        dashStartPosition = body.position;
+        dashTargetPosition =
+            dashStartPosition + direction.normalized * dashDistance;
+        dashElapsedTime = 0f;
+        body.linearVelocity = Vector2.zero;
+        IsDashing = true;
         nextDashTime = Time.time + dashInterval;
         return true;
     }

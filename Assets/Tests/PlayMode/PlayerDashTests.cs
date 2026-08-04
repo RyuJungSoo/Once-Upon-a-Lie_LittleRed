@@ -30,6 +30,11 @@ public sealed class PlayerDashTests
         SetField(playerDash, "aimCamera", aimCamera);
         SetField(playerDash, "dashDistance", 2.5f);
         SetField(playerDash, "dashInterval", 0.5f);
+        SetField(
+            playerDash,
+            "dashDuration",
+            Time.fixedDeltaTime * 2f
+        );
         LogAssert.Expect(
             LogType.Error,
             "PlayerDash references are not fully assigned."
@@ -45,7 +50,7 @@ public sealed class PlayerDashTests
     }
 
     [Test]
-    public void TryDashMovesExactDistanceTowardWorldPosition()
+    public void TryDashInterpolatesExactDistanceTowardWorldPosition()
     {
         Vector2 startingPosition = new(1f, 2f);
         playerBody.position = startingPosition;
@@ -61,6 +66,24 @@ public sealed class PlayerDashTests
             startingPosition + expectedDirection * 2.5f;
 
         Assert.That(didDash, Is.True);
+        Assert.That(playerBody.position, Is.EqualTo(startingPosition));
+
+        Invoke(playerDash, "FixedUpdate");
+
+        Assert.That(
+            Vector2.Distance(
+                playerBody.position,
+                Vector2.Lerp(
+                    startingPosition,
+                    expectedPosition,
+                    0.5f
+                )
+            ),
+            Is.LessThan(0.0001f)
+        );
+
+        Invoke(playerDash, "FixedUpdate");
+
         Assert.That(
             Vector2.Distance(playerBody.position, expectedPosition),
             Is.LessThan(0.0001f)
@@ -93,6 +116,7 @@ public sealed class PlayerDashTests
             "TryDash",
             Vector2.right
         );
+        CompleteDash();
         Vector2 positionAfterFirstDash = playerBody.position;
 
         bool immediateDash = (bool)Invoke(
@@ -117,6 +141,13 @@ public sealed class PlayerDashTests
         );
 
         Assert.That(dashAfterInterval, Is.True);
+    }
+
+    private void CompleteDash()
+    {
+        Invoke(playerDash, "FixedUpdate");
+        Invoke(playerDash, "FixedUpdate");
+        Invoke(playerDash, "FixedUpdate");
     }
 
     private static void SetField(

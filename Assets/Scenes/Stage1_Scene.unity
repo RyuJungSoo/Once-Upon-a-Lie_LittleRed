@@ -252,7 +252,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerExperience
   <CurrentExperience>k__BackingField: 0
-  <RequiredExperience>k__BackingField: 100
+  <RequiredExperience>k__BackingField: 25
 --- !u!1 &18578504
 GameObject:
   m_ObjectHideFlags: 0
@@ -8973,6 +8973,8 @@ MonoBehaviour:
   inputActions: {fileID: -944628639613478452, guid: f41a8943376b5bc4289c41f9fcce2036, type: 3}
   aimCamera: {fileID: 519420031}
   dashDistance: 1
+  dashInterval: 1
+  dashDuration: 0.12
 --- !u!1 &1670537664
 GameObject:
   m_ObjectHideFlags: 0
