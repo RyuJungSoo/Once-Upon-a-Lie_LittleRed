@@ -10080,7 +10080,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 7.4000244, y: 57.600006}
+  m_AnchoredPosition: {x: 7.3999023, y: 57.599976}
   m_SizeDelta: {x: 200, y: 50}
   m_Pivot: {x: 0, y: 0}
 --- !u!114 &1996472141
@@ -10594,12 +10594,14 @@ MonoBehaviour:
       weight: 1
   - waveName: 16
     waveTime: 30
-    spawnInterval: 0.5
+    spawnInterval: 0.7
     maxAlive: 20
     spawnCountPerTick: 1
     bossWave: 0
     monsters:
     - prefab: {fileID: 6222643459820160562, guid: 6d242c713baa4af4950d90820145d158, type: 3}
+      weight: 4
+    - prefab: {fileID: 6222643459820160562, guid: 90e826bdc21220a4da7b18449993e601, type: 3}
       weight: 1
   - waveName: 17
     waveTime: 10
