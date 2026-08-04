@@ -18,11 +18,12 @@ public sealed class StageDirector : MonoBehaviour
     private List<StageWaveDefinition> waves = new();
 
     private readonly HashSet<MonsterHealth> livingBosses = new();
-    private List<StageWaveDefinition> orderedWaves = new();
+    private List<StageWaveDefinition> runtimeWaves = new();
     private MonsterSpawner spawner;
     private StageWaveDefinition activeWave;
     private int activeWaveIndex = -1;
     private float elapsedTime;
+    private float waveElapsedTime;
     private float spawnCountdown;
     private bool completed;
 
@@ -44,9 +45,9 @@ public sealed class StageDirector : MonoBehaviour
 
     private void Start()
     {
-        orderedWaves = CreateOrderedWaveList();
+        runtimeWaves = CreateWaveList();
 
-        if (orderedWaves.Count == 0)
+        if (runtimeWaves.Count == 0)
         {
             Debug.LogError(
                 $"{stageName}에 웨이브가 없습니다.",
@@ -56,7 +57,7 @@ public sealed class StageDirector : MonoBehaviour
             return;
         }
 
-        ActivateDueWaves();
+        ActivateWave(0);
     }
 
     private void Update()
@@ -66,8 +67,7 @@ public sealed class StageDirector : MonoBehaviour
             return;
         }
 
-        elapsedTime += Time.deltaTime;
-        ActivateDueWaves();
+        AdvanceWaveTimer(Time.deltaTime);
 
         if (activeWave == null || activeWave.IsBossWave)
         {
@@ -83,14 +83,11 @@ public sealed class StageDirector : MonoBehaviour
         }
     }
 
-    private List<StageWaveDefinition> CreateOrderedWaveList()
+    private List<StageWaveDefinition> CreateWaveList()
     {
-        List<StageWaveDefinition> ordered = new(waves);
-        ordered.RemoveAll(wave => wave == null);
-        ordered.Sort(
-            (left, right) => left.StartTime.CompareTo(right.StartTime)
-        );
-        return ordered;
+        List<StageWaveDefinition> configuredWaves = new(waves);
+        configuredWaves.RemoveAll(wave => wave == null);
+        return configuredWaves;
     }
 
     private bool CanAdvanceStage()
@@ -99,24 +96,26 @@ public sealed class StageDirector : MonoBehaviour
             GameManager.Instance.IsPlaying;
     }
 
-    private void ActivateDueWaves()
+    private void AdvanceWaveTimer(float deltaTime)
     {
-        int nextWaveIndex = activeWaveIndex + 1;
+        float safeDeltaTime = Mathf.Max(0f, deltaTime);
+        elapsedTime += safeDeltaTime;
+        waveElapsedTime += safeDeltaTime;
 
         while (
-            nextWaveIndex < orderedWaves.Count &&
-            orderedWaves[nextWaveIndex].StartTime <= elapsedTime
+            activeWaveIndex + 1 < runtimeWaves.Count &&
+            waveElapsedTime >= activeWave.WaveTime
         )
         {
-            ActivateWave(nextWaveIndex);
-            nextWaveIndex++;
+            waveElapsedTime -= activeWave.WaveTime;
+            ActivateWave(activeWaveIndex + 1);
         }
     }
 
     private void ActivateWave(int waveIndex)
     {
         activeWaveIndex = waveIndex;
-        activeWave = orderedWaves[waveIndex];
+        activeWave = runtimeWaves[waveIndex];
         spawnCountdown = 0f;
         WaveStarted?.Invoke(activeWave);
 

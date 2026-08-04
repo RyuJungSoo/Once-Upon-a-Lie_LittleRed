@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 [Serializable]
 public sealed class StageWaveDefinition
@@ -8,8 +9,9 @@ public sealed class StageWaveDefinition
     [SerializeField]
     private string waveName = "Wave";
 
-    [SerializeField, Min(0f)]
-    private float startTime;
+    [FormerlySerializedAs("startTime")]
+    [SerializeField, Min(0.05f)]
+    private float waveTime = 5f;
 
     [SerializeField, Min(0.05f)]
     private float spawnInterval = 1f;
@@ -27,7 +29,7 @@ public sealed class StageWaveDefinition
     private List<MonsterSpawnEntry> monsters = new();
 
     public string WaveName => waveName;
-    public float StartTime => startTime;
+    public float WaveTime => Mathf.Max(0.05f, waveTime);
     public float SpawnInterval => spawnInterval;
     public int MaxAlive => maxAlive;
     public int SpawnCountPerTick => spawnCountPerTick;
@@ -36,7 +38,7 @@ public sealed class StageWaveDefinition
 
     public StageWaveDefinition(
         string waveName,
-        float startTime,
+        float waveTime,
         float spawnInterval,
         int maxAlive,
         int spawnCountPerTick,
@@ -45,7 +47,7 @@ public sealed class StageWaveDefinition
     )
     {
         this.waveName = waveName;
-        this.startTime = Mathf.Max(0f, startTime);
+        this.waveTime = Mathf.Max(0.05f, waveTime);
         this.spawnInterval = Mathf.Max(0.05f, spawnInterval);
         this.maxAlive = Mathf.Max(1, maxAlive);
         this.spawnCountPerTick = Mathf.Max(1, spawnCountPerTick);

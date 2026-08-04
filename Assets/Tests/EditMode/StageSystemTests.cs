@@ -1,5 +1,6 @@
 using System;
 using System.Collections;
+using System.Collections.Generic;
 using System.Reflection;
 using NUnit.Framework;
 using UnityEngine;
@@ -16,6 +17,8 @@ public sealed class StageSystemTests
         Type.GetType("MonsterSpawnEntry, Assembly-CSharp");
     private static readonly Type WaveType =
         Type.GetType("StageWaveDefinition, Assembly-CSharp");
+    private static readonly Type DirectorType =
+        Type.GetType("StageDirector, Assembly-CSharp");
     private static readonly Type SpawnerType =
         Type.GetType("MonsterSpawner, Assembly-CSharp");
     private static readonly Type SpawnPointType =
@@ -56,6 +59,105 @@ public sealed class StageSystemTests
 
         UnityEngine.Object.DestroyImmediate(common);
         UnityEngine.Object.DestroyImmediate(rare);
+    }
+
+    [Test]
+    public void StageDirector_AdvancesWavesAfterEachWaveTime()
+    {
+        Array noEntries = Array.CreateInstance(SpawnEntryType, 0);
+        object firstWave = Activator.CreateInstance(
+            WaveType,
+            "First",
+            10f,
+            1f,
+            10,
+            1,
+            false,
+            noEntries
+        );
+        object secondWave = Activator.CreateInstance(
+            WaveType,
+            "Second",
+            5f,
+            1f,
+            10,
+            1,
+            false,
+            noEntries
+        );
+        IList waves = (IList)Activator.CreateInstance(
+            typeof(List<>).MakeGenericType(WaveType)
+        );
+        waves.Add(firstWave);
+        waves.Add(secondWave);
+
+        GameObject root = new("StageSystem");
+
+        try
+        {
+            Component director = root.AddComponent(DirectorType);
+            DirectorType.GetField(
+                "waves",
+                BindingFlags.NonPublic | BindingFlags.Instance
+            ).SetValue(director, waves);
+
+            MethodInfo start = DirectorType.GetMethod(
+                "Start",
+                BindingFlags.NonPublic | BindingFlags.Instance
+            );
+            MethodInfo advanceWaveTimer = DirectorType.GetMethod(
+                "AdvanceWaveTimer",
+                BindingFlags.NonPublic | BindingFlags.Instance
+            );
+            PropertyInfo activeWaveIndex =
+                DirectorType.GetProperty("ActiveWaveIndex");
+            PropertyInfo waveTime =
+                WaveType.GetProperty("WaveTime");
+
+            Assert.That(waveTime, Is.Not.Null);
+            Assert.That(
+                waveTime.GetValue(firstWave),
+                Is.EqualTo(10f)
+            );
+            Assert.That(advanceWaveTimer, Is.Not.Null);
+
+            start.Invoke(director, null);
+            Assert.That(
+                activeWaveIndex.GetValue(director),
+                Is.EqualTo(0)
+            );
+
+            advanceWaveTimer.Invoke(
+                director,
+                new object[] { 9.99f }
+            );
+            Assert.That(
+                activeWaveIndex.GetValue(director),
+                Is.EqualTo(0)
+            );
+
+            advanceWaveTimer.Invoke(
+                director,
+                new object[] { 0.01f }
+            );
+            Assert.That(
+                activeWaveIndex.GetValue(director),
+                Is.EqualTo(1)
+            );
+
+            advanceWaveTimer.Invoke(
+                director,
+                new object[] { 4.99f }
+            );
+            Assert.That(
+                activeWaveIndex.GetValue(director),
+                Is.EqualTo(1)
+            );
+        }
+        finally
+        {
+            UnityEngine.Object.DestroyImmediate(root);
+        }
     }
 
     [Test]

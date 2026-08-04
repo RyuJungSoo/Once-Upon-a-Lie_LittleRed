@@ -1052,7 +1052,7 @@ MonoBehaviour:
   finalStage: 0
   waves:
   - waveName: "\uAE30\uBCF8 \uBAAC\uC2A4\uD130"
-    startTime: 0
+    waveTime: 5
     spawnInterval: 1.5
     maxAlive: 12
     spawnCountPerTick: 1
@@ -1061,7 +1061,7 @@ MonoBehaviour:
     - prefab: {fileID: 1808918902371905508, guid: 464ecf9b4d25ddc4d9a13da88b9eca7c, type: 3}
       weight: 1
   - waveName: "\uB450 \uBC88\uC9F8 \uBAAC\uC2A4\uD130 \uCD94\uAC00"
-    startTime: 5
+    waveTime: 5
     spawnInterval: 2
     maxAlive: 12
     spawnCountPerTick: 1
@@ -1072,7 +1072,7 @@ MonoBehaviour:
     - prefab: {fileID: 2968124903297333640, guid: f86d75512645440d9a2470efd1a5d781, type: 3}
       weight: 1
   - waveName: "\uC138 \uBC88\uC9F8 \uBAAC\uC2A4\uD130 \uCD94\uAC00"
-    startTime: 10
+    waveTime: 5
     spawnInterval: 2
     maxAlive: 18
     spawnCountPerTick: 1
@@ -1085,7 +1085,7 @@ MonoBehaviour:
     - prefab: {fileID: 6785587294209071062, guid: acdf075b36d741eeab98a2b2d8793caa, type: 3}
       weight: 1
   - waveName: "\uD63C\uD569 \uC6E8\uC774\uBE0C"
-    startTime: 15
+    waveTime: 5
     spawnInterval: 2
     maxAlive: 18
     spawnCountPerTick: 1
@@ -1098,7 +1098,7 @@ MonoBehaviour:
     - prefab: {fileID: 6785587294209071062, guid: acdf075b36d741eeab98a2b2d8793caa, type: 3}
       weight: 1
   - waveName: "\uBCF4\uC2A4"
-    startTime: 20
+    waveTime: 5
     spawnInterval: 1
     maxAlive: 1
     spawnCountPerTick: 1

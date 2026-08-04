@@ -15498,7 +15498,7 @@ MonoBehaviour:
   finalStage: 0
   waves:
   - waveName: "1\uCC28"
-    startTime: 0
+    waveTime: 5
     spawnInterval: 1
     maxAlive: 10
     spawnCountPerTick: 1
@@ -15507,7 +15507,7 @@ MonoBehaviour:
     - prefab: {fileID: 6579557707755153181, guid: 32da97c4c16549d994eb9ac6e5611e22, type: 3}
       weight: 1
   - waveName: "2\uCC28"
-    startTime: 5
+    waveTime: 5
     spawnInterval: 1
     maxAlive: 10
     spawnCountPerTick: 1
@@ -15518,7 +15518,7 @@ MonoBehaviour:
     - prefab: {fileID: 6222643459820160562, guid: 6d242c713baa4af4950d90820145d158, type: 3}
       weight: 1
   - waveName: "3\uCC28"
-    startTime: 10
+    waveTime: 5
     spawnInterval: 1
     maxAlive: 10
     spawnCountPerTick: 1
@@ -15531,7 +15531,7 @@ MonoBehaviour:
     - prefab: {fileID: 8560963249597590526, guid: b102984d1caf431b826d4ecd02b0c93c, type: 3}
       weight: 1
   - waveName: "\uBCF4\uC2A4"
-    startTime: 15
+    waveTime: 5
     spawnInterval: 1
     maxAlive: 1
     spawnCountPerTick: 1
