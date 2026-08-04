@@ -1739,67 +1739,6 @@ MonoBehaviour:
   initialPoolSize: 3
   canExpand: 1
   maxPoolSize: 10
---- !u!1001 &254099704
-PrefabInstance:
-  m_ObjectHideFlags: 0
-  serializedVersion: 2
-  m_Modification:
-    serializedVersion: 3
-    m_TransformParent: {fileID: 0}
-    m_Modifications:
-    - target: {fileID: 1302753847062244704, guid: d5203063cc52122419aca0854f33ec5a, type: 3}
-      propertyPath: m_Name
-      value: ExpCrystal_low
-      objectReference: {fileID: 0}
-    - target: {fileID: 2372701264533393849, guid: d5203063cc52122419aca0854f33ec5a, type: 3}
-      propertyPath: m_LocalPosition.x
-      value: 0.8
-      objectReference: {fileID: 0}
-    - target: {fileID: 2372701264533393849, guid: d5203063cc52122419aca0854f33ec5a, type: 3}
-      propertyPath: m_LocalPosition.y
-      value: -4.058955
-      objectReference: {fileID: 0}
-    - target: {fileID: 2372701264533393849, guid: d5203063cc52122419aca0854f33ec5a, type: 3}
-      propertyPath: m_LocalPosition.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2372701264533393849, guid: d5203063cc52122419aca0854f33ec5a, type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 2372701264533393849, guid: d5203063cc52122419aca0854f33ec5a, type: 3}
-      propertyPath: m_LocalRotation.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2372701264533393849, guid: d5203063cc52122419aca0854f33ec5a, type: 3}
-      propertyPath: m_LocalRotation.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2372701264533393849, guid: d5203063cc52122419aca0854f33ec5a, type: 3}
-      propertyPath: m_LocalRotation.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2372701264533393849, guid: d5203063cc52122419aca0854f33ec5a, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2372701264533393849, guid: d5203063cc52122419aca0854f33ec5a, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2372701264533393849, guid: d5203063cc52122419aca0854f33ec5a, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3384566449543063022, guid: d5203063cc52122419aca0854f33ec5a, type: 3}
-      propertyPath: experienceAmount
-      value: 1
-      objectReference: {fileID: 0}
-    m_RemovedComponents: []
-    m_RemovedGameObjects: []
-    m_AddedGameObjects: []
-    m_AddedComponents: []
-  m_SourcePrefab: {fileID: 100100000, guid: d5203063cc52122419aca0854f33ec5a, type: 3}
 --- !u!1 &270181412
 GameObject:
   m_ObjectHideFlags: 0
@@ -15528,6 +15467,15 @@ MonoBehaviour:
     maxAlive: 10
     spawnCountPerTick: 1
     bossWave: 1
+    monsters:
+    - prefab: {fileID: 3192719920758087752, guid: 06b6ce39184975e478a9f1101fd77e8a, type: 3}
+      weight: 1
+  - waveName: "\uBCF4\uC2A4+"
+    waveTime: 50
+    spawnInterval: 1
+    maxAlive: 10
+    spawnCountPerTick: 1
+    bossWave: 0
     monsters:
     - prefab: {fileID: 3192719920758087752, guid: 06b6ce39184975e478a9f1101fd77e8a, type: 3}
       weight: 1
