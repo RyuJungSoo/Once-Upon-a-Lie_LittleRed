@@ -204,6 +204,28 @@ public sealed class PlayerMovement : MonoBehaviour
         spriteRenderer.flipX = false;
     }
 
+    public Vector2 GetDashDirection()
+    {
+        Vector2 currentInput =
+            moveAction != null
+                ? moveAction.ReadValue<Vector2>()
+                : moveInput;
+
+        if (currentInput.sqrMagnitude > 0.0001f)
+        {
+            return currentInput.normalized;
+        }
+
+        return facingDirection switch
+        {
+            FacingDirection.Back => Vector2.up,
+            FacingDirection.Side when spriteRenderer.flipX =>
+                Vector2.left,
+            FacingDirection.Side => Vector2.right,
+            _ => Vector2.down
+        };
+    }
+
     public void PlayAttackAnimation(Vector2 aimDirection, float duration)
     {
         if (aimDirection.sqrMagnitude <= 0.0001f)

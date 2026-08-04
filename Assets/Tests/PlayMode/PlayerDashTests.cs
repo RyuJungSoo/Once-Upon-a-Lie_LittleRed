@@ -9,25 +9,28 @@ public sealed class PlayerDashTests
     private static readonly Type PlayerDashType =
         Type.GetType("PlayerDash, Assembly-CSharp");
 
+    private static readonly Type PlayerMovementType =
+        Type.GetType("PlayerMovement, Assembly-CSharp");
+
     private GameObject playerObject;
     private Component playerDash;
+    private Component playerMovement;
     private Rigidbody2D playerBody;
-    private GameObject cameraObject;
 
     [SetUp]
     public void SetUp()
     {
         Assert.That(PlayerDashType, Is.Not.Null);
+        Assert.That(PlayerMovementType, Is.Not.Null);
 
         playerObject = new GameObject("Player Dash Test Player");
         playerObject.SetActive(false);
         playerDash = playerObject.AddComponent(PlayerDashType);
+        playerMovement = playerObject.AddComponent(
+            PlayerMovementType
+        );
         playerBody = playerObject.GetComponent<Rigidbody2D>();
 
-        cameraObject = new GameObject("Player Dash Test Camera");
-        Camera aimCamera = cameraObject.AddComponent<Camera>();
-
-        SetField(playerDash, "aimCamera", aimCamera);
         SetField(playerDash, "dashDistance", 2.5f);
         SetField(playerDash, "dashInterval", 0.5f);
         SetField(
@@ -39,6 +42,10 @@ public sealed class PlayerDashTests
             LogType.Error,
             "PlayerDash references are not fully assigned."
         );
+        LogAssert.Expect(
+            LogType.Error,
+            "PlayerInput Input Actions is not assigned to PlayerMovement."
+        );
         playerObject.SetActive(true);
     }
 
@@ -46,11 +53,10 @@ public sealed class PlayerDashTests
     public void TearDown()
     {
         UnityEngine.Object.DestroyImmediate(playerObject);
-        UnityEngine.Object.DestroyImmediate(cameraObject);
     }
 
     [Test]
-    public void TryDashInterpolatesExactDistanceTowardWorldPosition()
+    public void TryDashSnapsToDiagonalAndMovesExactDistance()
     {
         Vector2 startingPosition = new(1f, 2f);
         playerBody.position = startingPosition;
@@ -58,10 +64,10 @@ public sealed class PlayerDashTests
         bool didDash = (bool)Invoke(
             playerDash,
             "TryDash",
-            new Vector2(4f, 6f)
+            new Vector2(3f, 4f)
         );
 
-        Vector2 expectedDirection = new Vector2(3f, 4f).normalized;
+        Vector2 expectedDirection = new Vector2(1f, 1f).normalized;
         Vector2 expectedPosition =
             startingPosition + expectedDirection * 2.5f;
 
@@ -91,7 +97,7 @@ public sealed class PlayerDashTests
     }
 
     [Test]
-    public void TryDashIgnoresPointerAtPlayerPosition()
+    public void TryDashIgnoresZeroDirection()
     {
         Vector2 startingPosition = new(-2f, 3f);
         playerBody.position = startingPosition;
@@ -99,7 +105,7 @@ public sealed class PlayerDashTests
         bool didDash = (bool)Invoke(
             playerDash,
             "TryDash",
-            startingPosition
+            Vector2.zero
         );
 
         Assert.That(didDash, Is.False);
@@ -122,7 +128,7 @@ public sealed class PlayerDashTests
         bool immediateDash = (bool)Invoke(
             playerDash,
             "TryDash",
-            positionAfterFirstDash + Vector2.up
+            Vector2.up
         );
 
         Assert.That(firstDash, Is.True);
@@ -137,10 +143,41 @@ public sealed class PlayerDashTests
         bool dashAfterInterval = (bool)Invoke(
             playerDash,
             "TryDash",
-            positionAfterFirstDash + Vector2.up
+            Vector2.up
         );
 
         Assert.That(dashAfterInterval, Is.True);
+    }
+
+    [Test]
+    public void KeyboardInputAndFacingProvideDashDirection()
+    {
+        SetField(
+            playerMovement,
+            "moveInput",
+            new Vector2(1f, 1f)
+        );
+
+        Vector2 keyboardDirection = (Vector2)Invoke(
+            playerMovement,
+            "GetDashDirection"
+        );
+
+        Assert.That(
+            Vector2.Distance(
+                keyboardDirection,
+                new Vector2(1f, 1f).normalized
+            ),
+            Is.LessThan(0.0001f)
+        );
+
+        SetField(playerMovement, "moveInput", Vector2.zero);
+        Vector2 facingDirection = (Vector2)Invoke(
+            playerMovement,
+            "GetDashDirection"
+        );
+
+        Assert.That(facingDirection, Is.EqualTo(Vector2.down));
     }
 
     private void CompleteDash()
