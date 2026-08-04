@@ -159,8 +159,8 @@ MonoBehaviour:
   currentStageIndex: 0
   hasShownTutorial: 0
   playerExperience: {fileID: 18403770}
-  startPlayerLevel: 18
-  currentPlayerLevel: 18
+  startPlayerLevel: 1
+  currentPlayerLevel: 1
 --- !u!4 &18403766
 Transform:
   m_ObjectHideFlags: 0
