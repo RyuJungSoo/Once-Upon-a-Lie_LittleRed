@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2b4e0fc9f6d568f40bd55805b76697ea, type: 3}
   m_Name: MothStats
   m_EditorClassIdentifier: Assembly-CSharp::MonsterStats
-  maxHealth: 5
+  maxHealth: 10
   damage: 10
   knockbackDistance: 0.3
   knockbackDuration: 0.1
@@ -31,7 +31,7 @@ MonoBehaviour:
     attackAnimationDuration: 0.25
     projectilePrefab: {fileID: 8699534169670345425, guid: 6ccd81ebd236faf46b19f349d67bb04d, type: 3}
     projectileSpawnOffset: {x: 0, y: 0.2}
-    projectileSpeed: 7
+    projectileSpeed: 3
     projectileDamage: 10
     projectileLifetime: 4
   experienceCrystalDropPrefab: {fileID: 8633393577086571784, guid: 49b4aaca5d87f2246b2398b2d52de795, type: 3}

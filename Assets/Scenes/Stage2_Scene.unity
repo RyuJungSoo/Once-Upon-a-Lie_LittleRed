@@ -821,75 +821,187 @@ MonoBehaviour:
       weight: 1
   - waveName: 4
     waveTime: 20
-    spawnInterval: 1.5
+    spawnInterval: 2
     maxAlive: 15
-    spawnCountPerTick: 1
+    spawnCountPerTick: 2
     bossWave: 0
     monsters:
     - prefab: {fileID: 1808918902371905508, guid: 464ecf9b4d25ddc4d9a13da88b9eca7c, type: 3}
       weight: 1
   - waveName: 5
-    waveTime: 20
-    spawnInterval: 4
-    maxAlive: 12
+    waveTime: 10
+    spawnInterval: 2
+    maxAlive: 15
     spawnCountPerTick: 1
     bossWave: 0
     monsters:
-    - prefab: {fileID: 6222643459820160562, guid: 6d242c713baa4af4950d90820145d158, type: 3}
+    - prefab: {fileID: 6222643459820160562, guid: 90e826bdc21220a4da7b18449993e601, type: 3}
       weight: 1
   - waveName: 6
     waveTime: 20
     spawnInterval: 3
-    maxAlive: 12
-    spawnCountPerTick: 1
+    maxAlive: 20
+    spawnCountPerTick: 3
     bossWave: 0
     monsters:
     - prefab: {fileID: 1808918902371905508, guid: 464ecf9b4d25ddc4d9a13da88b9eca7c, type: 3}
       weight: 1
+    - prefab: {fileID: 6222643459820160562, guid: 6d242c713baa4af4950d90820145d158, type: 3}
+      weight: 3
   - waveName: 7
     waveTime: 20
-    spawnInterval: 3
-    maxAlive: 12
+    spawnInterval: 2
+    maxAlive: 20
     spawnCountPerTick: 1
     bossWave: 0
     monsters:
     - prefab: {fileID: 1808918902371905508, guid: 464ecf9b4d25ddc4d9a13da88b9eca7c, type: 3}
+      weight: 4
+    - prefab: {fileID: 2968124903297333640, guid: f86d75512645440d9a2470efd1a5d781, type: 3}
       weight: 1
   - waveName: 8
-    waveTime: 20
+    waveTime: 18
     spawnInterval: 3
-    maxAlive: 12
+    maxAlive: 20
     spawnCountPerTick: 1
     bossWave: 0
     monsters:
-    - prefab: {fileID: 1808918902371905508, guid: 464ecf9b4d25ddc4d9a13da88b9eca7c, type: 3}
+    - prefab: {fileID: 2968124903297333640, guid: f86d75512645440d9a2470efd1a5d781, type: 3}
       weight: 1
   - waveName: 9
-    waveTime: 20
-    spawnInterval: 3
-    maxAlive: 12
+    waveTime: 15
+    spawnInterval: 5
+    maxAlive: 20
     spawnCountPerTick: 1
     bossWave: 0
     monsters:
-    - prefab: {fileID: 1808918902371905508, guid: 464ecf9b4d25ddc4d9a13da88b9eca7c, type: 3}
+    - prefab: {fileID: 6785587294209071062, guid: acdf075b36d741eeab98a2b2d8793caa, type: 3}
       weight: 1
   - waveName: 10
     waveTime: 20
-    spawnInterval: 3
-    maxAlive: 12
+    spawnInterval: 2.5
+    maxAlive: 20
     spawnCountPerTick: 1
+    bossWave: 0
+    monsters:
+    - prefab: {fileID: 1808918902371905508, guid: 464ecf9b4d25ddc4d9a13da88b9eca7c, type: 3}
+      weight: 3
+    - prefab: {fileID: 6785587294209071062, guid: acdf075b36d741eeab98a2b2d8793caa, type: 3}
+      weight: 1
+  - waveName: 11
+    waveTime: 2
+    spawnInterval: 1
+    maxAlive: 20
+    spawnCountPerTick: 1
+    bossWave: 0
+    monsters:
+    - prefab: {fileID: 2968124903297333640, guid: f86d75512645440d9a2470efd1a5d781, type: 3}
+      weight: 1
+  - waveName: 12
+    waveTime: 20
+    spawnInterval: 5
+    maxAlive: 20
+    spawnCountPerTick: 3
+    bossWave: 0
+    monsters:
+    - prefab: {fileID: 6785587294209071062, guid: acdf075b36d741eeab98a2b2d8793caa, type: 3}
+      weight: 1
+  - waveName: 13
+    waveTime: 10
+    spawnInterval: 3
+    maxAlive: 20
+    spawnCountPerTick: 1
+    bossWave: 0
+    monsters:
+    - prefab: {fileID: 6222643459820160562, guid: 90e826bdc21220a4da7b18449993e601, type: 3}
+      weight: 1
+  - waveName: 14
+    waveTime: 10
+    spawnInterval: 5
+    maxAlive: 20
+    spawnCountPerTick: 8
     bossWave: 0
     monsters:
     - prefab: {fileID: 1808918902371905508, guid: 464ecf9b4d25ddc4d9a13da88b9eca7c, type: 3}
       weight: 1
-  - waveName: 11
+  - waveName: 15
+    waveTime: 20
+    spawnInterval: 2
+    maxAlive: 20
+    spawnCountPerTick: 2
+    bossWave: 0
+    monsters:
+    - prefab: {fileID: 1808918902371905508, guid: 464ecf9b4d25ddc4d9a13da88b9eca7c, type: 3}
+      weight: 1
+    - prefab: {fileID: 6785587294209071062, guid: acdf075b36d741eeab98a2b2d8793caa, type: 3}
+      weight: 1
+  - waveName: 16
     waveTime: 20
     spawnInterval: 3
-    maxAlive: 12
+    maxAlive: 20
+    spawnCountPerTick: 2
+    bossWave: 0
+    monsters:
+    - prefab: {fileID: 2968124903297333640, guid: f86d75512645440d9a2470efd1a5d781, type: 3}
+      weight: 3
+    - prefab: {fileID: 6222643459820160562, guid: 6d242c713baa4af4950d90820145d158, type: 3}
+      weight: 2
+  - waveName: 17
+    waveTime: 20
+    spawnInterval: 3
+    maxAlive: 20
+    spawnCountPerTick: 2
+    bossWave: 0
+    monsters:
+    - prefab: {fileID: 2968124903297333640, guid: f86d75512645440d9a2470efd1a5d781, type: 3}
+      weight: 1
+    - prefab: {fileID: 6222643459820160562, guid: 6d242c713baa4af4950d90820145d158, type: 3}
+      weight: 4
+  - waveName: 18
+    waveTime: 20
+    spawnInterval: 4
+    maxAlive: 20
+    spawnCountPerTick: 2
+    bossWave: 0
+    monsters:
+    - prefab: {fileID: 1808918902371905508, guid: 464ecf9b4d25ddc4d9a13da88b9eca7c, type: 3}
+      weight: 4
+    - prefab: {fileID: 2968124903297333640, guid: f86d75512645440d9a2470efd1a5d781, type: 3}
+      weight: 1
+    - prefab: {fileID: 6785587294209071062, guid: acdf075b36d741eeab98a2b2d8793caa, type: 3}
+      weight: 1
+  - waveName: 19
+    waveTime: 5
+    spawnInterval: 2.5
+    maxAlive: 20
+    spawnCountPerTick: 1
+    bossWave: 0
+    monsters:
+    - prefab: {fileID: 6222643459820160562, guid: 90e826bdc21220a4da7b18449993e601, type: 3}
+      weight: 1
+  - waveName: 20
+    waveTime: 15
+    spawnInterval: 5
+    maxAlive: 30
     spawnCountPerTick: 1
     bossWave: 0
     monsters:
     - prefab: {fileID: 1808918902371905508, guid: 464ecf9b4d25ddc4d9a13da88b9eca7c, type: 3}
+      weight: 4
+    - prefab: {fileID: 2968124903297333640, guid: f86d75512645440d9a2470efd1a5d781, type: 3}
+      weight: 1
+    - prefab: {fileID: 6785587294209071062, guid: acdf075b36d741eeab98a2b2d8793caa, type: 3}
+      weight: 1
+    - prefab: {fileID: 6222643459820160562, guid: 90e826bdc21220a4da7b18449993e601, type: 3}
+      weight: 1
+  - waveName: 21
+    waveTime: 1
+    spawnInterval: 1
+    maxAlive: 20
+    spawnCountPerTick: 1
+    bossWave: 1
+    monsters:
+    - prefab: {fileID: 3192719920758087752, guid: ee8056aa75637e14885595c76915322b, type: 3}
       weight: 1
 --- !u!114 &2050204004
 MonoBehaviour:

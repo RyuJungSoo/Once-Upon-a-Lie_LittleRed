@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2b4e0fc9f6d568f40bd55805b76697ea, type: 3}
   m_Name: BirdStats
   m_EditorClassIdentifier: Assembly-CSharp::MonsterStats
-  maxHealth: 5
+  maxHealth: 50
   damage: 10
   knockbackDistance: 0.3
   knockbackDuration: 0.1
@@ -36,8 +36,8 @@ MonoBehaviour:
     projectileLifetime: 4
   experienceCrystalDropPrefab: {fileID: 8633393577086571784, guid: 49b4aaca5d87f2246b2398b2d52de795, type: 3}
   redBerryDropPrefab: {fileID: 2493322101823370268, guid: 9229094dc358d444c94cccad6d1d8512, type: 3}
-  redBerryDropChancePercent: 5
+  redBerryDropChancePercent: 2.5
   starCandyDropPrefab: {fileID: 1762128209621547791, guid: bf2d9653e65443249b654490c3eac4d1, type: 3}
-  starCandyDropChancePercent: 10
+  starCandyDropChancePercent: 5
   pieDropPrefab: {fileID: 3252242238629967641, guid: 07cb10b8da3ba7444af40ba6fffcbee4, type: 3}
-  pieDropChancePercent: 3
+  pieDropChancePercent: 1.5

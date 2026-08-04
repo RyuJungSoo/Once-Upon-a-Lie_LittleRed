@@ -18,7 +18,7 @@ MonoBehaviour:
   knockbackDuration: 0.1
   hitFlashColor: {r: 1, g: 0.15, b: 0.15, a: 1}
   hitFlashDuration: 0.08
-  moveSpeed: 2
+  moveSpeed: 4
   chase:
     stopDistance: 0.1
   contactAttack:
