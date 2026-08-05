@@ -13,12 +13,12 @@ MonoBehaviour:
   m_Name: HunterStats
   m_EditorClassIdentifier: Assembly-CSharp::MonsterStats
   maxHealth: 2000
-  damage: 40
+  damage: 70
   knockbackDistance: 0.3
   knockbackDuration: 0.1
   hitFlashColor: {r: 1, g: 0.15, b: 0.15, a: 1}
   hitFlashDuration: 0.08
-  moveSpeed: 2
+  moveSpeed: 2.3
   chase:
     stopDistance: 0.1
   contactAttack:
@@ -31,9 +31,9 @@ MonoBehaviour:
     attackAnimationDuration: 0.25
     projectilePrefab: {fileID: 8699534169670345425, guid: 6ccd81ebd236faf46b19f349d67bb04d, type: 3}
     projectileSpawnOffset: {x: 0, y: 0.2}
-    projectileSpeed: 7
-    projectileDamage: 10
-    projectileLifetime: 4
+    projectileSpeed: 3.5
+    projectileDamage: 50
+    projectileLifetime: 8
   experienceCrystalDropPrefab: {fileID: 6319948648696832272, guid: 482d131c5cdb86e41b3860ab04bd8c6a, type: 3}
   redBerryDropPrefab: {fileID: 8402970182217116196, guid: b294420d1e554984693993600b682b14, type: 3}
   redBerryDropChancePercent: 10
