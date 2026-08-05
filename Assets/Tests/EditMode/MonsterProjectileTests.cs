@@ -130,6 +130,70 @@ public sealed class MonsterProjectileTests
         }
     }
 
+    [TestCase("Assets/Sprites/Bullet/Mob_Bullet1.prefab")]
+    [TestCase("Assets/Sprites/Bullet/Mob_Bullet2.prefab")]
+    [TestCase("Assets/Sprites/Bullet/Boss_Bullet.prefab")]
+    public void PlayerBulletCollisionDestroysMonsterProjectileWithoutDamagingPlayer(
+        string monsterBulletPath
+    )
+    {
+        Assert.That(MonsterProjectileType, Is.Not.Null);
+        Assert.That(PlayerLevelStatsType, Is.Not.Null);
+        Assert.That(PlayerMentalType, Is.Not.Null);
+
+        GameObject monsterBullet = CreateLaunchedBullet(
+            12f,
+            monsterBulletPath
+        );
+        Component projectile =
+            monsterBullet.GetComponent(MonsterProjectileType);
+        GameObject playerBulletPrefab =
+            AssetDatabase.LoadAssetAtPath<GameObject>(
+                "Assets/Sprites/Bullet/Bullet.prefab"
+            );
+        GameObject playerBullet =
+            UnityEngine.Object.Instantiate(playerBulletPrefab);
+        GameObject player = new GameObject("Projectile Test Player");
+        player.SetActive(false);
+
+        Component playerMental =
+            player.AddComponent(PlayerMentalType);
+        Component levelStats =
+            player.GetComponent(PlayerLevelStatsType);
+
+        try
+        {
+            Invoke(levelStats, "RecalculateStats", 1);
+            player.SetActive(true);
+            Invoke(playerMental, "ResetMental");
+
+            Invoke(
+                projectile,
+                "OnTriggerEnter2D",
+                playerBullet.GetComponent<Collider2D>()
+            );
+
+            Assert.That(
+                (float)GetProperty(
+                    playerMental,
+                    "CurrentMental"
+                ),
+                Is.EqualTo(100f).Within(0.001f)
+            );
+            Assert.That(monsterBullet == null, Is.True);
+        }
+        finally
+        {
+            if (monsterBullet != null)
+            {
+                UnityEngine.Object.DestroyImmediate(monsterBullet);
+            }
+
+            UnityEngine.Object.DestroyImmediate(playerBullet);
+            UnityEngine.Object.DestroyImmediate(player);
+        }
+    }
+
     [Test]
     public void MonsterCollisionDoesNotDamageOrDestroyProjectile()
     {
@@ -180,11 +244,15 @@ public sealed class MonsterProjectileTests
         }
     }
 
-    private static GameObject CreateLaunchedBullet(float damage)
+    private static GameObject CreateLaunchedBullet(
+        float damage,
+        string prefabPath =
+            "Assets/Sprites/Bullet/Mob_Bullet1.prefab"
+    )
     {
         GameObject bulletPrefab =
             AssetDatabase.LoadAssetAtPath<GameObject>(
-                "Assets/Sprites/Bullet/Mob_Bullet1.prefab"
+                prefabPath
             );
         GameObject bullet =
             UnityEngine.Object.Instantiate(bulletPrefab);

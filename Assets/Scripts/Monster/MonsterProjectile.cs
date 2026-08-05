@@ -38,7 +38,19 @@ public sealed class MonsterProjectile : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D other)
     {
-        if (hasHit || !HasPlayerTag(other.transform))
+        if (hasHit)
+        {
+            return;
+        }
+
+        if (other.GetComponentInParent<BulletProjectile>() != null)
+        {
+            hasHit = true;
+            DestroyProjectile();
+            return;
+        }
+
+        if (!HasPlayerTag(other.transform))
         {
             return;
         }
