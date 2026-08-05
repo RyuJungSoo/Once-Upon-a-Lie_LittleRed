@@ -18,7 +18,7 @@ MonoBehaviour:
   knockbackDuration: 0.1
   hitFlashColor: {r: 1, g: 0.15, b: 0.15, a: 1}
   hitFlashDuration: 0.08
-  moveSpeed: 4
+  moveSpeed: 3.5
   chase:
     stopDistance: 0.1
   contactAttack:
@@ -36,7 +36,7 @@ MonoBehaviour:
     projectileLifetime: 4
   experienceCrystalDropPrefab: {fileID: 8633393577086571784, guid: 49b4aaca5d87f2246b2398b2d52de795, type: 3}
   redBerryDropPrefab: {fileID: 2493322101823370268, guid: 9229094dc358d444c94cccad6d1d8512, type: 3}
-  redBerryDropChancePercent: 2.5
+  redBerryDropChancePercent: 7
   starCandyDropPrefab: {fileID: 1762128209621547791, guid: bf2d9653e65443249b654490c3eac4d1, type: 3}
   starCandyDropChancePercent: 5
   pieDropPrefab: {fileID: 3252242238629967641, guid: 07cb10b8da3ba7444af40ba6fffcbee4, type: 3}
