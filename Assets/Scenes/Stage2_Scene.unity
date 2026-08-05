@@ -793,15 +793,6 @@ MonoBehaviour:
   finalStage: 0
   waves:
   - waveName: 1
-    waveTime: 999
-    spawnInterval: 1
-    maxAlive: 1
-    spawnCountPerTick: 1
-    bossWave: 0
-    monsters:
-    - prefab: {fileID: 3192719920758087752, guid: ee8056aa75637e14885595c76915322b, type: 3}
-      weight: 1
-  - waveName: 1
     waveTime: 20
     spawnInterval: 5
     maxAlive: 12
