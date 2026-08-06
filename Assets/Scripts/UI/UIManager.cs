@@ -209,6 +209,16 @@ public class UIManager : Singleton<UIManager>
             return;
         }
 
+        if (eventSystems.Length > 1)
+        {
+            Debug.LogWarning(
+                $"[{nameof(UIManager)}] EventSystem이 " +
+                $"{eventSystems.Length}개 감지되어 " +
+                $"중복 {eventSystems.Length - 1}개를 제거합니다.",
+                this
+            );
+        }
+
         persistentEventSystem.transform.SetParent(
             transform,
             true

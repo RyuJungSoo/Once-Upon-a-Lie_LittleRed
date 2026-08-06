@@ -1,15 +1,88 @@
 using System;
+using System.Collections;
 using System.Reflection;
 using System.Threading.Tasks;
 using NUnit.Framework;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.SceneManagement;
+using UnityEngine.TestTools;
 
 public sealed class StageUiInputPersistenceTests
 {
     private static readonly Type StageSceneTransferType =
         Type.GetType("StageSceneTransfer, Assembly-CSharp");
+
+    [UnityTest]
+    public IEnumerator DuplicateEventSystemsAreWarnedAndDestroyed()
+    {
+        AsyncOperation loadOperation =
+            SceneManager.LoadSceneAsync("Stage1_Scene");
+
+        yield return loadOperation;
+
+        Type uiManagerType =
+            Type.GetType("UIManager, Assembly-CSharp");
+
+        Assert.That(uiManagerType, Is.Not.Null);
+
+        Component uiManager =
+            UnityEngine.Object.FindFirstObjectByType(
+                uiManagerType,
+                FindObjectsInactive.Include
+            ) as Component;
+
+        Assert.That(uiManager, Is.Not.Null);
+
+        MethodInfo ensureSingleEventSystem =
+            uiManagerType.GetMethod(
+                "EnsureSinglePersistentEventSystem",
+                BindingFlags.Instance |
+                BindingFlags.NonPublic
+            );
+
+        Assert.That(ensureSingleEventSystem, Is.Not.Null);
+
+        GameObject duplicateObject =
+            new GameObject("Duplicate EventSystem");
+
+        EventSystem duplicateEventSystem =
+            duplicateObject.AddComponent<EventSystem>();
+
+        LogAssert.Expect(
+            LogType.Warning,
+            "[UIManager] EventSystem이 2개 감지되어 " +
+            "중복 1개를 제거합니다."
+        );
+
+        ensureSingleEventSystem.Invoke(uiManager, null);
+
+        Assert.That(
+            duplicateEventSystem.isActiveAndEnabled,
+            Is.False,
+            "The duplicate EventSystem must be disabled immediately."
+        );
+
+        yield return null;
+
+        Assert.That(
+            duplicateEventSystem == null,
+            Is.True,
+            "The duplicate EventSystem must be destroyed by the next frame."
+        );
+
+        EventSystem[] remainingEventSystems =
+            UnityEngine.Object.FindObjectsByType<EventSystem>(
+                FindObjectsInactive.Include,
+                FindObjectsSortMode.None
+            );
+
+        Assert.That(
+            remainingEventSystems,
+            Has.Length.EqualTo(1),
+            "Exactly one EventSystem must remain after duplicate cleanup."
+        );
+    }
 
     [Test]
     public async Task StageTransitionPreservesEventSystemForPersistentUI()
