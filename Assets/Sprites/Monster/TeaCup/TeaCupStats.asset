@@ -13,12 +13,12 @@ MonoBehaviour:
   m_Name: TeaCupStats
   m_EditorClassIdentifier: Assembly-CSharp::MonsterStats
   maxHealth: 5
-  damage: 30
+  damage: 50
   knockbackDistance: 0.3
   knockbackDuration: 0.1
   hitFlashColor: {r: 1, g: 0.15, b: 0.15, a: 1}
   hitFlashDuration: 0.08
-  moveSpeed: 2
+  moveSpeed: 1.5
   chase:
     stopDistance: 0.1
   contactAttack:
@@ -27,12 +27,12 @@ MonoBehaviour:
   rangedAttack:
     attackRange: 5
     resumeRangePadding: 0.5
-    attackCooldown: 1.25
+    attackCooldown: 3
     attackAnimationDuration: 0.25
     projectilePrefab: {fileID: 5235753010542106134, guid: cd3fcedc577b7144eb942dd2cda3672d, type: 3}
     projectileSpawnOffset: {x: 0, y: 0.2}
-    projectileSpeed: 7
-    projectileDamage: 10
+    projectileSpeed: 4
+    projectileDamage: 40
     projectileLifetime: 4
   experienceCrystalDropPrefab: {fileID: 6319948648696832272, guid: 482d131c5cdb86e41b3860ab04bd8c6a, type: 3}
   redBerryDropPrefab: {fileID: 8402970182217116196, guid: b294420d1e554984693993600b682b14, type: 3}
