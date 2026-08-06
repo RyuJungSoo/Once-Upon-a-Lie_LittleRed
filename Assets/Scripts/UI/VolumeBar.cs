@@ -31,6 +31,18 @@ public class VolumeBar : MonoBehaviour
 
     public void ChangeVolume()
     {
+        if (slider == null)
+        {
+            slider = GetComponent<Slider>();
+        }
+
+        if (slider == null)
+        {
+            Debug.LogError("[VolumeBar] Slider 컴포넌트가 없습니다.", this);
+            return;
+        }
+
+
         if (!SoundManager.HasInstance)
         {
             Debug.LogWarning(
@@ -40,7 +52,7 @@ public class VolumeBar : MonoBehaviour
 
             return;
         }
-
+        
         SoundManager.Instance.SetAudioVolume(
             mixerType,
             slider.value

@@ -7,6 +7,11 @@ using UnityEngine.UI;
 
 public class UIManager : Singleton<UIManager>
 {
+    [Header("Scene")]
+    [SerializeField]
+    private string MainMenuSceneName =
+        "MainMenu";
+
     [Header("Red Mental Icon & Gauge")]
     [SerializeField] private Image redMentalIcon;
     [SerializeField] private Sprite highMentalIcon;
@@ -170,6 +175,10 @@ public class UIManager : Singleton<UIManager>
         LoadSceneMode loadSceneMode
     )
     {
+        if (scene.name == MainMenuSceneName)
+        {
+            return;
+        }
         EnsureSinglePersistentEventSystem();
     }
 

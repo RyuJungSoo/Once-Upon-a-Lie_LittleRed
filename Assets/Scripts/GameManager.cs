@@ -142,7 +142,11 @@ public class GameManager : Singleton<GameManager>
 
         if (scene.name == MainMenuSceneName)
         {
-            ResetRunProgress();
+            ResetRunProgress(); 
+
+            PersistentRuntimeCleanupController persistentRuntimeCleanupController = GetComponent<PersistentRuntimeCleanupController>();
+            persistentRuntimeCleanupController
+            ?.CleanupRegisteredObjects();          
             return;
         }
 
