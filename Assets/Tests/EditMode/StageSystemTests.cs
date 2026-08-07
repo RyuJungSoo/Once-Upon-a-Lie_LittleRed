@@ -294,6 +294,52 @@ public sealed class StageSystemTests
         UnityEngine.Object.DestroyImmediate(virtualCameraRoot);
     }
 
+    [Test]
+    public void PlayerSpawnPoint_MovesPlayerToItsTransform()
+    {
+        Type playerSpawnPointType =
+            Type.GetType("PlayerSpawnPoint, Assembly-CSharp");
+
+        Assert.That(playerSpawnPointType, Is.Not.Null);
+
+        GameObject spawnObject = new("PlayerSpawnPoint");
+        spawnObject.transform.SetPositionAndRotation(
+            new Vector3(4f, -2f, 0f),
+            Quaternion.Euler(0f, 0f, 90f)
+        );
+        Component spawnPoint =
+            spawnObject.AddComponent(playerSpawnPointType);
+        GameObject player = new("Player");
+
+        try
+        {
+            MethodInfo spawn = playerSpawnPointType.GetMethod(
+                "Spawn"
+            );
+
+            Assert.That(spawn, Is.Not.Null);
+
+            spawn.Invoke(
+                spawnPoint,
+                new object[] { player.transform }
+            );
+
+            Assert.That(
+                player.transform.position,
+                Is.EqualTo(spawnObject.transform.position)
+            );
+            Assert.That(
+                player.transform.rotation.eulerAngles.z,
+                Is.EqualTo(90f).Within(0.001f)
+            );
+        }
+        finally
+        {
+            UnityEngine.Object.DestroyImmediate(player);
+            UnityEngine.Object.DestroyImmediate(spawnObject);
+        }
+    }
+
     private static GameObject CreateSpawnPoint(
         Transform parent,
         string name

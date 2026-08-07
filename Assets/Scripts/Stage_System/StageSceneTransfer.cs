@@ -26,6 +26,7 @@ public sealed class StageSceneTransfer : MonoBehaviour
      * 전송할 Virtual Camera 참조를 임시로 보관합니다.
      */
     private static GameObject transferredVirtualCamera;
+    private static AudioListener transferredAudioListener;
 
     private static bool transferInProgress;
 
@@ -97,6 +98,13 @@ public sealed class StageSceneTransfer : MonoBehaviour
 
         // 다음 씬에서 CameraBounds를 다시 연결할 때 사용합니다.
         transferredVirtualCamera = virtualCamera;
+        transferredAudioListener =
+            mainCamera.GetComponent<AudioListener>();
+
+        if (transferredAudioListener != null)
+        {
+            transferredAudioListener.enabled = false;
+        }
 
         foreach (GameObject root in TransferredRoots)
         {
@@ -117,12 +125,12 @@ public sealed class StageSceneTransfer : MonoBehaviour
     {
         if (player == null)
         {
-            PlayerLevelStats playerLevelStats =
-                FindFirstObjectByType<PlayerLevelStats>();
+            PlayerMovement playerMovement =
+                FindFirstObjectByType<PlayerMovement>();
 
-            if (playerLevelStats != null)
+            if (playerMovement != null)
             {
-                player = playerLevelStats.gameObject;
+                player = playerMovement.gameObject;
             }
         }
 
@@ -186,6 +194,11 @@ public sealed class StageSceneTransfer : MonoBehaviour
             }
         }
 
+        if (transferredAudioListener != null)
+        {
+            transferredAudioListener.enabled = true;
+        }
+
         /*
          * 전송된 Cinemachine Camera에 새 씬의
          * CameraBounds를 다시 연결합니다.
@@ -195,6 +208,7 @@ public sealed class StageSceneTransfer : MonoBehaviour
 
         TransferredRoots.Clear();
         transferredVirtualCamera = null;
+        transferredAudioListener = null;
         transferInProgress = false;
     }
 
