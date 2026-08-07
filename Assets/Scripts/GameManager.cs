@@ -37,11 +37,6 @@ public class GameManager : Singleton<GameManager>
     [SerializeField]
     private int currentStageIndex;
 
-    [Header("Tutorial")]
-    [Tooltip("이번 게임 실행 중 튜토리얼 UI를 이미 표시했는지 여부입니다.")]
-    [SerializeField]
-    private bool hasShownTutorial;
-
     [Header("Player Runtime Components")]
     [SerializeField]
     private PlayerExperience playerExperience;
@@ -76,9 +71,6 @@ public class GameManager : Singleton<GameManager>
 
     public bool IsPaused =>
         currentState == EGameState.Paused;
-
-    public bool HasShownTutorial =>
-        hasShownTutorial;
 
 
     public event Action<EGameState> OnGameStateChanged;
@@ -146,7 +138,7 @@ public class GameManager : Singleton<GameManager>
 
             PersistentRuntimeCleanupController persistentRuntimeCleanupController = GetComponent<PersistentRuntimeCleanupController>();
             persistentRuntimeCleanupController
-            ?.CleanupRegisteredObjects();          
+            ?.CleanupAndDestroySelf();        
             return;
         }
 
@@ -203,12 +195,6 @@ public class GameManager : Singleton<GameManager>
         OnStageStarted?.Invoke(
             currentStageIndex
         );
-    }
-
-
-    public void MarkTutorialAsShown()
-    {
-        hasShownTutorial = true;
     }
 
 
@@ -511,7 +497,6 @@ public class GameManager : Singleton<GameManager>
                 .HideResultUI();
         }
 
-        // hasShownTutorial은 초기화하지 않습니다.
     }
 
 

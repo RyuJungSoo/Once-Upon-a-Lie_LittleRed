@@ -158,7 +158,6 @@ MonoBehaviour:
   currentState: 0
   firstStageSceneName: Stage1_Scene
   currentStageIndex: 0
-  hasShownTutorial: 0
   playerExperience: {fileID: 18403770}
   startPlayerLevel: 1
   currentPlayerLevel: 1
@@ -3273,6 +3272,7 @@ Transform:
   - {fileID: 18403766}
   - {fileID: 920624402}
   - {fileID: 561196512}
+  - {fileID: 1115560403}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &713779898
@@ -4395,6 +4395,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::UIManager
   dontDestroyOnLoad: 1
+  MainMenuSceneName: MainMenu
   redMentalIcon: {fileID: 1484393190}
   highMentalIcon: {fileID: 6198999950410654748, guid: a80203aad690da54bb3fc4abf093d2b9, type: 3}
   mediumMentalIcon: {fileID: -4015543285472720185, guid: a80203aad690da54bb3fc4abf093d2b9, type: 3}
@@ -5533,6 +5534,52 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1104561149}
   m_CullTransparentMesh: 1
+--- !u!1 &1115560402
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1115560403}
+  - component: {fileID: 1115560404}
+  m_Layer: 0
+  m_Name: TutorialProgressStore
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1115560403
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1115560402}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 706635399}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1115560404
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1115560402}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3d914265a2a6f2341a1a110ab1752a79, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::TutorialProgressStore
+  dontDestroyOnLoad: 1
+  hasShownTutorial: 0
 --- !u!1 &1118942649
 GameObject:
   m_ObjectHideFlags: 0

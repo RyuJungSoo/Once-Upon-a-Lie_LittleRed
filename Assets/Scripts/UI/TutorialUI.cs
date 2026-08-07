@@ -57,10 +57,27 @@ public class TutorialUI : MonoBehaviour
         }
 
         /*
+         * TutorialProgressStore가 없다면
+         * 진행 상태를 확인할 수 없으므로 튜토리얼을 표시합니다.
+         */
+        if (!TutorialProgressStore.HasInstance)
+        {
+            Debug.LogError(
+                $"{nameof(TutorialUI)}: " +
+                "TutorialProgressStore를 찾을 수 없습니다.",
+                this
+            );
+
+            OpenTutorial();
+            return;
+        }
+
+        /*
          * 이번 앱 실행 중 튜토리얼을 이미 봤다면
          * UI를 생략하고 바로 현재 스테이지를 시작합니다.
          */
-        if (gameManager.HasShownTutorial)
+        if (TutorialProgressStore.Instance
+            .HasShownTutorial)
         {
             StartStageWithoutTutorial();
             return;
@@ -107,8 +124,19 @@ public class TutorialUI : MonoBehaviour
 
         isStartingStage = true;
 
-        GameManager.Instance
-            .MarkTutorialAsShown();
+        if (TutorialProgressStore.HasInstance)
+        {
+            TutorialProgressStore.Instance
+                .MarkTutorialAsShown();
+        }
+        else
+        {
+            Debug.LogError(
+                $"{nameof(TutorialUI)}: " +
+                "TutorialProgressStore를 찾을 수 없습니다.",
+                this
+            );
+        }
 
         GameManager.Instance
             .StartCurrentStage();
@@ -125,6 +153,17 @@ public class TutorialUI : MonoBehaviour
     {
         if (isStartingStage)
         {
+            return;
+        }
+
+        if (!GameManager.HasInstance)
+        {
+            Debug.LogError(
+                $"{nameof(TutorialUI)}: " +
+                "GameManager를 찾을 수 없습니다.",
+                this
+            );
+
             return;
         }
 
