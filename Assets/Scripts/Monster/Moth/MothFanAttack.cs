@@ -6,6 +6,9 @@ using UnityEngine;
 [RequireComponent(typeof(Rigidbody2D))]
 public sealed class MothFanAttack : MonoBehaviour
 {
+    [SerializeField]
+    private bool collisionResponsiveHold;
+
     [Header("Fan Pattern")]
     [SerializeField, Min(2)]
     private int projectileCount = 5;
@@ -54,7 +57,11 @@ public sealed class MothFanAttack : MonoBehaviour
         chase = GetComponent<MonsterChase>();
         appearance = GetComponent<MonsterSanityAppearance>();
         spriteRenderer = GetComponent<SpriteRenderer>();
-        body = GetComponent<Rigidbody2D>();
+
+        if (!collisionResponsiveHold)
+        {
+            body = GetComponent<Rigidbody2D>();
+        }
     }
 
     private void OnValidate()
@@ -204,6 +211,17 @@ public sealed class MothFanAttack : MonoBehaviour
 
         if (shouldHold)
         {
+            if (collisionResponsiveHold)
+            {
+                if (!ownsChasePause)
+                {
+                    chase.SetMovementPaused(true);
+                    ownsChasePause = true;
+                }
+
+                return;
+            }
+
             FreezePosition();
 
             if (chase.enabled)
@@ -220,6 +238,17 @@ public sealed class MothFanAttack : MonoBehaviour
 
     private void ReleaseChase()
     {
+        if (collisionResponsiveHold)
+        {
+            if (ownsChasePause)
+            {
+                chase.SetMovementPaused(false);
+                ownsChasePause = false;
+            }
+
+            return;
+        }
+
         ReleasePosition();
 
         if (ownsChasePause)

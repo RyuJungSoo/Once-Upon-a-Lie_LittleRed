@@ -95,7 +95,7 @@ public sealed class MonsterRangedAttackTests
     }
 
     [Test]
-    public void FlowerFairyUsesOnlyTriggerColliders()
+    public void FlowerFairyUsesSolidCollidersForPlayerContact()
     {
         GameObject flowerFairy =
             AssetDatabase.LoadAssetAtPath<GameObject>(
@@ -110,12 +110,12 @@ public sealed class MonsterRangedAttackTests
         Assert.That(colliders, Is.Not.Empty);
         Assert.That(
             colliders,
-            Has.All.Property(nameof(Collider2D.isTrigger)).True
+            Has.All.Property(nameof(Collider2D.isTrigger)).False
         );
     }
 
     [Test]
-    public void RangedAttackStopsAndResumesChaseAtConfiguredRanges()
+    public void FlowerFairyPausesMovementWithoutDisablingChase()
     {
         Assert.That(MonsterChaseType, Is.Not.Null);
         Assert.That(MonsterRangedAttackType, Is.Not.Null);
@@ -157,7 +157,11 @@ public sealed class MonsterRangedAttackTests
 
             Invoke(rangedAttack, "Update");
 
-            Assert.That(chase.enabled, Is.False);
+            Assert.That(chase.enabled, Is.True);
+            Assert.That(
+                GetProperty(chase, "IsMovementPaused"),
+                Is.True
+            );
 
             player.transform.position =
                 monster.transform.position +
@@ -167,6 +171,49 @@ public sealed class MonsterRangedAttackTests
             Invoke(rangedAttack, "Update");
 
             Assert.That(chase.enabled, Is.True);
+            Assert.That(
+                GetProperty(chase, "IsMovementPaused"),
+                Is.False
+            );
+        }
+        finally
+        {
+            UnityEngine.Object.DestroyImmediate(player);
+            UnityEngine.Object.DestroyImmediate(monster);
+        }
+    }
+
+    [Test]
+    public void DeerKingRetainsLegacyChaseDisableWhileAttacking()
+    {
+        GameObject prefab = AssetDatabase.LoadAssetAtPath<GameObject>(
+            "Assets/Sprites/Monster/DeerKing/DeerKing.prefab"
+        );
+        GameObject monster = UnityEngine.Object.Instantiate(prefab);
+        GameObject player = new GameObject("Deer King Attack Test Player");
+
+        try
+        {
+            Behaviour chase =
+                (Behaviour)monster.GetComponent(MonsterChaseType);
+            Component rangedAttack =
+                monster.GetComponent(MonsterRangedAttackType);
+            Component health =
+                monster.GetComponent(MonsterHealthType);
+            object stats = GetProperty(health, "Stats");
+            object settings = GetProperty(stats, "RangedAttack");
+            float attackRange =
+                (float)GetProperty(settings, "AttackRange");
+
+            Invoke(rangedAttack, "Awake");
+            SetField(chase, "target", player.transform);
+            player.transform.position =
+                monster.transform.position +
+                Vector3.right * (attackRange - 0.1f);
+
+            Invoke(rangedAttack, "Update");
+
+            Assert.That(chase.enabled, Is.False);
         }
         finally
         {

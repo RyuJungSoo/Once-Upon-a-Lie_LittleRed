@@ -5,6 +5,9 @@ using UnityEngine;
 [RequireComponent(typeof(MonsterChase))]
 public sealed class MonsterRangedAttack : MonoBehaviour
 {
+    [SerializeField]
+    private bool collisionResponsiveHold;
+
     private MonsterHealth monsterHealth;
     private MonsterChase chase;
     private MonsterSanityAppearance appearance;
@@ -150,7 +153,15 @@ public sealed class MonsterRangedAttack : MonoBehaviour
 
         if (shouldHold)
         {
-            if (chase.enabled)
+            if (collisionResponsiveHold)
+            {
+                if (!ownsChasePause)
+                {
+                    chase.SetMovementPaused(true);
+                    ownsChasePause = true;
+                }
+            }
+            else if (chase.enabled)
             {
                 chase.enabled = false;
                 ownsChasePause = true;
@@ -169,7 +180,15 @@ public sealed class MonsterRangedAttack : MonoBehaviour
             return;
         }
 
-        chase.enabled = true;
+        if (collisionResponsiveHold)
+        {
+            chase.SetMovementPaused(false);
+        }
+        else
+        {
+            chase.enabled = true;
+        }
+
         ownsChasePause = false;
     }
 

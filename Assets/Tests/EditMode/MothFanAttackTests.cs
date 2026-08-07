@@ -85,15 +85,13 @@ public sealed class MothFanAttackTests
     }
 
     [Test]
-    public void AttackHoldPreventsRigidbodyDisplacementUntilChaseResumes()
+    public void MothAttackHoldAllowsCollisionAndStopsResidualVelocity()
     {
         GameObject prefab = AssetDatabase.LoadAssetAtPath<GameObject>(
             "Assets/Sprites/Monster/Moth/Moth.prefab"
         );
         GameObject moth = UnityEngine.Object.Instantiate(prefab);
         GameObject player = new GameObject("Moth Collision Test Player");
-        SimulationMode2D previousSimulationMode =
-            Physics2D.simulationMode;
 
         try
         {
@@ -115,14 +113,82 @@ public sealed class MothFanAttackTests
                 settings,
                 "ResumeRangePadding"
             );
+            Invoke(chase, "Awake");
+            Invoke(attack, "Awake");
             RigidbodyConstraints2D originalConstraints =
                 body.constraints;
-
-            Invoke(attack, "Awake");
             SetField(chase, "target", player.transform);
 
             player.transform.position =
                 moth.transform.position +
+                Vector3.right * (attackRange - 0.1f);
+
+            Invoke(attack, "Update");
+
+            Assert.That(chase.enabled, Is.True);
+            Assert.That(
+                GetProperty<bool>(chase, "IsMovementPaused"),
+                Is.True
+            );
+            Assert.That(body.constraints, Is.EqualTo(originalConstraints));
+
+            body.linearVelocity = Vector2.left * 5f;
+            Invoke(chase, "FixedUpdate");
+
+            Assert.That(body.linearVelocity, Is.EqualTo(Vector2.zero));
+
+            player.transform.position =
+                moth.transform.position +
+                Vector3.right *
+                (attackRange + resumePadding + 0.1f);
+
+            Invoke(attack, "Update");
+
+            Assert.That(chase.enabled, Is.True);
+            Assert.That(
+                GetProperty<bool>(chase, "IsMovementPaused"),
+                Is.False
+            );
+            Assert.That(body.constraints, Is.EqualTo(originalConstraints));
+        }
+        finally
+        {
+            UnityEngine.Object.DestroyImmediate(player);
+            UnityEngine.Object.DestroyImmediate(moth);
+        }
+    }
+
+    [Test]
+    public void HunterRetainsFrozenAttackHold()
+    {
+        GameObject prefab = AssetDatabase.LoadAssetAtPath<GameObject>(
+            "Assets/Sprites/Monster/Hunter/Hunter.prefab"
+        );
+        GameObject hunter = UnityEngine.Object.Instantiate(prefab);
+        GameObject player = new GameObject("Hunter Attack Test Player");
+
+        try
+        {
+            Component attack = hunter.GetComponent(MothFanAttackType);
+            Behaviour chase =
+                (Behaviour)hunter.GetComponent(MonsterChaseType);
+            Component health =
+                hunter.GetComponent(MonsterHealthType);
+            Rigidbody2D body = hunter.GetComponent<Rigidbody2D>();
+            object stats = GetProperty<object>(health, "Stats");
+            object settings = GetProperty<object>(
+                stats,
+                "RangedAttack"
+            );
+            float attackRange = GetProperty<float>(
+                settings,
+                "AttackRange"
+            );
+
+            Invoke(attack, "Awake");
+            SetField(chase, "target", player.transform);
+            player.transform.position =
+                hunter.transform.position +
                 Vector3.right * (attackRange - 0.1f);
 
             Invoke(attack, "Update");
@@ -133,30 +199,11 @@ public sealed class MothFanAttackTests
                 RigidbodyConstraints2D.FreezePosition,
                 Is.EqualTo(RigidbodyConstraints2D.FreezePosition)
             );
-
-            Physics2D.simulationMode = SimulationMode2D.Script;
-            Vector2 positionBeforeImpulse = body.position;
-
-            body.linearVelocity = Vector2.left * 5f;
-            Physics2D.Simulate(0.1f);
-
-            Assert.That(body.position, Is.EqualTo(positionBeforeImpulse));
-
-            player.transform.position =
-                moth.transform.position +
-                Vector3.right *
-                (attackRange + resumePadding + 0.1f);
-
-            Invoke(attack, "Update");
-
-            Assert.That(chase.enabled, Is.True);
-            Assert.That(body.constraints, Is.EqualTo(originalConstraints));
         }
         finally
         {
-            Physics2D.simulationMode = previousSimulationMode;
             UnityEngine.Object.DestroyImmediate(player);
-            UnityEngine.Object.DestroyImmediate(moth);
+            UnityEngine.Object.DestroyImmediate(hunter);
         }
     }
 

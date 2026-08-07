@@ -16,8 +16,10 @@ public sealed class MonsterChase : MonoBehaviour
     private MonsterSanityAppearance appearance;
     private SpriteRenderer spriteRenderer;
     private bool isMoving;
+    private bool isMovementPaused;
 
     public bool IsMoving => isMoving;
+    public bool IsMovementPaused => isMovementPaused;
     public float StopDistance
     {
         get
@@ -105,6 +107,12 @@ public sealed class MonsterChase : MonoBehaviour
             return;
         }
 
+        if (isMovementPaused)
+        {
+            StopMovement();
+            return;
+        }
+
         Vector2 offset = (Vector2)target.position - body.position;
 
         float stopDistance = StopDistance;
@@ -156,6 +164,21 @@ public sealed class MonsterChase : MonoBehaviour
     {
         SetVelocity(velocity);
         ReportMovement(velocity.sqrMagnitude > 0f);
+    }
+
+    public void SetMovementPaused(bool paused)
+    {
+        if (isMovementPaused == paused)
+        {
+            return;
+        }
+
+        isMovementPaused = paused;
+
+        if (paused)
+        {
+            StopMovement();
+        }
     }
 
     private void StopMovement(bool preserveVisualMovement = false)

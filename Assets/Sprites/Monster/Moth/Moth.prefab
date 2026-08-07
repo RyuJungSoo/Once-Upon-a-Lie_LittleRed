@@ -287,5 +287,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8ae2e8f85a1ed97409241a4094855b6b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::MothFanAttack
+  collisionResponsiveHold: 1
   projectileCount: 5
   spreadAngle: 60
