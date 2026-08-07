@@ -95,6 +95,26 @@ public sealed class MonsterRangedAttackTests
     }
 
     [Test]
+    public void FlowerFairyUsesOnlyTriggerColliders()
+    {
+        GameObject flowerFairy =
+            AssetDatabase.LoadAssetAtPath<GameObject>(
+                "Assets/Sprites/Monster/FlowerFairy/FlowerFairy.prefab"
+            );
+
+        Assert.That(flowerFairy, Is.Not.Null);
+
+        Collider2D[] colliders =
+            flowerFairy.GetComponents<Collider2D>();
+
+        Assert.That(colliders, Is.Not.Empty);
+        Assert.That(
+            colliders,
+            Has.All.Property(nameof(Collider2D.isTrigger)).True
+        );
+    }
+
+    [Test]
     public void RangedAttackStopsAndResumesChaseAtConfiguredRanges()
     {
         Assert.That(MonsterChaseType, Is.Not.Null);

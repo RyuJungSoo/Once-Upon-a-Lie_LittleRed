@@ -3,6 +3,7 @@ using UnityEngine;
 [DisallowMultipleComponent]
 [RequireComponent(typeof(MonsterHealth))]
 [RequireComponent(typeof(MonsterChase))]
+[RequireComponent(typeof(Rigidbody2D))]
 public sealed class MothFanAttack : MonoBehaviour
 {
     [Header("Fan Pattern")]
@@ -16,11 +17,14 @@ public sealed class MothFanAttack : MonoBehaviour
     private MonsterChase chase;
     private MonsterSanityAppearance appearance;
     private SpriteRenderer spriteRenderer;
+    private Rigidbody2D body;
 
     private float nextAttackTime;
     private float attackAnimationEndTime = -1f;
     private bool isHoldingAttackRange;
     private bool ownsChasePause;
+    private bool ownsPositionFreeze;
+    private RigidbodyConstraints2D positionConstraintsBeforeHold;
 
     public int ProjectileCount => projectileCount;
     public float SpreadAngle => spreadAngle;
@@ -50,6 +54,7 @@ public sealed class MothFanAttack : MonoBehaviour
         chase = GetComponent<MonsterChase>();
         appearance = GetComponent<MonsterSanityAppearance>();
         spriteRenderer = GetComponent<SpriteRenderer>();
+        body = GetComponent<Rigidbody2D>();
     }
 
     private void OnValidate()
@@ -64,6 +69,7 @@ public sealed class MothFanAttack : MonoBehaviour
         attackAnimationEndTime = -1f;
         isHoldingAttackRange = false;
         ownsChasePause = false;
+        ownsPositionFreeze = false;
     }
 
     private void OnDisable()
@@ -198,6 +204,8 @@ public sealed class MothFanAttack : MonoBehaviour
 
         if (shouldHold)
         {
+            FreezePosition();
+
             if (chase.enabled)
             {
                 chase.enabled = false;
@@ -212,13 +220,43 @@ public sealed class MothFanAttack : MonoBehaviour
 
     private void ReleaseChase()
     {
-        if (!ownsChasePause)
+        ReleasePosition();
+
+        if (ownsChasePause)
+        {
+            chase.enabled = true;
+            ownsChasePause = false;
+        }
+    }
+
+    private void FreezePosition()
+    {
+        if (ownsPositionFreeze)
         {
             return;
         }
 
-        chase.enabled = true;
-        ownsChasePause = false;
+        positionConstraintsBeforeHold =
+            body.constraints &
+            RigidbodyConstraints2D.FreezePosition;
+        body.linearVelocity = Vector2.zero;
+        body.constraints |=
+            RigidbodyConstraints2D.FreezePosition;
+        ownsPositionFreeze = true;
+    }
+
+    private void ReleasePosition()
+    {
+        if (!ownsPositionFreeze)
+        {
+            return;
+        }
+
+        body.constraints =
+            (body.constraints &
+             ~RigidbodyConstraints2D.FreezePosition) |
+            positionConstraintsBeforeHold;
+        ownsPositionFreeze = false;
     }
 
     private void FaceTarget(Vector2 direction)
