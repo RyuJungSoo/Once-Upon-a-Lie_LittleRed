@@ -1,17 +1,10 @@
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
-using UnityEngine.EventSystems;
-using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public class UIManager : Singleton<UIManager>
 {
-    [Header("Scene")]
-    [SerializeField]
-    private string MainMenuSceneName =
-        "MainMenu";
-
     [Header("Red Mental Icon & Gauge")]
     [SerializeField] private Image redMentalIcon;
     [SerializeField] private Sprite highMentalIcon;
@@ -141,8 +134,6 @@ public class UIManager : Singleton<UIManager>
     private float elapsedPlayTime;
     private int displayedTimerSecond = -1;
 
-    private EventSystem persistentEventSystem;
-
     protected override void Awake()
     {
         base.Awake();
@@ -152,99 +143,10 @@ public class UIManager : Singleton<UIManager>
             return;
         }
 
-        EnsureSinglePersistentEventSystem();
         InitializeReferences();
         InitializeMentalUI();
         InitializeProgressUI();
         InitializeResultUI();
-    }
-
-    private void OnEnable()
-    {
-        if (Instance != this)
-        {
-            return;
-        }
-
-        SceneManager.sceneLoaded -= HandleSceneLoaded;
-        SceneManager.sceneLoaded += HandleSceneLoaded;
-    }
-
-    private void HandleSceneLoaded(
-        Scene scene,
-        LoadSceneMode loadSceneMode
-    )
-    {
-        if (scene.name == MainMenuSceneName)
-        {
-            return;
-        }
-        EnsureSinglePersistentEventSystem();
-    }
-
-    private void EnsureSinglePersistentEventSystem()
-    {
-        EventSystem[] eventSystems =
-            FindObjectsByType<EventSystem>(
-                FindObjectsInactive.Include,
-                FindObjectsSortMode.None
-            );
-
-        if (persistentEventSystem == null)
-        {
-            foreach (EventSystem eventSystem in eventSystems)
-            {
-                if (eventSystem.transform.IsChildOf(transform))
-                {
-                    persistentEventSystem = eventSystem;
-                    break;
-                }
-            }
-
-            if (persistentEventSystem == null &&
-                eventSystems.Length > 0)
-            {
-                persistentEventSystem = eventSystems[0];
-            }
-        }
-
-        if (persistentEventSystem == null)
-        {
-            Debug.LogError(
-                $"{nameof(UIManager)}: " +
-                "UI 입력에 필요한 EventSystem을 찾을 수 없습니다.",
-                this
-            );
-            return;
-        }
-
-        if (eventSystems.Length > 1)
-        {
-            Debug.LogWarning(
-                $"[{nameof(UIManager)}] EventSystem이 " +
-                $"{eventSystems.Length}개 감지되어 " +
-                $"중복 {eventSystems.Length - 1}개를 제거합니다.",
-                this
-            );
-        }
-
-        persistentEventSystem.transform.SetParent(
-            transform,
-            true
-        );
-
-        foreach (EventSystem eventSystem in eventSystems)
-        {
-            if (eventSystem == persistentEventSystem)
-            {
-                continue;
-            }
-
-            eventSystem.enabled = false;
-            Destroy(eventSystem.gameObject);
-        }
-
-        EventSystem.current = persistentEventSystem;
     }
 
     private void Start()
@@ -275,7 +177,6 @@ public class UIManager : Singleton<UIManager>
 
     private void OnDisable()
     {
-        SceneManager.sceneLoaded -= HandleSceneLoaded;
         UnbindProgressUI();
     }
 

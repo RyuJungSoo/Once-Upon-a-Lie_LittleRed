@@ -762,8 +762,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: Unity.Cinemachine::Unity.Cinemachine.CinemachineBasicMultiChannelPerlin
   NoiseProfile: {fileID: 11400000, guid: 69ce8388f6785dd4c8c39915efece2f4, type: 2}
   PivotOffset: {x: 0, y: 0, z: 0}
-  AmplitudeGain: 0
-  FrequencyGain: 1
+  AmplitudeGain: 0.5
+  FrequencyGain: 0.8
   m_NoiseOffsets: {x: 0, y: 0, z: 0}
 --- !u!114 &83248642
 MonoBehaviour:
@@ -3265,7 +3265,6 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 1664570134}
-  - {fileID: 1452828802}
   - {fileID: 519420032}
   - {fileID: 83248640}
   - {fileID: 343313100}
@@ -4395,7 +4394,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::UIManager
   dontDestroyOnLoad: 1
-  MainMenuSceneName: MainMenu
   redMentalIcon: {fileID: 1484393190}
   highMentalIcon: {fileID: 6198999950410654748, guid: a80203aad690da54bb3fc4abf093d2b9, type: 3}
   mediumMentalIcon: {fileID: -4015543285472720185, guid: a80203aad690da54bb3fc4abf093d2b9, type: 3}
@@ -7299,12 +7297,12 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1452828799}
   serializedVersion: 2
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -0.1119, y: 1.70491, z: 0}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 706635399}
+  m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1463155699
 GameObject:
@@ -10927,3 +10925,4 @@ SceneRoots:
   - {fileID: 2050204005}
   - {fileID: 1275758710}
   - {fileID: 706635399}
+  - {fileID: 1452828802}
